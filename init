@@ -28,7 +28,7 @@ root_command() {
   }
 
   init_submoules() {
-  	git submodule add git@github.com:nkeneng/Libft.git libft
+  	git submodule add git@github.com:Moat423/Libft_full.git libft
   }
 
   create_header_file(){
