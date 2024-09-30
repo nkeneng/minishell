@@ -2,7 +2,7 @@ SHELL := /bin/bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFILES := libft/Makefile
 
-NAME = project
+NAME = minishell
 
 CC := cc
 CFLAGS := -Werror -Wall -Wextra -g
@@ -12,18 +12,19 @@ LIBFT_A := $(LIBFT_DIR)/libft.a
 LIBFT := -lft
 INCLUDES := -L$(LIBFT_DIR)
 
-SRCS_DIR		= ./sources/
+SRCS_DIR		= ./srcs/
 OBJS_DIR		= ./objs/
+HEADER_DIR		= ./includes/
 
-SRCS := main.c #pipex_bonus.c utils.c path.c utils_bonus.c command.c
+SRCS = $(addprefix $(SRCS_DIR), \
+	   main.c)
 
-HEADERS :=
+HEADERS := ./includes
 
-OBJS = $(patsubst $(SRCS_DIR)%.c,$(OBJS_DIR)%.o,$(SRCS))
+OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)
 # TEST_OBJS = $(TESTS_FILES:.c=.o)
-#
 
-.PHONY: all, clean, fclean, re, submodules, bonus, libft
+.PHONY: all, clean, fclean, re, submodules, libft
 
 all: submodules $(LIBFT_A) $(NAME)
 
@@ -33,11 +34,6 @@ run: all
 $(OBJ_DIR):
 	@echo "Creating Obj directory.."
 	@mkdir -p $(OBJ_DIR)
-
-$(NAME_BONUS): $(OBJS_BONUS) $(LIBFT_A)
-	@echo "Linking executable $(NAME_BONUS)..."
-	@$(CC) $(CFLAGS) -I$(HEADERS_BONUS) $(OBJS_BONUS) $(INCLUDES) $(LIBFT) -o $@
-	@echo "done"
 
 $(NAME): $(OBJS) $(LIBFT_A)
 	@echo "Linking executable $(NAME)..."

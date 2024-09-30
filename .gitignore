@@ -7,3 +7,4 @@
 *.vim
 *.code-workspace
 objs/
+minishell

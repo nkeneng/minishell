@@ -6,11 +6,11 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/09 20:46:12 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/30 19:29:55 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "project.h"
+#include "../includes/minishell.h"
 
 int	main(int argc, char *argv[])
 {
