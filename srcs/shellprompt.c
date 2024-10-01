@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   shellprompt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
+/*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/01 16:46:13 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/10/01 16:55:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(int argc, char *argv[] char *envp[])
+//TODO: if readline returns NULL, exit minishell
+
+int	main(void)
 {
-	ft_printf("Number of arguments: %d\n", argc);
-	for (int i = 0; i < argc; i++)
-		ft_printf("Argument %d: %s\n", i, argv[i]);
-	return (EXIT_SUCCESS);
+	char	*input;
+
+	iput = readline(STDIN_FILENO);
 }
