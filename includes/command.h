@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 16:31:15 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/02 18:06:44 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@
 /* UNUSED		(1 << 30)	*/
 
 /* possible values for the `flags' field of command */
-# define C_PIPE	0x01
-# define C_HERE_DOC	0x02
-# define C_OPEN_INFILE	0x04
+# define C_PIPE	0x01 // needs to read from a pipe
+# define C_HERE_DOC	0x02 // needs to read from a here doc
+# define C_OPEN_INFILE	0x04 
 # define C_OPEN_OUT_TRUNC	0x08
 # define C_OPEN_OUT_APP	0x10
 # define C_LAST_PIPE	0x20

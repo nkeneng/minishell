@@ -50,12 +50,9 @@ int					here_doc(char *delim);
 char				*get_commpath(char *envp[], const char *command);
 char				**get_paths(char *envp[]);
 int					make_exec(t_command *command, char *envp[]);
-int					pipex(int argc, char **argv, char **envp, int curr,
-						t_list *cmd_list);
+int					pipex(char **envp, t_list *cmd_list);
 
 // command.c
-int					exec_command(t_command *command, char *envp[], int in_fd,
-						int out_fd);
-int					exec_to_stdout(char *arg, char **envp,
-						t_command *command);
+int					exec_command(t_command *command, char *envp[], int *fd);
+int					exec_to_stdout(char **envp, t_command *command);
 #endif

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 16:09:04 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/02 20:01:04 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ int	start_pipex(int argc, char *argv[], char *envp[])
 	else
 		open_doc(argv[1], 0);
 	open_doc(argv[argc - 1], fileindicator);
-	pipex(argc, argv, envp, i, cmd_list);
-	return (exec_to_stdout(argv[argc - 2], envp,
-			ft_lstlast(cmd_list)->content));
+	pipex(envp, cmd_list);
+	return (exec_to_stdout(envp, ft_lstlast(cmd_list)->content));
 }
 
 // opens file, dup2s over correct std fd, filekind 0:inf, 1:outf, 2:outf(append)
