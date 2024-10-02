@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 13:30:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:54:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@
 # define W_FORCELOCAL	(1 << 29)	/* force assignments to be to local variables, non-fatal on assignment errors */
 /* UNUSED		(1 << 30)	*/
 
+/* possible values for the `flags' field of command */
+# define C_PIPE	0x01
+# define C_HERE_DOC	0x02
+# define C_OPEN_INFILE	0x04
+# define C_OPEN_OUT_TRUNC	0x08
+# define C_OPEN_OUT_APP	0x10
+# define C_LAST_PIPE	0x20
+
 /* Flags for the `pflags' argument to param_expand() and various
    parameter_brace_expand_xxx functions; also used for string_list_dollar_at */
 #define PF_NOCOMSUB	0x01	/* Do not perform command substitution */
@@ -66,6 +74,31 @@
 #define SUBSHELL_COPROC	0x40	/* subshell from a coproc pipeline */
 #define SUBSHELL_RESETTRAP 0x80	/* subshell needs to reset trap strings on first call to trap */
 #define SUBSHELL_IGNTRAP 0x100  /* subshell should reset trapped signals from trap_handler */
+
+/* Possible values for command->flags. */
+#define CMD_WANT_SUBSHELL  0x01	/* User wants a subshell: ( command ) */
+#define CMD_FORCE_SUBSHELL 0x02	/* Shell needs to force a subshell. */
+#define CMD_INVERT_RETURN  0x04	/* Invert the exit value. */
+#define CMD_IGNORE_RETURN  0x08	/* Ignore the exit value.  For set -e. */
+#define CMD_NO_FUNCTIONS   0x10 /* Ignore functions during command lookup. */
+#define CMD_INHIBIT_EXPANSION 0x20 /* Do not expand the command words. */
+#define CMD_NO_FORK	   0x40	/* Don't fork; just call execve */
+#define CMD_TIME_PIPELINE  0x80 /* Time a pipeline */
+#define CMD_TIME_POSIX	   0x100 /* time -p; use POSIX.2 time output spec. */
+#define CMD_AMPERSAND	   0x200 /* command & */
+#define CMD_STDIN_REDIR	   0x400 /* async command needs implicit </dev/null */
+#define CMD_COMMAND_BUILTIN 0x0800 /* command executed by `command' builtin */
+#define CMD_COPROC_SUBSHELL 0x1000
+#define CMD_LASTPIPE	    0x2000
+#define CMD_STDPATH	    0x4000	/* use standard path for command lookup */
+#define CMD_TRY_OPTIMIZING  0x8000	/* try to optimize this simple command */
+
+
+/* A structure which represents a command. */
+typedef struct s_command {
+  char *word;		/* Zero terminated string. */
+  int flags;		/* Flags associated with this command. */
+} t_command;
 
 /* A structure which represents a word. */
 typedef struct s_word_desc {
