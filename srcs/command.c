@@ -6,11 +6,12 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/01 12:49:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:03:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
 
 int	exec_command(char *command, char *envp[], int in_fd, int out_fd)
 {
@@ -74,6 +75,7 @@ int	exec_to_stdout(char *arg, char **envp)
 		exit (EXIT_FAILURE);
 	}
 	waitpid(cpid, &status, 0);
+	close (STDOUT_FILENO);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (-1);

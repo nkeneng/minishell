@@ -6,18 +6,21 @@ NAME = minishell
 
 CC := cc
 CFLAGS := -Werror -Wall -Wextra -g
+LIBS := -lreadline
 SANITIZE_NAME := $(NAME)_sanitize
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
 LIBFT := -lft
 INCLUDES := -L$(LIBFT_DIR)
 
-SRCS_DIR		= ./srcs/
-OBJS_DIR		= ./objs/
-HEADER_DIR		= ./includes/
+SRCS_DIR		= srcs/
+OBJS_DIR		= objs/
+HEADER_DIR		= includes/
 
 SRCS = $(addprefix $(SRCS_DIR), \
-	   main.c)
+		shellprompt.c \
+		pipex.c path.c command.c utils.c \
+		)
 
 HEADERS := ./includes
 
@@ -37,7 +40,7 @@ $(OBJ_DIR):
 
 $(NAME): $(OBJS) $(LIBFT_A)
 	@echo "Linking executable $(NAME)..."
-	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(INCLUDES) $(LIBFT) -o $@
+	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
 	@echo "done"
 
 $(OBJ_DIR)/%.o: %.c $(HEADERS) | $(OBJ_DIR)
