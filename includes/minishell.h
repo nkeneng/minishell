@@ -4,6 +4,7 @@
 # include "../libft/libft_full.h"
 # include "command.h"
 # include "parsing.h"
+# include "expansion_macros.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
