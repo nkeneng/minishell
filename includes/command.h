@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 15:54:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:31:15 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@
 
 
 /* A structure which represents a command. */
-typedef struct s_command {
-  char *word;		/* Zero terminated string. */
+typedef struct t_command {
+  char *cmd;		/* Zero terminated string. */
   int flags;		/* Flags associated with this command. */
 } t_command;
 
