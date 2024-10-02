@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:56:59 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/01 12:51:03 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:31:22 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**get_paths(char *envp[])
 	return (NULL);
 }
 
-int	make_exec(char *arg, char *envp[])
+int	make_exec(t_command *cmd, char *envp[])
 {
 	char	**paths;
 	char	*commpath;
@@ -57,7 +57,7 @@ int	make_exec(char *arg, char *envp[])
 	int		err;
 
 	paths = get_paths(envp);
-	command = ft_split(arg, ' ');
+	command = ft_split(cmd->cmd, ' ');
 	if (!command || !paths)
 	{
 		free_char_array(command, 1);
