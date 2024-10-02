@@ -2,6 +2,8 @@
 # define MINISHELL_H
 
 # include "../libft/libft_full.h"
+# include "command.h"
+# include "parsing.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -12,6 +14,23 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
+typedef struct s_dlist
+{
+	char			*content;
+	struct s_dlist	*next;
+	struct s_dlist	*prev;
+}	t_dlist;
+
+//dlist
+t_dlist	*ft_dlstnew(void *content);
+t_dlist	*ft_dlstfirst(t_dlist *lst);
+int		ft_dlstsize(t_dlist *lst);
+t_dlist	*ft_dlstlast(t_dlist *lst);
+void	ft_dlstadd_back(t_dlist **lst, t_dlist *new_node);
+
+void	ft_printf_dlst(t_dlist **lst);
+void	ft_dlstclear(t_dlist **lst);
+t_dlist	*ft_createaddback(t_dlist **lst, void *content);
 //PIPEX
 //pipex.c
 int		start_pipex(int argc, char *argv[], char *envp[]);
