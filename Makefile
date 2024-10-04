@@ -14,7 +14,7 @@ LIBFT := -lft
 INCLUDES := -L$(LIBFT_DIR)
 
 SRCS_DIR		= srcs/
-OBJS_DIR		= objs/
+OBJS_DIR			= objs/
 HEADER_DIR		= includes/
 
 SRCS = $(addprefix $(SRCS_DIR), \
@@ -24,7 +24,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 
 HEADERS := ./includes
 
-OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 # TEST_OBJS = $(TESTS_FILES:.c=.o)
 
 .PHONY: all, clean, fclean, re, submodules, libft
@@ -34,16 +34,16 @@ all: submodules $(LIBFT_A) $(NAME)
 run: all
 	./$(NAME)
 
-$(OBJ_DIR):
+$(OBJS_DIR):
 	@echo "Creating Obj directory.."
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJS_DIR)
 
 $(NAME): $(OBJS) $(LIBFT_A)
 	@echo "Linking executable $(NAME)..."
 	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
 	@echo "done"
 
-$(OBJ_DIR)/%.o: %.c $(HEADERS) | $(OBJ_DIR)
+$(OBJS_DIR)/%.o: %.c $(HEADERS) | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 submodules:
@@ -62,7 +62,7 @@ $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	rm -dRf $(OBJ_DIR)
+	rm -dRf $(OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
