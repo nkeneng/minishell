@@ -43,6 +43,8 @@ run: all
 $(OBJS_DIR):
 	@echo "Creating Obj directory.."
 	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)/builtins
+	@mkdir -p $(OBJS_DIR)/dummy_helpers
 
 $(TEST_OBJS_DIR):
 	@echo "Creating Test Obj directory.."
