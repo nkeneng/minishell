@@ -6,12 +6,24 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/10/02 10:56:29 by lmeubrin         ###   ########.fr       */
+=======
 /*   Updated: 2024/10/02 20:01:04 by stevennke        ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+<<<<<<< HEAD
+//TODO: Katze: command not found \n execve: No such file or directory <to>
+//minishell: command not found: Katze
+//TODO: return exit code 130 from here_doc on cntl + D (by child process or by manually returning)
+//TODO: string expansion in here_doc
+//TODO: macro values for fileindicator: < for input, > for output, >> for append
+//TODO: make pipex use linked list instead of double array
+=======
 // TODO: Katze: command not found \n execve: No such file or directory to
 // zsh: command not found: 0
 // TODO: return exit code 130 from here_doc on cntl
@@ -19,6 +31,7 @@
 // TODO: string expansion in here_doc
 // TODO: macro values for fileindicator: < for input, > for output,
 // >> for append
+>>>>>>> main
 
 int	start_pipex(int argc, char *argv[], char *envp[])
 {
