@@ -1,23 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/02 22:11:25 by stevennke        ###   ########.fr       */
+/*   Created: 2024/10/02 21:02:38 by stevennke         #+#    #+#             */
+/*   Updated: 2024/10/02 21:02:59 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-int	main(int argc, char *argv[], char *envp[])
-{
-	int	ret;
-
-	(void)argc;
-	(void)envp;
-	(void)ret;
-	return (ft_cd(argv[1]));
-}
+int	ft_cd(char *path);

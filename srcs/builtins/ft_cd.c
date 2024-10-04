@@ -1,23 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/02 22:11:25 by stevennke        ###   ########.fr       */
+/*   Created: 2024/10/02 20:56:30 by stevennke         #+#    #+#             */
+/*   Updated: 2024/10/02 22:05:10 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+// TODO: update the PWD environment variable
+// TODO: update the OLDPWD environment variable before changing cwd
+int	ft_cd(char *path)
 {
-	int	ret;
+	char	*home;
 
-	(void)argc;
-	(void)envp;
-	(void)ret;
-	return (ft_cd(argv[1]));
+	if (!path)
+	{
+		home = getenv("HOME");
+		if (!home)
+		{
+			perror("HOME not set");
+			return (-1);
+		}
+		chdir(getenv("HOME"));
+	}
+	else if (chdir(path) == -1)
+	{
+		perror("chdir");
+		return (-1);
+	}
+	return (1);
 }

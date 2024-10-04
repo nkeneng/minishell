@@ -14,20 +14,26 @@ LIBFT := -lft
 INCLUDES := -L$(LIBFT_DIR)
 
 SRCS_DIR		= srcs/
-OBJS_DIR			= objs/
+OBJS_DIR		= objs/
+TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
 SRCS = $(addprefix $(SRCS_DIR), \
-		shellprompt.c \
 		pipex.c path.c command.c utils.c \
-		dummy_helpers/fake_commands.c)
+		dummy_helpers/fake_commands.c \
+		builtins/ft_cd.c \
+		shellprompt.c \
+		)
 
 HEADERS := ./includes
 
-OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-# TEST_OBJS = $(TESTS_FILES:.c=.o)
+OBJS := $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
-.PHONY: all, clean, fclean, re, submodules, libft
+TEST_SRCS = $(filter-out $(SRCS_DIR)main.c $(SRCS_DIR)shellprompt.c, $(SRCS))
+TESTS_FILES = $(shell find ./tests -name "*_tests.c")
+TEST_OBJS = $(TEST_SRCS:$(SRCS_DIR)%.c=$(TEST_OBJS_DIR)%.o) $(TESTS_FILES:./tests/%.c=$(TEST_OBJS_DIR)%.o)
+
+.PHONY: all clean fclean re submodules libft test
 
 all: submodules $(LIBFT_A) $(NAME)
 
@@ -38,13 +44,20 @@ $(OBJS_DIR):
 	@echo "Creating Obj directory.."
 	@mkdir -p $(OBJS_DIR)
 
+$(TEST_OBJS_DIR):
+	@echo "Creating Test Obj directory.."
+	@mkdir -p $(TEST_OBJS_DIR)
+
 $(NAME): $(OBJS) $(LIBFT_A)
 	@echo "Linking executable $(NAME)..."
 	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
 	@echo "done"
 
-$(OBJS_DIR)/%.o: %.c $(HEADERS) | $(OBJS_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(OBJS_DIR)
+	@$(CC) $(CFLAGS) -I$(HEADERS) -c $< -o $@
+
+$(TEST_OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(TEST_OBJS_DIR)
+	@$(CC) $(CFLAGS) -I$(HEADERS) -c $< -o $@
 
 submodules:
 	@mkdir -p libft
@@ -61,19 +74,17 @@ submodules:
 $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT_DIR)
 
+test: $(LIBFT_A) $(TEST_OBJS)
+	@echo "Compiling and running tests..."
+	@$(CC) $(CFLAGS) -I$(HEADERS) $(TEST_OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -lcriterion -o test.out
+	@./test.out
+
 clean:
-	rm -dRf $(OBJS_DIR)
+	rm -rf $(OBJS_DIR) $(TEST_OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) test.out
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
-
-
-# TEST_SRCS = $(filter-out main.c, $(SRCS))
-# TESTS_FILES = $(shell find ./test -name "*_test.c")
-
-# test: $(TEST_SRCS:.c=.o) $(TEST_OBJS)
-# 	$(CC) $(CFLAGS) $(TEST_SRCS:.c=.o) $(TEST_OBJS) $(LIBFT) -lcriterion -o test.out && ./test.out
