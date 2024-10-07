@@ -18,11 +18,13 @@ OBJS_DIR		= objs/
 TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
+DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex)
+
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c) \
-		$(addprefix pipex/, pipex.c path.c command.c utils.c here_doc.c) \
-		shellprompt.c \
+		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
+		here_doc.c shellprompt.c \
 		)
 
 HEADERS := ./includes
@@ -40,11 +42,8 @@ all: submodules $(LIBFT_A) $(NAME)
 run: all
 	./$(NAME)
 
-$(OBJS_DIR):
-	@echo "Creating Obj directory.."
-	@mkdir -p $(OBJS_DIR)
-	@mkdir -p $(OBJS_DIR)/builtins
-	@mkdir -p $(OBJS_DIR)/dummy_helpers
+$(DIRS):
+	mkdir -p $@
 
 $(TEST_OBJS_DIR):
 	@echo "Creating Test Obj directory.."
@@ -55,7 +54,7 @@ $(NAME): $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
 	@echo "done"
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(OBJS_DIR)
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(DIRS)
 	@$(CC) $(CFLAGS) -I$(HEADERS) -c $< -o $@
 
 $(TEST_OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(TEST_OBJS_DIR)
