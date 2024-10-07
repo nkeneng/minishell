@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 08:27:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 08:52:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_list	**parse_input(char *line);
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**split_line;
+	t_list	**split_line;
 	char	*line;
 	int		num;
 	int		exec_ret;
@@ -36,8 +36,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = rl_gets();
 		ft_fprintf(1, "%s\n", line);
-		split_line = parse_line(line);
-		num = count_char_array(split_line);
+		split_line = parse_input(line);
+		num = ft_lstsize(split_line);
 		exec_ret = start_pipex(num, split_line, envp);
 		free_char_array(split_line, 0);
 	}
@@ -74,6 +74,7 @@ t_list	**convert_line_to_dlist(char *line)
 	return (start);
 }
 
+//splits input line into array of strings !old , replace
 char	**parse_line(char *line)
 {
 	char	**split_line;
@@ -82,6 +83,7 @@ char	**parse_line(char *line)
 	return (split_line);
 }
 
+// input promt for shell
 char	*rl_gets(void)
 {
 	static char	*line;

@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft_full.h"
+# include "expansion_macros.h"
 # include "command.h"
 # include "parsing.h"
 # include <errno.h>
