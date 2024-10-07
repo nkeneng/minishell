@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 17:12:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:13:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,23 @@ int	do_list(t_list cmd_list, char **envp)
 }
 
 //old start pipex, leavin it in only for testing
-int	start_pipex(int argc, t_list cmd_ptr, char *envp[])
-{
-	int		i;
-	int		fileindicator;
-	t_list	*cmd_list;
-
-	cmd_list = &cmd_ptr;
-	fileindicator = input_checker(argc, argv[1]);
-	i = 2;
-	if (fileindicator == 2)
-		pipheredoc(argv[i++]);
-	else
-		open_doc(argv[1], 0);
-	open_doc(argv[argc - 1], fileindicator);
-	pipex(envp, cmd_list);
-	return (exec_to_stdout(envp, ft_lstlast(cmd_list)->content));
-}
+// int	start_pipex(int argc, t_list cmd_ptr, char *envp[])
+// {
+// 	int		i;
+// 	int		fileindicator;
+// 	t_list	*cmd_list;
+//
+// 	cmd_list = &cmd_ptr;
+// 	fileindicator = input_checker(argc, argv[1]);
+// 	i = 2;
+// 	if (fileindicator == 2)
+// 		pipheredoc(argv[i++]);
+// 	else
+// 		open_doc(argv[1], 0);
+// 	open_doc(argv[argc - 1], fileindicator);
+// 	pipex(envp, cmd_list);
+// 	return (exec_to_stdout(envp, ft_lstlast(cmd_list)->content));
+// }
 
 // opens file, dup2s over correct std fd, filekind 0:inf, 1:outf, 2:outf(append)
 int	open_doc(char *file, int filekind)

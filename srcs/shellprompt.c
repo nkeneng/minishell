@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 16:45:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:13:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 #include <unistd.h>
 
 char	*rl_gets(void);
-char	**parse_line(char *line);
 t_list	**convert_line_to_dlist(char *line);
 t_list	**parse_input(char *line);
+t_command	*get_command(char *word);
+void clean_line_whitespace(char *line);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -37,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 		line = rl_gets();
 		split_line = parse_input(line);
 		num = ft_lstsize(*split_line);
-		exec_ret = start_pipex(num, split_line, envp);
+		exec_ret = do_pipex(num, split_line, envp);
 		ft_lstclear(split_line, 0);
 	}
 	return (exec_ret);
@@ -51,10 +52,10 @@ t_list	**parse_input(char *line)
 	int			i;
 
 	clean_line_whitespace(line);
-	while (*line)
-		get_command((*line)++);
-	command = malloc(sizeof(t_command));
-	command->cmd = 
+	while ((*line)++)
+	{
+		command = get_command(line);
+	}
 	input = convert_line_to_dlist(line);
 	return (input);
 }
@@ -87,6 +88,7 @@ t_command	*get_command(char *word)
 	t_command	*command;
 	char		**split_line;
 	int			i;
+
 	split_line = ft_split(word, ' ');
 	command = malloc(sizeof(t_command));
 	command->cmd = split_line[0];
@@ -118,15 +120,6 @@ t_list	**convert_line_to_dlist(char *line)
 		curr = new;
 	}
 	return (start);
-}
-
-//splits input line into array of strings !old , replace
-char	**parse_line(char *line)
-{
-	char	**split_line;
-
-	split_line = ft_split(line, ' ');
-	return (split_line);
 }
 
 // input promt for shell
