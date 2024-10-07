@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/05 13:09:05 by stevennke        ###   ########.fr       */
+/*   Created: 2024/10/02 21:02:38 by stevennke         #+#    #+#             */
+/*   Updated: 2024/10/05 13:02:41 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-int	main(int argc, char *argv[], char *envp[])
-{
-	(void)argc;
-	(void)envp;
-	(void)argv;
-	ft_pwd();
-	return (EXIT_SUCCESS);
-}
+int		ft_cd(char *path);
+void	ft_unset(char **envp, char *key);
+void	ft_echo(char **args);
+void	ft_exit(void);
+void	ft_pwd(void);
+void	ft_env(char **envp);
