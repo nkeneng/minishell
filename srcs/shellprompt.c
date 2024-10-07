@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 08:52:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 08:56:47 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	int		num;
 	int		exec_ret;
-
-	(void)argc;
+(void)argc;
 	(void)argv;
 	(void)envp;
 	while (1)
@@ -37,9 +36,9 @@ int	main(int argc, char **argv, char **envp)
 		line = rl_gets();
 		ft_fprintf(1, "%s\n", line);
 		split_line = parse_input(line);
-		num = ft_lstsize(split_line);
+		num = ft_lstsize(*split_line);
 		exec_ret = start_pipex(num, split_line, envp);
-		free_char_array(split_line, 0);
+		ft_lstclear(split_line, 0);
 	}
 	return (exec_ret);
 }
