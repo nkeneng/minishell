@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 16:46:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 08:27:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <readline/history.h>
 #include <unistd.h>
 
-int	count_char_array(char **charray);
 char	*rl_gets(void);
 char	**parse_line(char *line);
 t_list	**convert_line_to_dlist(char *line);
@@ -63,12 +62,12 @@ t_list	**convert_line_to_dlist(char *line)
 	int		i;
 
 	split_line = ft_split(line, ' ');
-	curr = ft_dlstnew((void *)split_line[0]);
+	curr = ft_lstnew((void *)split_line[0]);
 	start = &curr;
 	i = 1;
 	while (split_line[i])
 	{
-		new = ft_dlstnew((void *)split_line[i++]);
+		new = ft_lstnew((void *)split_line[i++]);
 		curr->next = new;
 		curr = new;
 	}
@@ -100,13 +99,3 @@ char	*rl_gets(void)
 	return (line);
 }
 
-// returns number of items in array of strings
-int	count_char_array(char **charray)
-{
-	int	i;
-
-	i = 0;
-	while (charray[i] != NULL)
-		i++;
-	return (i);
-}

@@ -19,7 +19,7 @@ HEADER_DIR		= includes/
 
 SRCS = $(addprefix $(SRCS_DIR), \
 		shellprompt.c \
-		pipex.c path.c command.c utils.c \
+		pipex.c path.c command.c utils.c here_doc.c\
 		dummy_helpers/fake_commands.c)
 
 HEADERS := ./includes

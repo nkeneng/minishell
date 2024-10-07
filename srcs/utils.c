@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:51:34 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/01 12:51:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 08:27:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,13 @@ int	rperror(char *str)
 	return (errno);
 }
 
-int	here_doc(char *delim)
+// returns number of items in array of strings
+int	count_char_array(char **charray)
 {
-	char	*line;
-	int		delim_len;
+	int	i;
 
-	delim_len = ft_strlen(delim);
-	while (1)
-	{
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			break ;
-		if (!ft_strncmp(delim, line, delim_len) && \
-			(line[delim_len] == '\n' || line[delim_len] == '\0'))
-		{
-			free(line);
-			line = get_next_line(-1);
-			break ;
-		}
-		ft_fprintf(STDOUT_FILENO, "%s", line);
-		free(line);
-	}
-	close (STDIN_FILENO);
-	return (1);
+	i = 0;
+	while (charray[i] != NULL)
+		i++;
+	return (i);
 }

@@ -44,6 +44,9 @@ int					open_doc(char *file, int filekind);
 // utils.c
 int					free_char_array(char **array, int ret);
 int					rperror(char *str);
+int					count_char_array(char **charray);
+
+//here_doc.c
 int					here_doc(char *delim);
 
 // path.c
