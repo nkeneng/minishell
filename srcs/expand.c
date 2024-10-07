@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:00:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 17:21:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:54:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ char	*clean_spaces(char *word)
 {
 	int	i;
 	int	j;
-	int	k;
 
 	i = 0;
 	while (word[i])
@@ -93,11 +92,8 @@ char	*clean_spaces(char *word)
 		{
 			while (word[j] == ' ' || word[j] == '\t')
 				j++;
-			if (j == i + 1)
-				continue ;
-			k = i + 1;
-			while (word[j])
-				word[k++] = word[j++];
+			if (j > i + 1)
+				ft_memmove(word + i, word + j, ft_strlen(word + i));
 		}
 	}
 	return (word);

@@ -6,11 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 20:01:20 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/07 17:12:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	exec_command(t_command *command, char *envp[], int *fd)
 {

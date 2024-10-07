@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 08:56:47 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:45:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	int		num;
 	int		exec_ret;
-(void)argc;
+
+	(void)argc;
 	(void)argv;
 	(void)envp;
 	while (1)
 	{
 		line = rl_gets();
-		ft_fprintf(1, "%s\n", line);
 		split_line = parse_input(line);
 		num = ft_lstsize(*split_line);
 		exec_ret = start_pipex(num, split_line, envp);
@@ -45,10 +45,57 @@ int	main(int argc, char **argv, char **envp)
 
 t_list	**parse_input(char *line)
 {
-	t_list	**input;
+	t_list		**input;
+	t_command	*command;
+	t_list		*cmd_curr;
+	int			i;
 
+	clean_line_whitespace(line);
+	while (*line)
+		get_command((*line)++);
+	command = malloc(sizeof(t_command));
+	command->cmd = 
 	input = convert_line_to_dlist(line);
 	return (input);
+}
+
+void clean_line_whitespace(char *line)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		line[len - 1] = '\0';
+	while (line[i])
+	{
+		j = i;
+		if (line[i] == '\t')
+			line[i] = ' ';
+		while (line[j] == ' ' || line[j] == '\t')
+			j++;
+		if (j > i + 1)
+			ft_memmove(line + i, line + j, ft_strlen(line + i));
+		i++;
+	}
+}
+
+t_command	*get_command(char *word)
+{
+	t_command	*command;
+	char		**split_line;
+	int			i;
+	split_line = ft_split(word, ' ');
+	command = malloc(sizeof(t_command));
+	command->cmd = split_line[0];
+	i = 1;
+	while (split_line[i])
+	{
+		command->args = ft_lstnew((void *)split_line[i++]);
+	}
+	return (command);
 }
 
 //splits line and puts it into a double linked list, returns head of dlist

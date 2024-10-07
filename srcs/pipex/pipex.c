@@ -6,11 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 09:57:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:12:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 //TODO: Katze: command not found \n execve: No such file or directory <to>
 //minishell: command not found: Katze
@@ -18,13 +18,41 @@
 //TODO: string expansion in here_doc
 //TODO: macro values for fileindicator: < for input, > for output, >> for append
 //TODO: make pipex use linked list instead of double array
-int	start_pipex(int argc, char *argv[], char *envp[])
+
+// takes arguments of linked list and opens or executes them
+int	do_list(t_list cmd_list, char **envp)
+{
+	t_list		*cmd_ptr;
+	t_command	*cmd;
+	int			return_code;
+	
+	cmd_ptr = &cmd_list;
+	while (cmd_ptr)
+	{
+		cmd = cmd_ptr->content;
+		if (cmd->flags & C_PIPE)
+			return_code = make_exec(cmd, envp);
+		else if (cmd->flags & C_HERE_DOC)
+			return_code = here_doc(cmd->cmd);
+		else if (cmd->flags & C_LAST_PIPE)
+			return_code = exec_to_stdout(envp, cmd);
+		else
+			return_code = open_doc(cmd->cmd, cmd->flags);
+		if (!return_code)
+			return (return_code);
+		cmd_ptr = cmd_ptr->next;
+	}
+	return (return_code);
+}
+
+//old start pipex, leavin it in only for testing
+int	start_pipex(int argc, t_list cmd_ptr, char *envp[])
 {
 	int		i;
 	int		fileindicator;
 	t_list	*cmd_list;
 
-	dummy_cmd_list(&cmd_list);
+	cmd_list = &cmd_ptr;
 	fileindicator = input_checker(argc, argv[1]);
 	i = 2;
 	if (fileindicator == 2)
@@ -41,7 +69,7 @@ int	open_doc(char *file, int filekind)
 {
 	int	fd;
 
-	if (filekind == 0)
+	if (filekind == C_OPEN_INFILE)
 	{
 		fd = open(file, O_RDONLY, 0444);
 		if (fd == -1)
@@ -51,9 +79,9 @@ int	open_doc(char *file, int filekind)
 		close(fd);
 		return (0);
 	}
-	if (filekind == 1)
+	if (filekind == C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	else
+	else if (filekind == C_OPEN_OUT_APP)
 		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
 		exit(rperror("open"));

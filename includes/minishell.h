@@ -38,7 +38,7 @@ void				ft_dlstclear(t_dlist **lst);
 t_dlist				*ft_createaddback(t_dlist **lst, void *content);
 // PIPEX
 // pipex.c
-int					start_pipex(int argc, char *argv[], char *envp[]);
+int					start_pipex(int argc, t_list cmd_ptr, char *envp[]);
 int					input_checker(int argc, char *arg);
 int					pipheredoc(char *arg);
 int					open_doc(char *file, int filekind);

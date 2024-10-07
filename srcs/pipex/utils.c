@@ -6,11 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:51:34 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 08:27:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:12:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	free_char_array(char **array, int ret)
 {
