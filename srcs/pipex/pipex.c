@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 17:13:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:47:38 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 //TODO: make pipex use linked list instead of double array
 
 // takes arguments of linked list and opens or executes them
-int	do_list(t_list cmd_list, char **envp)
+int	do_list(t_list **cmd_list, char **envp)
 {
 	t_list		*cmd_ptr;
 	t_command	*cmd;
 	int			return_code;
 	
-	cmd_ptr = &cmd_list;
+	cmd_ptr = *cmd_list;
 	while (cmd_ptr)
 	{
 		cmd = cmd_ptr->content;

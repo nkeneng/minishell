@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 21:13:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:46:13 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 		line = rl_gets();
 		split_line = parse_input(line);
 		num = ft_lstsize(*split_line);
-		exec_ret = do_pipex(num, split_line, envp);
+		exec_ret = do_list(*split_line, envp);
 		ft_lstclear(split_line, 0);
 	}
 	return (exec_ret);
