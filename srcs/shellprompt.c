@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 21:46:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:47:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,49 +18,119 @@
 #include <unistd.h>
 
 char	*rl_gets(void);
+int	append_opts(char **split_line);
+char	*ft_strappend(char *string, char *appendix);
 t_list	**convert_line_to_dlist(char *line);
-t_list	**parse_input(char *line);
-t_command	*get_command(char *word);
+t_list	**parse_input(char *line, char **envp);
 void clean_line_whitespace(char *line);
+t_command	*get_command(char *word, char **envp);
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_list	**split_line;
-	char	*line;
-	int		num;
-	int		exec_ret;
-
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	while (1)
-	{
-		line = rl_gets();
-		split_line = parse_input(line);
-		num = ft_lstsize(*split_line);
-		exec_ret = do_list(*split_line, envp);
-		ft_lstclear(split_line, 0);
-	}
-	return (exec_ret);
-}
-
-t_list	**parse_input(char *line)
+//deprecated
+t_list	**parse_input(char *line, char **envp)
 {
 	t_list		**input;
 	t_command	*command;
-	t_list		*cmd_curr;
+	t_list		*curr;
+	char		**split_line;
 	int			i;
+	int			list_i;
+	int			k;
 
+	i = 0;
 	clean_line_whitespace(line);
-	while ((*line)++)
+	split_line = ft_split(line, ' ');
+	if (!split_line || !split_line[0])
 	{
-		command = get_command(line);
+		free_char_array(split_line, 0);
+		return (NULL);
+	}
+	while (split_line[i] && split_line[i + 1] != NULL)
+	{
+		command = get_command(split_line[i], envp);
+		if (command)
+		{
+			if (!ft_createaddback(input, command))
+				return (NULL);
+		}
+		else
+			break ;
+		k = append_opts(&split_line[i]);
+		if (k)
+		{
+			free(command->cmd);
+			command->cmd = split_line[i];
+		}
+		i += k;
+		i++;
+	}
+	// only one command or last command
+	if (split_line[i] && split_line[i + 1] == NULL)
+		command = get_command(split_line[i], envp);
+		if (command)
+			input[list_i] = ft_lstnew(command);
+	else
+	{
+		free_char_array(split_line, 0);
+		return (NULL);
 	}
 	input = convert_line_to_dlist(line);
 	return (input);
 }
 
-void clean_line_whitespace(char *line)
+int	convert_pipes_to_flags(t_list **list)
+{
+	t_list		*curr;
+	t_command	*command;
+
+	curr = *list;
+	while (curr->next)
+	{
+		command = (t_command *) curr->next->content;
+		if (!ft_strncmp(command->cmd, "|", 2))
+		{
+			command = (t_command *) curr->content;
+			command->flags &= C_PIPE;
+			ft_lstdelone(curr->next, (void (*) (void *))ft_free_command);
+		}
+		curr = curr->next;
+	}
+}
+
+int	append_opts(char **split_line)
+{
+	int	i;
+	int	k;
+	int	did_append;
+
+	i = 0;
+	k = i + 1;
+	did_append = 0;
+	while (split_line[k] && (split_line[k][0] == '-' || !ft_strchr("|<>&", split_line[k][0])))
+	{
+		split_line[i] = ft_strappend(split_line[i], split_line[k]);
+		did_append = 1;
+		k++;
+	}
+	if (did_append == 0)
+		return (0);
+	return (k);
+}
+
+// does a strjoin, frees string and appendix, returns new string
+char	*ft_strappend(char *string, char *appendix)
+{
+	char	*new_string;
+
+	new_string = ft_strjoin(string, appendix);
+	free(string);
+	free(appendix);
+	if (new_string)
+		string = new_string;
+	free(new_string);
+	return (NULL);
+}
+
+void	clean_line_whitespace(char *line)
 {
 	int	i;
 	int	j;
@@ -83,19 +153,22 @@ void clean_line_whitespace(char *line)
 	}
 }
 
-t_command	*get_command(char *word)
+
+
+t_command	*get_command_flag(char *word, char **envp)
 {
 	t_command	*command;
-	char		**split_line;
 	int			i;
+	char		*commpath;
 
-	split_line = ft_split(word, ' ');
 	command = malloc(sizeof(t_command));
-	command->cmd = split_line[0];
 	i = 1;
-	while (split_line[i])
+	commpath = get_commpath(get_paths(envp), word);
+	if (commpath)
 	{
-		command->args = ft_lstnew((void *)split_line[i++]);
+		command->cmd = word;
+		command->path = commpath;
+		command->flags &= C_EXECUTE;
 	}
 	return (command);
 }
@@ -121,22 +194,3 @@ t_list	**convert_line_to_dlist(char *line)
 	}
 	return (start);
 }
-
-// input promt for shell
-char	*rl_gets(void)
-{
-	static char	*line;
-
-	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
-	line = readline("minishell$ ");
-	if (!line || ft_strncmp("exit", line, 4) == 0)
-		exit (0);
-	if (line && *line) // seeing if line is not is unnecessary because auf previous check, leaving it in for later
-		add_history(line);
-	return (line);
-}
-

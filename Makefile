@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-MAKEFLAGS += --warn-undefined-variables
+#MAKEFLAGS += --warn-undefined-variables
 MAKEFILES := libft/Makefile
 
 NAME = minishell
@@ -18,13 +18,15 @@ OBJS_DIR		= objs/
 TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
-DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex)
+DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading)
 
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c) \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
-		here_doc.c shellprompt.c \
+		$(addprefix lst/ft_, lstcreate_addback.c free_command.c) \
+		$(addprefix reading/, here_doc.c rl_gets.c) \
+		main.c \
 		)
 
 HEADERS := ./includes

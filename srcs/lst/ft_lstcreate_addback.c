@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_lstcreate_addback.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 09:50:03 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/10/08 12:05:56 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/10/08 12:13:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include "../../includes/minishell.h"
 
-# include "../libft/libft_full.h"
+t_list	*ft_createaddback(t_list **lst, void *content)
+{
+	t_list	*node;
 
-// unsorted shellpromt
-char	*rl_gets(void);
-t_list	**convert_line_to_dlist(char *line);
-
-#endif // !PARSING_H
+	node = ft_lstnew(content);
+	if (!node)
+	{
+		free(node);
+		return (NULL);
+	}
+	ft_lstadd_back(lst, node);
+	return (node);
+}

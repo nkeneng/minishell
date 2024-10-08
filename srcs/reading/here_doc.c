@@ -6,11 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 16:59:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:46:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 //TODO: string expansion in here_doc
 //TODO: run in child process

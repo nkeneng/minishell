@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   rl_gets.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 09:50:03 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/10/08 13:47:30 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/10/08 13:47:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include "../../includes/minishell.h"
 
-# include "../libft/libft_full.h"
+// input promt for shell
+char	*rl_gets(void)
+{
+	static char	*line;
 
-// unsorted shellpromt
-char	*rl_gets(void);
-t_list	**convert_line_to_dlist(char *line);
-
-#endif // !PARSING_H
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
+	line = readline("minishell$ ");
+	if (!line || ft_strncmp("exit", line, 4) == 0)
+		exit (0);
+	if (line && *line) // seeing if line is not is unnecessary because auf previous check, leaving it in for later
+		add_history(line);
+	return (line);
+}

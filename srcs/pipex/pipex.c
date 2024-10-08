@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 21:47:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:42:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,26 @@ int	do_list(t_list **cmd_list, char **envp)
 	t_command	*cmd;
 	int			return_code;
 	
+	dummy_cmd_list(cmd_list);
 	cmd_ptr = *cmd_list;
-	while (cmd_ptr)
+	while (cmd_ptr->next)
 	{
 		cmd = cmd_ptr->content;
-		if (cmd->flags & C_PIPE)
-			return_code = make_exec(cmd, envp);
-		else if (cmd->flags & C_HERE_DOC)
-			return_code = here_doc(cmd->cmd);
-		else if (cmd->flags & C_LAST_PIPE)
-			return_code = exec_to_stdout(envp, cmd);
-		else
-			return_code = open_doc(cmd->cmd, cmd->flags);
-		if (!return_code)
-			return (return_code);
+		return_code = pipex(cmd, envp);
+		/* if (cmd->flags & C_PIPE) */
+		/* 	return_code = make_exec(cmd, envp); */
+		/* else if (cmd->flags & C_HERE_DOC) */
+		/* 	return_code = here_doc(cmd->cmd); */
+		/* else if (cmd->flags & C_LAST_PIPE) */
+		/* 	return_code = exec_to_stdout(envp, cmd); */
+		/* else */
+		/* 	return_code = open_doc(cmd->cmd, cmd->flags); */
+		/* if (!return_code) */
+		/* 	return (return_code); */
 		cmd_ptr = cmd_ptr->next;
 	}
+	cmd = cmd_ptr->content;
+	return_code = exec_to_stdout(envp, cmd);
 	return (return_code);
 }
 
@@ -69,22 +73,25 @@ int	open_doc(char *file, int filekind)
 {
 	int	fd;
 
+	fd = 0;
 	if (filekind == C_OPEN_INFILE)
 	{
 		fd = open(file, O_RDONLY, 0444);
 		if (fd == -1)
-			exit(rperror("open"));
+			return (rperror("open"));
 		if (dup2(fd, STDIN_FILENO) == -1)
-			exit(rperror("dup2"));
+			return (rperror("dup2"));
 		close(fd);
 		return (0);
 	}
-	if (filekind == C_OPEN_OUT_TRUNC)
+	else if (filekind == C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else if (filekind == C_OPEN_OUT_APP)
 		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
+	else
+		return (0);
 	if (fd == -1)
-		exit(rperror("open"));
+		return (rperror("open"));
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (rperror("dup2"));
 	close(fd);
