@@ -1,0 +1,24 @@
+lmeubrin@c3a4c2:~/core/minishell$ echo "hello" >test.txt
+lmeubrin@c3a4c2:~/core/minishell$ cat test
+testfiles/ tests/     test.txt   
+lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i helo output
+lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i hello output
+hello
+lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i hello
+lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | cat
+lmeubrin@c3a4c2:~/core/minishell$ echo $?
+0
+lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i hello
+lmeubrin@c3a4c2:~/core/minishell$ echo $?
+1
+lmeubrin@c3a4c2:~/core/minishell$ echo "$(cat "$(ls -l)")"
+pipe after file: seperate command execution
+lmeubrin@c3a4c2:~/core/minishell$ cat /dev/urandom > outfile | sleep 2
+^C
+lmeubrin@c3a4c2:~/core/minishell$ cat /dev/urandom | sleep 2
+pipe after > stdout writes into pipe and uses pipe
+same as cat /dev/urandom | sleep 2
+llmeubrin@c3a4c2:~/core/minishell$ head -1 <(cat /dev/urandom)
+��*{cmfɍ�C��d��6��M�5�e�^�
+�� $,�
+lmeubrin@c3a4c2:~/core/minishell$ cat /dev/urandom | head -1meubrin@c3a4c2:~/core/minishell$ cat /dev/urandom > /dev/stdout | sleep 2
