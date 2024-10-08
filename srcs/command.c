@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/02 20:01:20 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/08 19:43:29 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	exec_command(t_command *command, char *envp[], int *fd)
 	return (cpid);
 }
 
-int	pipex(char **envp, t_list *cmd_list)
+int	pipex(char **envp, t_list **cmd_list)
 {
 	int		pipefd[2];
 	pid_t	cpid;
 	t_list	*tmp_list;
 
-	tmp_list = cmd_list;
+	tmp_list = *cmd_list;
 	while (tmp_list)
 	{
 		if (pipe(pipefd) == -1)
