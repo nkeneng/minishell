@@ -22,3 +22,63 @@ llmeubrin@c3a4c2:~/core/minishell$ head -1 <(cat /dev/urandom)
 ��*{cmfɍ�C��d��6��M�5�e�^�
 �� $,�
 lmeubrin@c3a4c2:~/core/minishell$ cat /dev/urandom | head -1meubrin@c3a4c2:~/core/minishell$ cat /dev/urandom > /dev/stdout | sleep 2
+
+#examples
+    Command substitution with multiple levels and redirections:
+
+bash
+echo "Files: $(ls -l $(find . -type d -name "test*") 2>/dev/null | wc -l) in $(pwd)"
+
+    Pipelines with multiple commands and redirections:
+
+bash
+cat /etc/passwd | grep sh$ | cut -d: -f1 | sort | uniq > users.txt | wc -l
+
+    Process substitution and redirection:
+
+bash
+diff <(ls -l /etc) <(ssh remote_host ls -l /etc) > differences.txt
+
+    Command grouping with subshells and redirections:
+
+bash
+(cd /tmp && tar czf - *) | (cd /backup && tar xzf -) > /dev/null 2>&1
+
+    Here-document (heredoc) with command substitution:
+
+bash
+cat << EOF > script.sh
+#!/bin/bash
+echo "Current date: $(date)"
+echo "Files in home: $(ls ~ | wc -l)"
+EOF
+
+    Multiple commands with different exit statuses:
+
+bash
+false && echo "This won't print" || echo "But this will" && true | echo "And this too"
+
+    Variable expansion with default values and command substitution:
+
+bash
+echo "Hello, ${NAME:-$(whoami)}! Today is $(date +'%A')"
+
+    Combining input/output redirection with pipes:
+
+bash
+grep ERROR /var/log/syslog | tee >(wc -l > error_count.txt) | sed 's/ERROR/CRITICAL/' > filtered_errors.log
+
+    Using backquotes for command substitution (older style):
+
+bash
+echo "The kernel version is `uname -r` on `hostname`"
+
+    Complex case statement with pattern matching:
+
+bash
+case "$1" in
+    *.tar.gz|*.tgz) tar xzf "$1" ;;
+    *.bz2) bunzip2 "$1" ;;
+    *.zip) unzip "$1" ;;
+    *) echo "Unknown file type: $1" ;;
+esac
