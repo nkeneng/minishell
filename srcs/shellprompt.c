@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 13:47:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:28:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,20 +116,6 @@ int	append_opts(char **split_line)
 	return (k);
 }
 
-// does a strjoin, frees string and appendix, returns new string
-char	*ft_strappend(char *string, char *appendix)
-{
-	char	*new_string;
-
-	new_string = ft_strjoin(string, appendix);
-	free(string);
-	free(appendix);
-	if (new_string)
-		string = new_string;
-	free(new_string);
-	return (NULL);
-}
-
 void	clean_line_whitespace(char *line)
 {
 	int	i;
@@ -152,8 +138,6 @@ void	clean_line_whitespace(char *line)
 		i++;
 	}
 }
-
-
 
 t_command	*get_command_flag(char *word, char **envp)
 {

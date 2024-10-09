@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/09 11:35:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:28:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,26 @@ t_word_list	split_into_words(char *line)
 	t_word_list	*word_list;
 	t_word_list	*current_word;
 	char *word;
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_list	*args;
+	char	*line;
+	int		exec_ret;
+
+	(void)argc;
+	(void)argv;
+	(void)envp;
+	while (1)
+	{
+		line = rl_gets();
+		if (!missing_close_sign(line, '\''))
+			ft_strappend(line, rl_gets());
+		args = parse_input(line, envp);
+		num = ft_lstsize(args);
+		exec_ret = do_list(&args, envp);
+	}
+	ft_lstclear(&args, 0);
+	return (exec_ret);
 }
