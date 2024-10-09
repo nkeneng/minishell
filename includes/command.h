@@ -6,12 +6,14 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 16:48:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/09 10:41:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_H
 # define COMMAND_H
+
+# include "redirect.h"
 
 /* possible values for the `flags' field of command */
 # define C_EXECUTE	(1 << 1) // needs to read from a pipe
@@ -25,16 +27,9 @@
 
 /* A structure which represents a command. */
 typedef struct t_command {
-  char	*cmd;		/* Zero terminated string. */
-  char	*infile;
-  char	*outfile;
-  int	flags;		/* Flags associated with this command. */
+	char	*cmd;		/* Zero terminated string. */
+	t_redirect	*redirects;	/* Redirections associated with this command. */
+	int	flags;		/* Flags associated with this command. */
 } t_command;
-
-/* A structure which represents a word. */
-typedef struct s_word_desc {
-  char *word;		/* Zero terminated string. */
-  int flags;		/* Flags associated with this word. */
-} t_word_desc;
 
 #endif // !COMMAND_H

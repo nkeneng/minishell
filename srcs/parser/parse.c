@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 16:26:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:35:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,20 @@ executes a command. Basically, the shell does the following:
 	(see Exit Status).
 */
 
-t_list	**parse_input(char *line, char **envp)
+t_list	*parse_input(char *line, char **envp)
 {
 	t_list	**list;
-	//optionally open script if strstr(line, ".sh")
-	list = split_line(line);
+	t_word_list	*word_list;
+	//optionally open script if strstr(line, ".sh") and read from it
+	word_list = split_into_words(line);
 }
 
 //Breaks the input into words and operators, obeying the quoting rules 
 //described in Quoting. These tokens are separated by metacharacters. 
 //Alias expansion is performed by this step (see Aliases).
-t_list	split_line()
+t_word_list	split_into_words(char *line)
+{
+	t_word_list	*word_list;
+	t_word_list	*current_word;
+	char *word;
+}
