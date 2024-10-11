@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/09 12:24:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:55:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,13 @@ t_list	**convert_line_to_dlist(char *line);
 //missing_close.c
 int	missing_close_sign(char *line, char sign);
 int	missing_close_bracket(char *line);
+
+// word_list.c
+t_word_list *get_next_word(char *line);
+t_word_list **make_word_list(char *line);
+t_word_desc *create_word(char *word, int flags);
+void		ft_printf_word_list(t_word_list *word_list);
+void		free_word_desc(t_word_desc *word_desc);
+void		free_word_list(t_word_list **lst);
 
 #endif // !PARSING_H

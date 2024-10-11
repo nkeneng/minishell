@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:26:45 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/09 10:39:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:21:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_word_desc {
 
 /*	A linked list of words. */
 typedef struct s_word_list {
-	struct word_list	*next;
+	struct s_word_list	*next;
 	t_word_desc			*word;
 }	t_word_list;
 

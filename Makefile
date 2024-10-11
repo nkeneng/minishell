@@ -18,7 +18,7 @@ OBJS_DIR		= objs/
 TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
-DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading)
+DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser)
 
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c) \
@@ -26,7 +26,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
 		$(addprefix lst/ft_, lstcreate_addback.c free_command.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
-		main.c \
+		$(addprefix parser/, parse.c missing_close.c word_list.c) \
 		)
 
 HEADERS := ./includes

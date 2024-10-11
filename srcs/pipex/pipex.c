@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/09 11:42:12 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:48:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 //TODO: string expansion in here_doc
 //TODO: macro values for fileindicator: < for input, > for output, >> for append
 //TODO: make pipex use linked list instead of double array
+//
 int	start_pipex(int argc, char *argv[], char *envp[])
 {
 	int		i;

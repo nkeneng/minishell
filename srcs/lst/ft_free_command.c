@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:39:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 12:39:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:52:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_free_command(t_command	*command)
 {
-	free(command->path);
+	// free_redirects(command->redirects);
 	free(command->cmd);
 	free(command);
 	return ;
