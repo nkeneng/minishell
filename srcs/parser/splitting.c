@@ -6,20 +6,20 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/14 09:50:55 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:41:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 t_word_list	*split_into_words(char *line);
-t_word_desc *create_word(char *word, int flags);
-t_word_list *get_next_word(char *line);
-t_word_list *make_word_list(char *line);
+t_word_desc	*create_word(char *word, int flags);
+t_word_list	*get_next_word(char *line);
+t_word_list	*make_word_list(char *line);
 
 void	free_word_list();
 
-t_word_list *split_at_operator(char *line)
+t_word_list	*split_at_operator(char *line)
 {
 	int	i;
 	int	k;

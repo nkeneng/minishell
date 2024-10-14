@@ -6,16 +6,16 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:53:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/09 12:22:16 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/14 12:03:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// give this " or ' as sign to return if even ammount
+// give this " or ' as sign to return 1 if even ammount or 0 if none, or -1 err
 int	missing_close_sign(char *line, char sign)
 {
-	int	 ammount;
+	int	ammount;
 
 	ammount = 0;
 	while (*line)
@@ -26,10 +26,12 @@ int	missing_close_sign(char *line, char sign)
 		ammount++;
 		line++;
 	}
-	if (!(ammount % 2) || ammount == 0)
+	if (ammount == 0)
 		return (0);
-	else
+	else if (!(ammount % 2))
 		return (1);
+	else
+		return (-1);
 }
 
 // returns 0 if all good, positive number if missing closing bracket,

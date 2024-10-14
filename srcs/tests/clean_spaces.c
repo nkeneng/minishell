@@ -1,9 +1,10 @@
 
-void clean_line_whitespace(char *line);
 #include <stdio.h>
 #include "../../includes/minishell.h"
 
-void clean_line_whitespace(char *line)
+void	clean_line_whitespace(char *line);
+
+void	clean_line_whitespace(char *line)
 {
 	int	i;
 	int	j;

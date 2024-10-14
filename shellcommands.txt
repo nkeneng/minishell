@@ -82,3 +82,9 @@ case "$1" in
     *.zip) unzip "$1" ;;
     *) echo "Unknown file type: $1" ;;
 esac
+
+some weird things are happening when test2 doesn't exist when followed by too many args
+lmeubrin@c3a1c3:~/core/minishell$ echo hello>test.txt | echo testing > test2 this not | echo hmm < test2 |cat >b>c<test.txt
+bash: test2: No such file or directory
+lmeubrin@c3a1c3:~/core/minishell$ echo hello>test.txt | echo testing > test2 | echo hmm < test2 |cat >b>c<test.txt
+lmeubrin@c3a1c3:~/core/minishell$ echo hello>test.txt | echo testing > test2 here not | echo hmm < test2 |cat >b>c<test.txt
