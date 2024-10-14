@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/11 18:01:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/14 09:49:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,43 @@ t_word_list **make_word_list(char *line)
 		ft_printf("tmp word:%s\n",tmp->word->word);
 		if (!tmp)
 			return (NULL);
-		if (word_list->word->word[0] == '|')
-		{
-			i += strlen(word_list->word->word);
-			tmp->word->flags = C_PIPE;
-			free_word_desc(word_list->word);
-			word_list->word = tmp->word;
-			ft_printf("word_list:%s\n",word_list->word->word);
-		}
-		else
-		{
-			word_list->next = tmp;
-			word_list = tmp;
-		}
+		// if (word_list->word->word[0] == '|')
+		// {
+		// 	i += strlen(word_list->word->word);
+		// 	tmp->word->flags = C_PIPE;
+		// 	free_word_desc(word_list->word);
+		// 	word_list->word = tmp->word;
+		// 	ft_printf("word_list:%s\n",word_list->word->word);
+		// }
+		// else
+		// {
+		word_list->next = tmp;
+		word_list = word_list->next;
+		// }
 		ft_printf("current new word:%s\n",word_list->word->word);
 		i += strlen(word_list->word->word);
 		ft_printf("i:%d\n", i);
 	}
 	return (word_list_head);
+}
+
+t_word_list	*word_list_addback(t_word_list word_list_head, t_word_desc *word)
+{
+	t_word_list	*new;
+	t_word_list	*current;
+	new = malloc(sizeof(t_word_list));
+	if (!new)
+		return (NULL);
+	new->word = word;
+	new->next = NULL;
+	if (!word_list_head)
+		return (new);
+	current = word_list_head;
+	while (current->next)
+		current = current->next;
+	current->next = new;
+	return (new);
+	}
 }
 
 void	ft_printf_word_list(t_word_list *word_list)
