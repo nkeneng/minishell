@@ -6,28 +6,34 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 13:18:07 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/05 13:18:37 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/15 15:52:03 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void ft_export(char **args)
+void	ft_setenv(char *key, char *value, t_list *envp)
 {
-	int i;
-	int ret;
-	char *key;
-	char *value;
-	i = 1;
-	while (args[i])
+	t_env	*env;
+
+	env = malloc(sizeof(t_env));
+	env->key = key;
+	env->value = value;
+	ft_lstadd_back(&envp, ft_lstnew(env));
+}
+
+void	ft_export(char *args, t_shell *shell)
+{
+	char	**ret;
+
+	if (args)
 	{
-		ret = ft_split_env(args[i], &key, &value);
-		if (ret == -1)
+		ret = ft_split(args, '=');
+		if (!ret)
 			return ;
-		if (ret == 0)
-			ft_setenv(key, value);
-		free(key);
-		free(value);
-		i++;
+		ft_setenv(ret[0], ret[1], shell->envp);
+		free(ret[0]);
+		free(ret[1]);
+		free(ret);
 	}
 }

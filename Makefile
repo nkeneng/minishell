@@ -20,9 +20,9 @@ HEADER_DIR		= includes/
 
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c) \
-		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c) \
-		pipex.c path.c command.c utils.c \
-		shellprompt.c \
+		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
+		pipex.c path.c command.c utils.c init_envp.c\
+		main.c \
 		)
 
 HEADERS := ./includes
@@ -80,6 +80,9 @@ test: $(LIBFT_A) $(TEST_OBJS)
 	@echo "Compiling and running tests..."
 	@$(CC) $(CFLAGS) -I$(HEADERS) $(TEST_OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -lcriterion -o test.out
 	@./test.out
+
+debug: all
+	lldb $(NAME)
 
 clean:
 	rm -rf $(OBJS_DIR) $(TEST_OBJS_DIR)

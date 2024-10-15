@@ -6,13 +6,26 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:58:38 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/05 12:58:59 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/15 14:22:16 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_echo(char **args)
+/**
+ * Function: ft_echo
+ * -----------------
+ * Implements the echo command in the shell.
+ *
+ * @param args: A null-terminated array of strings 
+ * where each string is an argument to the echo command.
+ *
+ * @param n: A flag to determine whether 
+ * a newline character should be printed at the end. 
+ * If n is 0, a newline character is printed.
+ *
+ */
+void	ft_echo(char **args, int n)
 {
 	int	i;
 
@@ -24,5 +37,6 @@ void	ft_echo(char **args)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
-	ft_putchar_fd('\n', STDOUT_FILENO);
+	if (!n)
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }

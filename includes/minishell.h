@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft_full.h"
+# include "structs.h"
 # include "builtins.h"
 # include "command.h"
 # include "parsing.h"
@@ -17,13 +18,6 @@
 
 // just for test cases
 # include "dummy.h"
-
-typedef struct s_dlist
-{
-	char			*content;
-	struct s_dlist	*next;
-	struct s_dlist	*prev;
-}					t_dlist;
 
 // dlist
 t_dlist				*ft_dlstnew(void *content);
@@ -56,4 +50,8 @@ int					pipex(char **envp, t_list **cmd_list);
 // command.c
 int					exec_command(t_command *command, char *envp[], int *fd);
 int					exec_to_stdout(char **envp, t_command *command);
+
+// init_envp.c
+void				init_envp(char **env, t_list **envp);
+
 #endif
