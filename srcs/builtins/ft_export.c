@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 13:18:07 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 16:34:31 by snkeneng         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:39:32 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	ft_setenv(char *key, char *value, t_list *envp)
 	ft_lstadd_back(&envp, ft_lstnew(env));
 }
 
+/**
+ * ft_export - Adds or updates an environment variable in the shell.
+ *
+ * @args: A string containing the environment variable and its value in the format "VAR=VALUE".
+ * @shell: A pointer to the shell structure containing the environment variables.
+* TODO : Handle the case where the environment variable already exists.
+* TODO : Handle the case where the key or value are invalid
+*/
+*/
 void	ft_export(char *args, t_shell *shell)
 {
 	char	**ret;
