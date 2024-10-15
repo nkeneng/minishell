@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 13:18:07 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 16:39:32 by snkeneng         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:57:56 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ft_setenv(char *key, char *value, t_list *envp)
  * @shell: A pointer to the shell structure containing the environment variables.
 * TODO : Handle the case where the environment variable already exists.
 * TODO : Handle the case where the key or value are invalid
-*/
 */
 void	ft_export(char *args, t_shell *shell)
 {

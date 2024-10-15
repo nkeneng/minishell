@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 16:33:00 by snkeneng         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:58:18 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	init_envp(envp, &g_envp);
 	shell.envp = g_envp;
-	ft_export("hello=world", &shell);
+	/* ft_export("hello=world", &shell); */
 	tmp = ft_lstlast(g_envp);
 	ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key,
 		((t_env *)tmp->content)->value);
