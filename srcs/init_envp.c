@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:51:05 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 16:02:39 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/15 16:32:48 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,8 @@ void	init_envp(char **env, t_list **envp)
 		ret = ft_split(env[i], '=');
 		if (!ret || !ret[0] || !ret[1])
 			return ;
-		// ft_printf("Raw : %s \n Key : %s\n Value : %s\n", env[i], ret[0],
-			// ret[1]);
-		// i++;
-		// continue ;
 		tmp_env->key = ft_strdup(ret[0]);
 		tmp_env->value = ft_strdup(ret[1]);
-		ft_printf("Key : %s\n Value : %s\n", tmp_env->key, tmp_env->value);
 		ft_lstadd_back(envp, ft_lstnew(tmp_env));
 		i++;
 		free(ret[0]);

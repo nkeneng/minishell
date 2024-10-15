@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 13:18:07 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 15:52:03 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/15 16:34:31 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	ft_setenv(char *key, char *value, t_list *envp)
 	t_env	*env;
 
 	env = malloc(sizeof(t_env));
-	env->key = key;
-	env->value = value;
+	env->key = ft_strdup(key);
+	env->value = ft_strdup(value);
 	ft_lstadd_back(&envp, ft_lstnew(env));
 }
 
