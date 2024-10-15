@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft_full.h"
+# include "structs.h"
 # include "builtins.h"
 # include "command.h"
 # include "parsing.h"
@@ -18,13 +19,6 @@
 // just for test cases
 # include "dummy.h"
 
-typedef struct s_dlist
-{
-	char			*content;
-	struct s_dlist	*next;
-	struct s_dlist	*prev;
-}					t_dlist;
-
 // dlist
 t_dlist				*ft_dlstnew(void *content);
 t_dlist				*ft_dlstfirst(t_dlist *lst);
@@ -37,7 +31,7 @@ void				ft_dlstclear(t_dlist **lst);
 t_dlist				*ft_createaddback(t_dlist **lst, void *content);
 // PIPEX
 // pipex.c
-int					start_pipex(int argc, char *argv[], char *envp[]);
+int					start_pipex(t_list **cmd_list, char *envp[]);
 int					input_checker(int argc, char *arg);
 int					pipheredoc(char *arg);
 int					open_doc(char *file, int filekind);
@@ -51,9 +45,13 @@ int					here_doc(char *delim);
 char				*get_commpath(char *envp[], const char *command);
 char				**get_paths(char *envp[]);
 int					make_exec(t_command *command, char *envp[]);
-int					pipex(char **envp, t_list *cmd_list);
+int					pipex(char **envp, t_list **cmd_list);
 
 // command.c
 int					exec_command(t_command *command, char *envp[], int *fd);
 int					exec_to_stdout(char **envp, t_command *command);
+
+// init_envp.c
+void				init_envp(char **env, t_list **envp);
+
 #endif
