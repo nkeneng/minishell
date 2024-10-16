@@ -6,14 +6,14 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:19:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 17:12:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:41:08 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_word_list *expand(t_word_list *start);
-t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);
+t_word_list	*expand(t_word_list *start);
+t_command	*concat_to_t_command(t_word_list *head, t_word_list *curr);
 
 //modiefies word_list to insert next split
 // int	split_into_words(t_word_list *word)
@@ -79,14 +79,14 @@ int	identify_word_type(t_word_desc *word)
 t_list	*convert_to_command_lst(t_word_list *head)
 {
 	t_word_list	*curr;
-	t_list		**list_head;
+	t_list		*list_head;
 	t_list		*list_curr;
 	t_command	*command;
 	int			flag;
 
 	curr = head;
 	list_curr = NULL;
-	list_head = &list_curr;
+	list_head = NULL;
 	while (curr)
 	{
 		flag = identify_word_type(curr->word);
@@ -97,21 +97,17 @@ t_list	*convert_to_command_lst(t_word_list *head)
 			list_curr = ft_lstcreateaddback(&list_curr, (void *) command);
 			if (!command || !list_curr)
 			{
-				ft_lstclear(list_head, ft_free_command);
+				ft_lstclear(&list_head, ft_free_command);
 				free_word_list(&head);
 				return (NULL);
 			}
 			head = curr->next;
-			/* ft_lstadd_back(&list_curr, list_item); */
-			/* if (!list_curr) */
-			/* 	list_curr = list_item; */
-			/* else */
-			/* 	list_curr->next = list_item; */
-			/* list_curr = list_curr->next; */
 		}
+		if (list_head == NULL)
+			list_head = list_curr;
 		curr = curr->next;
 	}
-	return (*list_head);
+	return (list_head);
 }
 
 // concat from head up until current into one t_command
@@ -120,10 +116,10 @@ t_command	*concat_to_t_command(t_word_list *head, t_word_list *curr)
 	t_command	*command;
 	t_word_list	*tmp;
 
-	command = malloc(sizeof(t_command));
+	command = ft_calloc(sizeof(t_command), 1);
 	if (!command)
 		return (NULL);
-	command->flags = 0;
+	command->flags = curr->word->flags;
 	command->cmd = ft_strdup(head->word->word);
 	if (!command->cmd)
 		free(command);
