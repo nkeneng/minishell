@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 10:09:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:16:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_word_list	*word_list_head;
-	// t_list		*lst;
+	t_list		*lst;
 	char	*line;
 	// int		exec_ret;
 
@@ -29,8 +29,8 @@ int	main(int argc, char **argv, char **envp)
 			ft_strappend(line, rl_gets());
 		word_list_head = make_word_list(line);
 		ft_printf_word_list(word_list_head);
-		// lst = convert_to_command_lst(word_list_head);
-		// ft_printf_lst(lst, ft_printf_command);
+		lst = convert_to_command_lst(word_list_head);
+		ft_printf_lst(lst, ft_printf_command);
 		free_word_list(&word_list_head);
 		// exec_ret = do_list(&wordlist, envp);
 	}

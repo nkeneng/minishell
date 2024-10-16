@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:19:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 10:06:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:16:08 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,59 +47,75 @@ t_word_list	*init_word_list(char *line)
 	return (first_item);
 }
 
-t_list	*convert_to_command_lst(t_word_list *head)
-{
-	t_word_list	*curr;
-	t_word_list	*tmp;
-	t_list		*list_item;
-	t_list		*list_head;
-	t_list		*list_curr;
-	t_command	*command;
-	int			flag;
-
 	// head = init_word_list(line);
 	// if (!head)
 	// 	return (NULL);
 	// head = expand(head);
 	// if (!head)
 	// 	return (NULL);
+
+int	identify_word_type(t_word_desc *word)
+{
+	int	i;
+	int	flag;
+
+	i = 0;
+	if (word->word[i] == '|')
+		flag = (C_PIPE);
+	else if (word->word[i] == '>')
+	{
+		if (word->word[i + 1] == '>')
+			flag = (C_OPEN_OUT_APP);
+		flag = (C_OPEN_OUT_TRUNC);
+	}
+	else if (word->word[i] == '<')
+		flag = (C_OPEN_INFILE);
+	else
+		return (0);
+	word->flags = flag;
+	return (flag);
+}
+
+t_list	*convert_to_command_lst(t_word_list *head)
+{
+	t_word_list	*curr;
+	t_list		**list_head;
+	t_list		*list_curr;
+	t_command	*command;
+	int			flag;
+
 	curr = head;
 	list_curr = NULL;
-	list_head = list_curr;
+	list_head = &list_curr;
 	while (curr)
 	{
-		if ((curr->word && curr->word->word && curr->word->word[0] == '|') || (curr->word->flags >= C_PIPE && curr->word->flags <= C_OPEN_OUT_APP))
+		flag = identify_word_type(curr->word);
+		if (flag || curr->next == NULL)
 		{
-			if (curr->word->word[0] == '|')
-				flag = C_PIPE;
-			flag &= curr->word->flags & PIPE_OR_REDIR_MASK;
+			//flag &= curr->word->flags & PIPE_OR_REDIR_MASK;
 			command = concat_to_t_command(head, curr);
-			list_item = ft_lstnew(command);
-			if (!command || !list_item)
+			list_curr = ft_createaddback(&list_curr, (void *) command);
+			if (!command || !list_curr)
 			{
-				ft_lstclear(&list_item, ft_free_command);
+				ft_lstclear(list_head, ft_free_command);
 				free_word_list(&head);
 				return (NULL);
 			}
-			if (!list_curr)
-				list_curr = list_item;
-			else
-			{
-				list_curr->next = list_item;
-				list_curr = list_curr->next;
-			}
 			head = curr->next;
+			/* ft_lstadd_back(&list_curr, list_item); */
+			/* if (!list_curr) */
+			/* 	list_curr = list_item; */
+			/* else */
+			/* 	list_curr->next = list_item; */
+			/* list_curr = list_curr->next; */
 		}
-		tmp = curr->next;
-		free_word_desc(curr->word);
-		free(curr);
-		curr = tmp;
+		curr = curr->next;
 	}
-	return (list_head);
+	return (*list_head);
 }
 
 // concat from head up until current into one t_command
-t_command *concat_to_t_command(t_word_list *head, t_word_list *curr)
+t_command	*concat_to_t_command(t_word_list *head, t_word_list *curr)
 {
 	t_command	*command;
 	t_word_list	*tmp;
@@ -113,11 +129,8 @@ t_command *concat_to_t_command(t_word_list *head, t_word_list *curr)
 		free(command);
 	tmp = head->next;
 	if (head == curr)
-	{
-		free_word_desc(head->word);
-		free(head);
-	}
-	while (tmp != curr && head != curr)
+		return (command);
+	while (tmp != curr)
 	{
 		if (tmp->word->flags == C_VAR)// and if Redirect (make a mask for that)
 			return (NULL); //implement C_VAR handling and redirect handling here
