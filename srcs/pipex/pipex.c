@@ -6,36 +6,34 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/11 16:48:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:35:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//TODO: Katze: command not found \n execve: No such file or directory <to>
-//minishell: command not found: Katze
-//TODO: return exit code 130 from here_doc on cntl + D 
-//(by child process or by manually returning)
-//TODO: string expansion in here_doc
-//TODO: macro values for fileindicator: < for input, > for output, >> for append
-//TODO: make pipex use linked list instead of double array
-//
-int	start_pipex(int argc, char *argv[], char *envp[])
+// TODO: Katze: command not found \n execve: No such file or directory <to>
+// minishell: command not found: Katze
+// TODO: return exit code 130 from here_doc on cntl
+	// + D (by child process or by manually returning)
+// TODO: string expansion in here_doc
+// TODO: macro values for fileindicator: < for input, > for output,
+	// >> for append
+// TODO: make pipex use linked list instead of double array
+int	start_pipex(t_list **cmd_list, char *envp[])
 {
-	int		i;
-	int		fileindicator;
-	t_list	*cmd_list;
-
-	dummy_cmd_list(&cmd_list);
-	fileindicator = input_checker(argc, argv[1]);
-	i = 2;
-	if (fileindicator == 2)
-		pipheredoc(argv[i++]);
-	else
-		open_doc(argv[1], 0);
-	open_doc(argv[argc - 1], fileindicator);
+	// int		i;
+	// int		fileindicator;
+	dummy_cmd_list(cmd_list);
+	// fileindicator = input_checker(argc, argv[1]);
+	// i = 2;
+	// if (fileindicator == 2)
+	// 	pipheredoc(argv[i++]);
+	// else
+	// 	open_doc(argv[1], 0);
+	// open_doc(argv[argc - 1], fileindicator);
 	pipex(envp, cmd_list);
-	return (exec_to_stdout(envp, ft_lstlast(cmd_list)->content));
+	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
 }
 
 // opens file, dup2s over correct std fd, filekind 0:inf, 1:outf, 2:outf(append)

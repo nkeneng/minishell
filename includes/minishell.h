@@ -3,6 +3,7 @@
 
 # include "../libft/libft_full.h"
 # include "expansion_macros.h"
+# include "structs.h"
 # include "builtins.h"
 # include "command.h"
 # include "parsing.h"
@@ -20,6 +21,17 @@
 
 // just for test cases
 # include "dummy.h"
+
+// dlist
+t_dlist				*ft_dlstnew(void *content);
+t_dlist				*ft_dlstfirst(t_dlist *lst);
+int					ft_dlstsize(t_dlist *lst);
+t_dlist				*ft_dlstlast(t_dlist *lst);
+void				ft_dlstadd_back(t_dlist **lst, t_dlist *new_node);
+
+void				ft_printf_dlst(t_dlist **lst);
+void				ft_dlstclear(t_dlist **lst);
+t_dlist				*ft_createaddback(t_dlist **lst, void *content);
 
 // PIPEX
 // pipex.c
@@ -41,9 +53,13 @@ int					here_doc(char *delim);
 char				*get_commpath(char *envp[], const char *command);
 char				**get_paths(char *envp[]);
 int					make_exec(t_command *command, char *envp[]);
-int					pipex(char **envp, t_list *cmd_list);
+int					pipex(char **envp, t_list **cmd_list);
 
 // command.c
 int					exec_command(t_command *command, char *envp[], int *fd);
 int					exec_to_stdout(char **envp, t_command *command);
+
+// init_envp.c
+void				init_envp(char **env, t_list **envp);
+
 #endif

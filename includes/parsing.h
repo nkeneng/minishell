@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/15 16:19:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:53:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 // unsorted shellpromt
 char	*rl_gets(void);
-t_list	*parse_input(char *line, char **envp);
+t_list	**parse_input(char *line, char **envp);
 t_list	**convert_line_to_dlist(char *line);
 
 //missing_close.c

@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 21:02:38 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 15:36:15 by stevennke        ###   ########.fr       */
+/*   Created: 2024/10/15 15:33:15 by stevennke         #+#    #+#             */
+/*   Updated: 2024/10/15 15:35:42 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 # include "minishell.h"
 
-int		ft_cd(char *path);
-void	ft_unset(char **envp, char *key);
-void	ft_echo(char **args, int n);
-void	ft_exit(void);
-void	ft_pwd(void);
-void	ft_env(char **envp);
-void	ft_export(char *args, t_shell *shell);
+typedef struct s_shell
+{
+	t_list			*envp;
+}					t_shell;
+
+typedef struct s_dlist
+{
+	char			*content;
+	struct s_dlist	*next;
+	struct s_dlist	*prev;
+}					t_dlist;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+}					t_env;
 #endif

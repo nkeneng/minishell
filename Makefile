@@ -82,6 +82,9 @@ test: $(LIBFT_A) $(TEST_OBJS)
 	@$(CC) $(CFLAGS) -I$(HEADERS) $(TEST_OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -lcriterion -o test.out
 	@./test.out
 
+debug: all
+	lldb $(NAME)
+
 clean:
 	rm -rf $(OBJS_DIR) $(TEST_OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean

@@ -6,22 +6,15 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/09 12:28:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:52:47 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
 
 char	*rl_gets(void);
 int	append_opts(char **split_line);
-char	*ft_strappend(char *string, char *appendix);
 t_list	**convert_line_to_dlist(char *line);
-t_list	**parse_input(char *line, char **envp);
 void clean_line_whitespace(char *line);
 t_command	*get_command(char *word, char **envp);
 
@@ -49,7 +42,7 @@ t_list	**parse_input(char *line, char **envp)
 		command = get_command(split_line[i], envp);
 		if (command)
 		{
-			if (!ft_createaddback(input, command))
+			if (!ft_lstcreateaddback(input, command))
 				return (NULL);
 		}
 		else
@@ -107,7 +100,7 @@ int	append_opts(char **split_line)
 	did_append = 0;
 	while (split_line[k] && (split_line[k][0] == '-' || !ft_strchr("|<>&", split_line[k][0])))
 	{
-		split_line[i] = ft_strappend(split_line[i], split_line[k]);
+		ft_strappend(split_line[i], split_line[k]);
 		did_append = 1;
 		k++;
 	}

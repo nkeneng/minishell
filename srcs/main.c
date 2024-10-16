@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/11 17:11:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:36:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list	*args;
-	char	*line;
-	int		exec_ret;
+	t_list	*g_envp;
+	t_list	*tmp;
+	t_shell	shell;
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	while (1)
+	(void)shell;
+	int i = 0;
+	while (envp[i])
 	{
-		line = rl_gets();
-		//if (missing_close(line))
-		//	append_line(line, rl_gets());
-		args = parse_input(line, envp);
-		if (args == NULL)
-			ft_printf("has been freed");
-		exec_ret = start_pipex(0, NULL, envp);
+		if (envp[i+1] == NULL)
+			ft_printf("%s\n", envp[i]);
+		i++;
 	}
-	ft_lstclear(&args, 0);
-	return (exec_ret);
+	init_envp(envp, &g_envp);
+	shell.envp = g_envp;
+	/* ft_export("hello=world", &shell); */
+	tmp = ft_lstlast(g_envp);
+	ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key,
+		((t_env *)tmp->content)->value);
+	return (EXIT_SUCCESS);
 }

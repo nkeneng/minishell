@@ -6,13 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:05:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 12:13:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:49:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_list	*ft_createaddback(t_list **lst, void *content)
+t_list	*ft_lstcreateaddback(t_list **lst, void *content)
 {
 	t_list	*node;
 
