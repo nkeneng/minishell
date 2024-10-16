@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/15 12:06:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:11:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ executes a command. Basically, the shell does the following:
 	(see Exit Status).
 */
 
-t_list	*parse_input(char *line, char **envp)
+t_list	**parse_input(char *line, char **envp)
 {
 	// t_list		*list;
 	t_word_list	*word_list_head;

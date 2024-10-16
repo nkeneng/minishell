@@ -22,11 +22,13 @@ DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parse
 
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c) \
-		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c) \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
-		$(addprefix lst/ft_, lstcreate_addback.c free_command.c) \
+		$(addprefix lst/ft_, lstcreate_addback.c free_command.c printf_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
-		$(addprefix parser/, parse.c missing_close.c word_list.c) \
+		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c word_list3.c) \
+		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
+		init_envp.c\
+		main.c \
 		)
 
 HEADERS := ./includes

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:19:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:16:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:12:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_list	*convert_to_command_lst(t_word_list *head)
 		{
 			//flag &= curr->word->flags & PIPE_OR_REDIR_MASK;
 			command = concat_to_t_command(head, curr);
-			list_curr = ft_createaddback(&list_curr, (void *) command);
+			list_curr = ft_lstcreateaddback(&list_curr, (void *) command);
 			if (!command || !list_curr)
 			{
 				ft_lstclear(list_head, ft_free_command);
