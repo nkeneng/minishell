@@ -18,7 +18,7 @@ OBJS_DIR		= objs/
 TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
-DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser)
+DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests)
 
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c) \
@@ -28,7 +28,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c word_list3.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c\
-		main.c \
+		tests/conversion_wordlist-lst.c \
 		)
 
 HEADERS := ./includes
