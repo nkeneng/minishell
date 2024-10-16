@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:19:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/15 17:21:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:06:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,19 @@ t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);
 // 	return (0);
 // }
 
-int	main()
-{
-	t_word_list	*item0;
-	t_word_list	*item1;
-	t_word_list	*item2;
-	t_list		*lst;
-	t_word_desc	*word_desc0;
-	t_word_desc	*word_desc1;
-	t_word_desc	*word_desc2;
-
-	item2 = malloc(sizeof(t_word_list));
-	item2->next = NULL;
-	word_desc2 = malloc(sizeof(t_word_desc));
-	item2->word = word_desc2;
-	item2->word->flags = 0;
-	item2->word->word = ft_strdup("last");
-	item1 = malloc(sizeof(t_word_list));
-	item1->next = item2;
-	word_desc1 = malloc(sizeof(t_word_desc));
-	item1->word = word_desc1;
-	item1->word->flags = 0;
-	item1->word->word = ft_strdup("|");
-	item0 = malloc(sizeof(t_word_list));
-	item0->next = item1;
-	word_desc0 = malloc(sizeof(t_word_desc));
-	item0->word = word_desc0;
-	item0->word->flags = 0;
-	item0->word->word = ft_strdup("first");
-	lst = convert_to_command_lst(item1);
-	ft_printf_lst(lst, ft_printf_command);
-	return (0);
-}
+// int	main()
+// {
+// 	t_word_list	*word_list_head;
+// 	t_list		*lst;
+// 	// int		exec_ret;
+//
+// 		word_list_head = make_word_list("here we have a|test |last");
+// 		ft_printf_word_list(word_list_head);
+// 		lst = convert_to_command_lst(word_list_head);
+// 		ft_printf_lst(lst, ft_printf_command);
+// 		free_word_list(&word_list_head);
+// 	return (0);
+// }
 
 t_word_list	*init_word_list(char *line)
 {
@@ -69,10 +50,12 @@ t_word_list	*init_word_list(char *line)
 t_list	*convert_to_command_lst(t_word_list *head)
 {
 	t_word_list	*curr;
+	t_word_list	*tmp;
 	t_list		*list_item;
 	t_list		*list_head;
 	t_list		*list_curr;
 	t_command	*command;
+	int			flag;
 
 	// head = init_word_list(line);
 	// if (!head)
@@ -85,8 +68,11 @@ t_list	*convert_to_command_lst(t_word_list *head)
 	list_head = list_curr;
 	while (curr)
 	{
-		if ((head->word && head->word->word && head->word->word[0] == '|') || (head->word->flags >= C_PIPE && head->word->flags <= C_OPEN_OUT_APP))
+		if ((curr->word && curr->word->word && curr->word->word[0] == '|') || (curr->word->flags >= C_PIPE && curr->word->flags <= C_OPEN_OUT_APP))
 		{
+			if (curr->word->word[0] == '|')
+				flag = C_PIPE;
+			flag &= curr->word->flags & PIPE_OR_REDIR_MASK;
 			command = concat_to_t_command(head, curr);
 			list_item = ft_lstnew(command);
 			if (!command || !list_item)
@@ -95,9 +81,6 @@ t_list	*convert_to_command_lst(t_word_list *head)
 				free_word_list(&head);
 				return (NULL);
 			}
-			if (head->word->word[0] == '|')
-				command->flags = C_PIPE;
-			command->flags = curr->word->flags & PIPE_OR_REDIR_MASK;
 			if (!list_curr)
 				list_curr = list_item;
 			else
@@ -105,8 +88,12 @@ t_list	*convert_to_command_lst(t_word_list *head)
 				list_curr->next = list_item;
 				list_curr = list_curr->next;
 			}
+			head = curr->next;
 		}
-		curr = curr->next;
+		tmp = curr->next;
+		free_word_desc(curr->word);
+		free(curr);
+		curr = tmp;
 	}
 	return (list_head);
 }
@@ -116,27 +103,30 @@ t_command *concat_to_t_command(t_word_list *head, t_word_list *curr)
 {
 	t_command	*command;
 	t_word_list	*tmp;
-	char		*command_str;
 
 	command = malloc(sizeof(t_command));
-	command_str = ft_calloc(1, 1);
 	if (!command)
 		return (NULL);
 	command->flags = 0;
-	command->cmd = command_str;
-	tmp = head;
-	while (tmp != curr)
+	command->cmd = ft_strdup(head->word->word);
+	if (!command->cmd)
+		free(command);
+	tmp = head->next;
+	if (head == curr)
+	{
+		free_word_desc(head->word);
+		free(head);
+	}
+	while (tmp != curr && head != curr)
 	{
 		if (tmp->word->flags == C_VAR)// and if Redirect (make a mask for that)
 			return (NULL); //implement C_VAR handling and redirect handling here
-		ft_strappend(command_str, tmp->word->word);
-		free_word_desc(tmp->word);
-		tmp = tmp->next;
-		free(head);
+		ft_strappend(command->cmd, tmp->word->word);
 		head = tmp;
+		tmp = tmp->next;
+		free_word_desc(head->word);
+		free(head);
 	}
-	free_word_desc(curr->word);
-	free(curr);
 	return (command);
 }
 

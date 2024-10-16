@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/15 13:32:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/15 19:31:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	free_word_list(t_word_list **lst)
 void	free_word_desc(t_word_desc *word_desc)
 {
 	if (word_desc)
-		free(word_desc->word);
+		if (word_desc->word)
+			free(word_desc->word);
 	free(word_desc);
 	return ;
 }
