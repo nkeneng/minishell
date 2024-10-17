@@ -9,6 +9,7 @@
 # include "parsing.h"
 # include "list.h"
 # include "redirect.h"
+# include "word_flags.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>

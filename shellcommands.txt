@@ -1,27 +1,28 @@
-lmeubrin@c3a4c2:~/core/minishell$ echo "hello" >test.txt
-lmeubrin@c3a4c2:~/core/minishell$ cat test
+/core/minishell$ echo "hello" >test.txt
+/core/minishell$ cat test
 testfiles/ tests/     test.txt   
-lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i helo output
-lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i hello output
+/core/minishell$ cat test.txt > output | grep -i helo output
+/core/minishell$ cat test.txt > output | grep -i hello output
 hello
-lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i hello
-lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | cat
-lmeubrin@c3a4c2:~/core/minishell$ echo $?
+/core/minishell$ cat test.txt > output | grep -i hello
+/core/minishell$ cat test.txt > output | cat
+/core/minishell$ echo $?
 0
-lmeubrin@c3a4c2:~/core/minishell$ cat test.txt > output | grep -i hello
-lmeubrin@c3a4c2:~/core/minishell$ echo $?
+/core/minishell$ cat test.txt > output | grep -i hello
+/core/minishell$ echo $?
 1
-lmeubrin@c3a4c2:~/core/minishell$ echo "$(cat "$(ls -l)")"
+/core/minishell$ echo "$(cat "$(ls -l)")"
 pipe after file: seperate command execution
-lmeubrin@c3a4c2:~/core/minishell$ cat /dev/urandom > outfile | sleep 2
+/core/minishell$ cat /dev/urandom > outfile | sleep 2
 ^C
-lmeubrin@c3a4c2:~/core/minishell$ cat /dev/urandom | sleep 2
+/core/minishell$ cat /dev/urandom | sleep 2
 pipe after > stdout writes into pipe and uses pipe
 same as cat /dev/urandom | sleep 2
-llmeubrin@c3a4c2:~/core/minishell$ head -1 <(cat /dev/urandom)
+l/core/minishell$ head -1 <(cat /dev/urandom)
 ��*{cmfɍ�C��d��6��M�5�e�^�
 �� $,�
-lmeubrin@c3a4c2:~/core/minishell$ cat /dev/urandom | head -1meubrin@c3a4c2:~/core/minishell$ cat /dev/urandom > /dev/stdout | sleep 2
+/core/minishell$ cat /dev/urandom | head -1
+1meubrin@c3a4c2:~/core/minishell$ cat /dev/urandom > /dev/stdout | sleep 2
 
 #examples
     Command substitution with multiple levels and redirections:
@@ -84,7 +85,43 @@ case "$1" in
 esac
 
 some weird things are happening when test2 doesn't exist when followed by too many args
-lmeubrin@c3a1c3:~/core/minishell$ echo hello>test.txt | echo testing > test2 this not | echo hmm < test2 |cat >b>c<test.txt
+/core/minishell$ echo hello>test.txt | echo testing > test2 this not | echo hmm < test2 |cat >b>c<test.txt
 bash: test2: No such file or directory
-lmeubrin@c3a1c3:~/core/minishell$ echo hello>test.txt | echo testing > test2 | echo hmm < test2 |cat >b>c<test.txt
-lmeubrin@c3a1c3:~/core/minishell$ echo hello>test.txt | echo testing > test2 here not | echo hmm < test2 |cat >b>c<test.txt
+/core/minishell$ echo hello>test.txt | echo testing > test2 | echo hmm < test2 |cat >b>c<test.txt
+/core/minishell$ echo hello>test.txt | echo testing > test2 here not | echo hmm < test2 |cat >b>c<test.txt
+
+VAR="hello  spaces are kept"
+VAR='hello  spaces are kept'
+
+quotes work anywhere, if the thing after quotes are gone is valid
+ls -l > "/dev/stdout"
+
+SHELL VARIABLES ASSIGNMENT
+variable can only contain alphanum and _
+lmeubrin@c3a1c1:~$ 'spaces here'='fd'
+spaces here=fd: command not found
+lmeubrin@c3a1c1:~$ 'spaceshere'='fd'
+spaceshere=fd: command not found
+lmeubrin@c3a1c1:~$ har%=fd
+har%=fd: command not found
+
+For array assignments or compound structures, you might see parentheses:
+bash
+ARR=(item1 item2 "item with spaces")
+
+You can use command substitution within double quotes:
+
+bash
+DATE="Current date: $(date)"
+
+When assigning without quotes, Bash performs word splitting and wildcard expansion
+Double quotes allow for variable interpolation and command substitution within the assignment
+
+ls -l|var="fd"
+/core/minishell$ echo $var
+
+no output,
+but 
+ls -l||var="fd"
+ls -l&&var="fd"
+assign the variable
