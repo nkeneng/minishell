@@ -1,4 +1,4 @@
-memcheck:--leak-check=full 
+--leak-check=full 
 --show-leak-kinds=all 
 --show-reachable=yes 
 --track-fds=yes 
