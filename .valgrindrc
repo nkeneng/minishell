@@ -1,0 +1,7 @@
+memcheck:--leak-check=full 
+--show-leak-kinds=all 
+--show-reachable=yes 
+--track-fds=yes 
+--track-origins=yes 
+--trace-children=yes 
+--suppressions=./.valgrind.supp
