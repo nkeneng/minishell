@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 16:25:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:28:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_word_list	*init_word_list(char *line)
 	t_word_list	*first_item;
 	t_word_desc	*desc;
 
-	desc = create_word(line, 0);
+	desc = make_word(line, ft_strlen(line), 0);
 	if (!desc)
 		return (NULL);
 	first_item = word_list_addback(NULL, desc);

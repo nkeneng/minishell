@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 14:44:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:27:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_word_list	*split_at_squote(t_word_desc *element)
 	tmp_command = ft_calloc(sizeof(t_command), 1);
 	while (element->word[start] != '\'')
 	{
+		start++;
 	}
 	quote_start = start;
 	if (!head)
@@ -35,27 +36,6 @@ t_word_list	*split_at_squote(t_word_desc *element)
 	head = ft_calloc(sizeof(t_word_list), 1);
 	item = ft_calloc(sizeof(t_word_list), 1);
 	return (head);
-}
-
-// makes a word and puts it inside word_desc from start of line to end
-t_word_desc	*make_word(const char *line, const int end, const int flag)
-{
-	t_word_desc	*item;
-
-	item = ft_calloc(sizeof(t_word_desc), 1);
-	if (!item)
-	{
-		free(item);
-		return (NULL);
-	}
-	item->word = ft_substr(line, 0, end);
-	if (!item->word)
-	{
-		free_word_desc(item);
-		return (NULL);
-	}
-	item->flags = flag;
-	return (item);
 }
 
 //no need for this, just implement ft_is_var_name

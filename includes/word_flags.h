@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 13:02:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:19:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define W_SPLITSPACE	(1 << 14)	/* Split this word on " "*/
 # define W_NOSPLIT	(1 << 15)	/* Do not perform word splitting on this word because ifs is empty string. */
 # define W_EXPANDRHS	(1 << 16)	/* Expanding word in ${paramOPword} */
+# define W_AND		(1 << 17)	/* && operator */
+# define W_OR		(1 << 18)	/* || operator */
 # define W_DONE		(1 << 30) /* nothing else to do here */
 
 
