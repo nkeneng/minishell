@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/15 12:10:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:08:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,35 @@ t_word_list	*split_into_words(char *line);
 t_word_desc	*create_word(char *word, int flags);
 t_word_list	*get_next_word(char *line);
 t_word_list	*make_word_list(char *line);
+
+t_word_list	*split_after(t_word_desc *input, char sign, int mask)
+{
+	int			i;
+	char		*substr;
+	t_word_list	*word;
+	int			flag;
+
+	if (!input->word)
+		return (NULL);
+	flag = W_PIPE;
+	i = 0;
+	if (input->word[i] == sign)
+		while (input->word[i] == sign)
+			i++;
+	else
+		while (input->word[i] && sign != input->word[i])
+			i++;
+	substr = ft_substr(input->word, 0, i);
+	if (!substr)
+		return (NULL);
+	word = ft_calloc(sizeof(t_word_list), 1);
+	if (!word)
+		return (NULL);
+	word->word = create_word(substr, flag);
+	if (!word->word)
+		return (NULL);
+	return (word);
+}
 
 t_word_list	*split_at_operator(char *line)
 {

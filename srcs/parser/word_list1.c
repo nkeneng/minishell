@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 17:44:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:09:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ t_word_list	*make_word_list(char *line)
 	{
 		tmp = split_at_pipes(&line[i]);
 		if (!tmp)
+		{
+			free_word_list(&word_list_head);
 			return (NULL);
+		}
 		word_list->next = tmp;
 		word_list = tmp;
 		i += strlen(word_list->word->word);
@@ -45,7 +48,7 @@ t_word_list	*split_at_pipes(char *line)
 
 	if (!line)
 		return (NULL);
-	flag = 0;
+	flag = W_PIPE;
 	i = 0;
 	if (line[i] == '|')
 		while (line[i] == '|')

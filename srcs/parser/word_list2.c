@@ -6,17 +6,32 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/15 19:31:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:25:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+t_word_list	*init_word_list(char *line)
+{
+	t_word_list	*first_item;
+	t_word_desc	*desc;
+
+	desc = create_word(line, 0);
+	if (!desc)
+		return (NULL);
+	first_item = word_list_addback(NULL, desc);
+	return (first_item);
+}
+
 
 t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word)
 {
 	t_word_list	*new;
 	t_word_list	*current;
 
+	if (!word)
+		return (NULL);
 	new = malloc(sizeof(t_word_list));
 	if (!new)
 		return (NULL);
@@ -79,28 +94,4 @@ void	free_word_list(t_word_list **lst)
 			(current) = next;
 		}
 	}
-}
-
-void	free_word_desc(t_word_desc *word_desc)
-{
-	if (word_desc)
-		if (word_desc->word)
-			free(word_desc->word);
-	free(word_desc);
-	return ;
-}
-
-t_word_desc	*create_word(char *word, int flags)
-{
-	t_word_desc	*element;
-
-	element = malloc(sizeof(t_word_desc));
-	if (element == NULL)
-	{
-		free(element);
-		return (NULL);
-	}
-	element->word = word;
-	element->flags = flags;
-	return (element);
 }

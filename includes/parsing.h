@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:53:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:23:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,16 @@ t_word_list	*split_at_pipes(char *line);
 
 // word_list2.c
 t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word);
-t_word_desc *create_word(char *word, int flags);
 void		ft_printf_word_list(t_word_list *word_list);
-void		free_word_desc(t_word_desc *word_desc);
 void		free_word_list(t_word_list **lst);
 
 // word_list3.c
 t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);
 t_list	*convert_to_command_lst(t_word_list *head);
+t_word_list	*init_word_list(char *line);
 
+//word_desc.c
+int	identify_word_type(t_word_desc *word);
+t_word_desc *create_word(char *word, int flags);
+void		free_word_desc(t_word_desc *word_desc);
 #endif // !PARSING_H
