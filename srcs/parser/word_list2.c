@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 17:28:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:13:21 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word)
 	new->word = word;
 	new->next = NULL;
 	if (!word_list)
+	{
+		word_list = new;
 		return (new);
+	}
 	current = word_list;
 	while (current->next)
 		current = current->next;
@@ -77,7 +80,7 @@ void	ft_printf_word_list(t_word_list *word_list)
 	}
 }
 
-void	free_word_list(t_word_list **lst)
+int	free_word_list(t_word_list **lst)
 {
 	t_word_list	*current;
 	t_word_list	*next;
@@ -94,4 +97,5 @@ void	free_word_list(t_word_list **lst)
 			(current) = next;
 		}
 	}
+	return (errno);
 }

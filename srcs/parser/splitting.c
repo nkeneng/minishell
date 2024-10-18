@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 18:02:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:22:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ t_word_list	*split_after(t_word_desc *input, char sign)
 		else
 			while (input->word[i] && sign != input->word[i])
 				i++;
-		tmp = word_list_addback(head, make_word(&input->word[previ], i, flag));
+		tmp = word_list_addback(head, make_word(&input->word[previ], i - previ, flag));
+		if (!head)
+			head = tmp;
 		if (!tmp)
 		{
 			free_word_list(&head);
 			return (NULL);
 		}
+		previ = i;
 	}
 	return (head);
 }
