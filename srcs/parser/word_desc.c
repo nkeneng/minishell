@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:19:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 17:26:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:43:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	identify_word_type(t_word_desc *word)
 
 	i = 0;
 	if (word->word[i] == '|')
-		flag = (C_PIPE);
+		flag = (W_PIPE);
 	else if (word->word[i] == '>')
 	{
 		if (word->word[i + 1] == '>')
-			flag = (C_OPEN_OUT_APP);
-		flag = (C_OPEN_OUT_TRUNC);
+			flag = (W_OPEN_OUT_APP);
+		flag = (W_OPEN_OUT_TRUNC);
 	}
 	else if (word->word[i] == '<')
-		flag = (C_OPEN_INFILE);
+		flag = (W_OPEN_INFILE);
 	else
 		return (0);
 	word->flags = flag;

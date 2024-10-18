@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/18 11:22:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/18 13:04:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	get_flag_from_sign(char sign)
 		return (W_HASDOLLAR);
 	if (sign == '&')
 		return (W_AND);
+	if (sign == '=')
+		return (W_VAR);
 	return (0);
 }
 /**/
