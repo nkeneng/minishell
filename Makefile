@@ -29,7 +29,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 					splitting.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c\
-		tests/conversion_wordlist-lst.c \
+		tests/simple_main_for_list.c \
 		)
 
 HEADERS := ./includes
