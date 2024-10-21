@@ -6,12 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/18 10:24:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/21 10:19:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// deprecated !!! using make_word_list_new instead
 t_word_list	*make_word_list(char *line)
 {
 	t_word_list	*word_list_head;
@@ -39,6 +40,7 @@ t_word_list	*make_word_list(char *line)
 	return (word_list_head);
 }
 
+// deprecated !!! using split_after instead
 t_word_list	*split_at_pipes(char *line)
 {
 	int			i;
