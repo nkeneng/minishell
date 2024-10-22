@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 17:11:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:08:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,19 @@ executes a command. Basically, the shell does the following:
 	(see Exit Status).
 */
 
-t_list	**parse_input(char *line, char **envp)
+t_list	*parse_input(char *line, char **envp)
 {
-	// t_list		*list;
+	t_list		*lst;
 	t_word_list	*word_list_head;
 
 	(void)envp;
 	//optionally open script if strstr(line, ".sh") and read from it
-	word_list_head = make_word_list(line);
+	while (missing_close_sign(line, '\'')) // this doesn't work
+		ft_strappend(line, rl_gets()); // can't free readline allocated things!!
+	word_list_head = make_word_list_new(line);
+	ft_printf_word_list(word_list_head);
+	lst = convert_to_command_lst(word_list_head);
+	ft_printf_lst(lst, ft_printf_command);
 	free_word_list(&word_list_head);
-	return (NULL);
+	return (lst);
 }
