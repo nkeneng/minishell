@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:52:47 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:57:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ t_list	**parse_input(char *line, char **envp)
 	return (input);
 }
 
-int	convert_pipes_to_flags(t_list **list)
+//deletes an element containing just | and assigns C_PIPE to the previous one
+void	convert_pipes_to_flags(t_list **list)
 {
 	t_list		*curr;
 	t_command	*command;
@@ -83,7 +84,7 @@ int	convert_pipes_to_flags(t_list **list)
 		{
 			command = (t_command *) curr->content;
 			command->flags &= C_PIPE;
-			ft_lstdelone(curr->next, (void (*) (void *))ft_free_command);
+			ft_lstdelone(curr->next, (void (*)(void *))ft_free_command);
 		}
 		curr = curr->next;
 	}
@@ -109,29 +110,7 @@ int	append_opts(char **split_line)
 	return (k);
 }
 
-void	clean_line_whitespace(char *line)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(line);
-	if (len > 0 && line[len - 1] == '\n')
-		line[len - 1] = '\0';
-	while (line[i])
-	{
-		j = i;
-		if (line[i] == '\t')
-			line[i] = ' ';
-		while (line[j] == ' ' || line[j] == '\t')
-			j++;
-		if (j > i + 1)
-			ft_memmove(line + i, line + j, ft_strlen(line + i));
-		i++;
-	}
-}
-
+//function adds commandpath into a path fiel of the command struct
 t_command	*get_command_flag(char *word, char **envp)
 {
 	t_command	*command;

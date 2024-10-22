@@ -6,14 +6,14 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:14:14 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/21 10:12:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:35:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//checks if line is valid var name and sets flag if it is. rewrite this to only check var=
-//write different check for assignment
+//checks if line is valid var name and sets flag if it is.
+//write different check for word after assignment
 void	ft_is_var_name(t_word_desc *word)
 {
 	int	i;

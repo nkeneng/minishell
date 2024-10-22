@@ -1,0 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/22 10:49:46 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/10/22 11:10:43 by lmeubrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/minishell.h"
+
+//if not in quotes: deletes multiple spaces and converts tabs to single space
+void	clean_line_whitespace(t_word_desc *obj)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	if (obj->flags & W_DQUOTED || obj->flags & W_SQUOTED)
+		return ;
+	i = 0;
+	len = ft_strlen(obj->word);
+	if (len > 0 && obj->word[len - 1] == '\n')
+		obj->word[len - 1] = '\0';
+	while (obj->word[i])
+	{
+		j = i;
+		if (obj->word[i] == '\t')
+			obj->word[i] = ' ';
+		while (obj->word[j] == ' ' || obj->word[j] == '\t')
+			j++;
+		if (j > i + 1)
+			ft_memmove(obj->word + i, obj->word + j, ft_strlen(obj->word + i));
+		i++;
+	}
+}

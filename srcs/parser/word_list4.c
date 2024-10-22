@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:40:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 11:46:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:37:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_word_list	*expand(t_word_list *start)
 }
 
 // returns 0 if failed
-int	subword_list(t_word_list *current, t_word_list (*split)(void *))
+int	subword_list(t_word_list *current, void (*split)(void *))
 {
 	t_word_list	*word_list;
 	t_word_list	*tmp;
