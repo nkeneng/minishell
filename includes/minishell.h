@@ -60,6 +60,6 @@ int					exec_command(t_command *command, char *envp[], int *fd);
 int					exec_to_stdout(char **envp, t_command *command);
 
 // init_envp.c
-void				init_envp(char **env, t_list **envp);
+void				init_envp(char **env, t_shell *shell);
 
 #endif

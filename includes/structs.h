@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:33:15 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 15:35:42 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/10/22 15:12:34 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 
 # include "minishell.h"
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+}					t_env;
+
 typedef struct s_shell
 {
-	t_list			*envp;
+	t_env			*envp;
+	int				nb_env;
 }					t_shell;
 
 typedef struct s_dlist
@@ -27,9 +34,4 @@ typedef struct s_dlist
 	struct s_dlist	*prev;
 }					t_dlist;
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-}					t_env;
 #endif

@@ -6,54 +6,37 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:51:05 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/22 12:37:27 by snkeneng         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:46:16 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_envp(char **env, t_list **envp)
+void	init_envp(char **env, t_shell *shell)
 {
 	int		i;
 	char	**ret;
-	t_env	*tmp_env;
-	t_list *tmp;
+	t_env	tmp_env;
 
 	i = 0;
-	*envp = NULL;
-	(void)tmp;
+	while (env[i])
+		i++;
+	shell->nb_env = i;
+	shell->envp = malloc(sizeof(t_env) * (i + 1));
+	i = 0;
 	while (env[i])
 	{
-		tmp_env = malloc(sizeof(t_env));
 		ret = ft_split(env[i], '=');
-		if (!ret) {
-			ft_printf("Debug: ret is NULL\n");
-			return;
-		}
-		if (!ret[0]) {
-			ft_printf("Debug: ret[0] is NULL\n");
-			return;
-		}
-		if (!ret[1]) {
-			ft_printf("Debug: ret[1] is NULL for key %s\n", ret[0]);
+		if (!ret || !ret[0])
+			return ;
+		if (!ret[1])
 			ret[1] = ft_strdup("");
-		}
-		tmp_env->key = ft_strdup(ret[0]);
-		tmp_env->value = ft_strdup(ret[1]);
-		ft_lstcreateaddback(envp, tmp_env);
-		/* tmp = ft_lstlast(*envp); */
-		/* ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key, */
-		/* 	((t_env *)tmp->content)->value); */
+		tmp_env.key = ft_strdup(ret[0]);
+		tmp_env.value = ft_strdup(ret[1]);
+		shell->envp[i] = tmp_env;
 		i++;
 		free(ret[0]);
 		free(ret[1]);
 		free(ret);
 	}
-	/* tmp = *envp; */
-	/* while(tmp) */
-	/* { */
-	/* 	ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key, */
-	/* 		((t_env *)tmp->content)->value); */
-	/* 	tmp = tmp->next; */
-	/* } */
 }
