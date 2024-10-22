@@ -7,7 +7,6 @@ NAME = minishell
 CC := cc
 CFLAGS := -Werror -Wall -Wextra -g
 LIBS := -lreadline
-SANITIZE_NAME := $(NAME)_sanitize
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
 LIBFT := -lft
@@ -28,8 +27,8 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c conversion_to_lst.c word_desc.c \
 					splitting.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
-		init_envp.c\
-		tests/simple_main_for_list.c \
+		init_envp.c \
+		tests/conversion_wordlist-lst.c \
 		)
 
 HEADERS := ./includes
@@ -40,7 +39,15 @@ TEST_SRCS = $(filter-out $(SRCS_DIR)main.c $(SRCS_DIR)shellprompt.c, $(SRCS))
 TESTS_FILES = $(shell find ./tests -name "*_tests.c")
 TEST_OBJS = $(TEST_SRCS:$(SRCS_DIR)%.c=$(TEST_OBJS_DIR)%.o) $(TESTS_FILES:./tests/%.c=$(TEST_OBJS_DIR)%.o)
 
-.PHONY: all clean fclean re submodules libft test
+.PHONY: all clean fclean re submodules libft test parse
+
+parse: NAME = parse_program
+parse: SRCS = $(SRCS) srcs/tests/conversion_wordlist-lst.c
+parse: $(NAME)
+
+parse: NAME = parse_program
+exec: SRCS += $(SRCS) srcs/main.c
+exec: $(NAME)
 
 all: submodules $(LIBFT_A) $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:19:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/18 11:43:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:37:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,4 @@ t_word_desc	*make_word(const char *line, const int end, const int flag)
 	}
 	item->flags = flag;
 	return (item);
-}
-
-t_word_desc	*create_word(char *word, int flags)
-{
-	t_word_desc	*element;
-
-	element = malloc(sizeof(t_word_desc));
-	if (element == NULL)
-	{
-		free(element);
-		return (NULL);
-	}
-	element->word = word;
-	element->flags = flags;
-	return (element);
 }

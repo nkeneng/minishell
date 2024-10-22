@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 10:57:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:47:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,56 +19,56 @@ void clean_line_whitespace(char *line);
 t_command	*get_command(char *word, char **envp);
 
 //deprecated
-t_list	**parse_input(char *line, char **envp)
-{
-	t_list		**input;
-	t_command	*command;
-	t_list		*curr;
-	char		**split_line;
-	int			i;
-	int			list_i;
-	int			k;
-
-	i = 0;
-	clean_line_whitespace(line);
-	split_line = ft_split(line, ' ');
-	if (!split_line || !split_line[0])
-	{
-		free_char_array(split_line, 0);
-		return (NULL);
-	}
-	while (split_line[i] && split_line[i + 1] != NULL)
-	{
-		command = get_command(split_line[i], envp);
-		if (command)
-		{
-			if (!ft_lstcreateaddback(input, command))
-				return (NULL);
-		}
-		else
-			break ;
-		k = append_opts(&split_line[i]);
-		if (k)
-		{
-			free(command->cmd);
-			command->cmd = split_line[i];
-		}
-		i += k;
-		i++;
-	}
-	// only one command or last command
-	if (split_line[i] && split_line[i + 1] == NULL)
-		command = get_command(split_line[i], envp);
-		if (command)
-			input[list_i] = ft_lstnew(command);
-	else
-	{
-		free_char_array(split_line, 0);
-		return (NULL);
-	}
-	input = convert_line_to_dlist(line);
-	return (input);
-}
+/* t_list	**parse_input(char *line, char **envp) */
+/* { */
+/* 	t_list		**input; */
+/* 	t_command	*command; */
+/* 	t_list		*curr; */
+/* 	char		**split_line; */
+/* 	int			i; */
+/* 	int			list_i; */
+/* 	int			k; */
+/**/
+/* 	i = 0; */
+/* 	clean_line_whitespace(line); */
+/* 	split_line = ft_split(line, ' '); */
+/* 	if (!split_line || !split_line[0]) */
+/* 	{ */
+/* 		free_char_array(split_line, 0); */
+/* 		return (NULL); */
+/* 	} */
+/* 	while (split_line[i] && split_line[i + 1] != NULL) */
+/* 	{ */
+/* 		command = get_command(split_line[i], envp); */
+/* 		if (command) */
+/* 		{ */
+/* 			if (!ft_lstcreateaddback(input, command)) */
+/* 				return (NULL); */
+/* 		} */
+/* 		else */
+/* 			break ; */
+/* 		k = append_opts(&split_line[i]); */
+/* 		if (k) */
+/* 		{ */
+/* 			free(command->cmd); */
+/* 			command->cmd = split_line[i]; */
+/* 		} */
+/* 		i += k; */
+/* 		i++; */
+/* 	} */
+/* 	// only one command or last command */
+/* 	if (split_line[i] && split_line[i + 1] == NULL) */
+/* 		command = get_command(split_line[i], envp); */
+/* 		if (command) */
+/* 			input[list_i] = ft_lstnew(command); */
+/* 	else */
+/* 	{ */
+/* 		free_char_array(split_line, 0); */
+/* 		return (NULL); */
+/* 	} */
+/* 	input = convert_line_to_dlist(line); */
+/* 	return (input); */
+/* } */
 
 //deletes an element containing just | and assigns C_PIPE to the previous one
 void	convert_pipes_to_flags(t_list **list)

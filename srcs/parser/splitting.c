@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/18 13:04:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:32:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 /* t_word_list	*get_next_word(char *line); */
 /* t_word_list	*make_word_list(char *line); */
 
-
-// use this to split after ' ' or '=' or '|' or << or >> or < or >
-t_word_list	*split_after(t_word_desc *input, char sign)
+// use this to create new element containting one or multiple consecutive
+// ' ' or '=' or '|' or << or >> or < or >
+t_word_list	*split_around(t_word_desc *input, char sign)
 {
 	int			i;
 	int			previ;
@@ -32,12 +32,7 @@ t_word_list	*split_after(t_word_desc *input, char sign)
 	previ = 0;
 	while (input->word[i])
 	{
-		if (input->word[i] == sign)
-			while (input->word[i] == sign)
-				i++;
-		else
-			while (input->word[i] && sign != input->word[i])
-				i++;
+		i += (next_word_till(&input->word[i], sign));
 		tmp = word_list_addback(head, make_word(&input->word[previ], i - previ, flag));
 		if (!head)
 			head = tmp;
@@ -49,6 +44,21 @@ t_word_list	*split_after(t_word_desc *input, char sign)
 		previ = i;
 	}
 	return (head);
+}
+
+//returns iterator after continuing over sign or until next letter would be sign
+int	next_word_till(char *line, char sign)
+{
+	int	i;
+
+	i = 0;
+	if (line[i] == sign)
+		while (line[i] == sign)
+			i++;
+	else
+		while (line[i] && sign != line[i])
+			i++;
+	return (i);
 }
 
 int	get_flag_from_sign(char sign)

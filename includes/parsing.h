@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/18 09:58:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:04:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@
 # include "../libft/libft_full.h"
 
 // unsorted shellpromt
-char	*rl_gets(void);
-t_list	**parse_input(char *line, char **envp);
 t_list	**convert_line_to_dlist(char *line);
+
+// reading.c
+char	*rl_gets(void);
+
+//parse.c
+t_list	*parse_input(char *line, char **envp);
 
 // splitting.c 
 int			get_flag_from_sign(char sign);
-t_word_list	*split_after(t_word_desc *input, char sign);
+t_word_list	*split_around(t_word_desc *input, char sign);
+int			next_word_till(char *line, char sign);
 
 //missing_close.c
 int	missing_close_sign(char *line, char sign);
@@ -36,7 +41,7 @@ t_word_list	*make_word_list_new(char *line);
 // word_list2.c
 t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word);
 void		ft_printf_word_list(t_word_list *word_list);
-int			free_word_list(t_word_list **lst);
+void		*free_word_list(t_word_list **lst);
 
 // word_list3.c
 t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);

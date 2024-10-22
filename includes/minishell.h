@@ -5,10 +5,10 @@
 # include "expansion_macros.h"
 # include "structs.h"
 # include "builtins.h"
+# include "redirect.h"
 # include "command.h"
 # include "parsing.h"
 # include "list.h"
-# include "redirect.h"
 # include "word_flags.h"
 # include <errno.h>
 # include <fcntl.h>
