@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/16 16:36:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:38:02 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)shell;
+	(void)tmp;
+	(void)g_envp;
 	int i = 0;
 	while (envp[i])
 	{
@@ -28,11 +30,19 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("%s\n", envp[i]);
 		i++;
 	}
-	init_envp(envp, &g_envp);
-	shell.envp = g_envp;
-	/* ft_export("hello=world", &shell); */
-	tmp = ft_lstlast(g_envp);
-	ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key,
-		((t_env *)tmp->content)->value);
+	shell.envp = NULL;
+	init_envp(envp, &shell.envp);
+	 ft_export("hello=world", &shell);
+	 ft_export("PATH=world", &shell);
+	tmp = shell.envp;
+	while(tmp)
+	{
+		ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key,
+			((t_env *)tmp->content)->value);
+		tmp = tmp->next;
+	}
+	/* tmp = ft_lstlast(g_envp); */
+	/* ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key, */
+	/* 	((t_env *)tmp->content)->value); */
 	return (EXIT_SUCCESS);
 }
