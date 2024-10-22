@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:55:44 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:27:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:09:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_printf_lst(t_list *lst, int (*print)(void*))
 	count = 0;
 	while (lst)
 	{
-		ft_printf("%d:\n", i++);
+		ft_printf("%d:", i++);
 		count += print(lst->content);
 		lst = lst->next;
 	}
@@ -34,9 +34,10 @@ int	ft_printf_command(void *command)
 	int			count;
 
 	cmd = (t_command *) command;
-	count = ft_printf("%s\n", cmd->cmd);
-	count += ft_printf("%d\n", cmd->flags);
+	count = ft_printf("	%s\n", cmd->cmd);
+	count += ft_printf("	%d\n", cmd->flags);
 	if (cmd->redirects)
-		count += ft_printf("has redirects\n");
+		count += ft_printf("	has redirects\n");
+	count += ft_printf("\n");
 	return (count);
 }

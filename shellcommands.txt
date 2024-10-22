@@ -125,3 +125,13 @@ but
 ls -l||var="fd"
 ls -l&&var="fd"
 assign the variable
+
+ASSIGNMENTS
+export PATH=$PATH:/new/path
+
+QUOTES BEHAVIOUR
+lmeubrin@c3a1c1:~$ export VAR="$HOME love 'come $HOME'"
+lmeubrin@c3a1c1:~$ echo $VAR
+/home/lmeubrin love 'come /home/lmeubrin'
+
+single quotes inside double quotes don't do anything!!
