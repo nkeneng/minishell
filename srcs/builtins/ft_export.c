@@ -6,11 +6,25 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 13:18:07 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 16:57:56 by snkeneng         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:41:52 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+int key_exist(char *key,t_list *envp)
+{
+	t_list *tmp;
+	tmp = envp;
+	while (tmp)
+	{
+		if (ft_strncmp(((t_env *)tmp->content)->key, key, ft_strlen(key)) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 void	ft_setenv(char *key, char *value, t_list *envp)
 {
@@ -38,6 +52,8 @@ void	ft_export(char *args, t_shell *shell)
 	{
 		ret = ft_split(args, '=');
 		if (!ret)
+			return ;
+		if (key_exist(ret[0], shell->envp))
 			return ;
 		ft_setenv(ret[0], ret[1], shell->envp);
 		free(ret[0]);

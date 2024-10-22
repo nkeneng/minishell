@@ -28,7 +28,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c word_list3.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c\
-		tests/conversion_wordlist-lst.c \
+		main.c \
 		)
 
 HEADERS := ./includes
