@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 14:04:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:25:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_word_list	*init_word_list(char *line);
 
 //word_desc.c
 int	identify_word_type(t_word_desc *word);
+int	sign_to_flag(char sign);
 t_word_desc *create_word(char *word, int flags);
 void		free_word_desc(t_word_desc *word_desc);
 t_word_desc	*make_word(const char *line, const int end, const int flag);

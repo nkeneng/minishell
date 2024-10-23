@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 16:32:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:15:30 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ t_word_list	*split_at_squote(t_word_desc *element)
 	head = NULL;
 	start = 0;
 	while (element->word[start] != '\'')
-	{
 		start++;
-	}
 	quote_start = start;
 	if (!head)
 		start = 0;
@@ -37,24 +35,57 @@ t_word_list	*split_at_squote(t_word_desc *element)
 	return (head);
 }
 
+// returns the i that it stopped at, fills to_fill with content from line 
+// until it hits a valid delim (|, <, >, "", '')
+// or until the next one of that kind is hit
+int	fill_with_token(char *line, t_word_desc *to_fill)
+{
+	int	i;
+	
+	i = 0;
+	if (!sign_to_flag(line[0]))
+	{
+		while (!sign_to_flag(line[i]))
+			i++;
+	}
+	else
+		i = next_word_till(line, line[0]);
+	to_fill = make_word(line, i, sign_to_flag(line[0]));
+	return (i);
+}
+
 t_word_list	*split_at_quote(char *line)
 {
 	t_word_list	*head;
 	t_word_list	*item;
+	int			start;
 	int			i;
+	int			sign;
 
-	i = 0;
-	if (!line[0])
-		return (NULL);
-	while (line [i] && line[i] != '\'' || line[i] != '"')
-		i++;
-	if (i)
-		head = wordlist_from_line(head, line, i, 0);
-	else
-		
+	head = NULL;
+	i = 1;
+	start = 0;
+	while (line[start])
+	{
+		while (line[start] && line[start] != '\'' || line[start] != '"')
+			start++;
+		sign = line[start];
+		if (start)
+			item = wordlist_from_line(head, line, start, 0);
+		if (!item)
+			return (NULL);
+		while (line[start + i] != sign)
+			i++;
+		item = wordlist_from_line(head, &line[start], i, sign_to_flag(sign));
+		if (!item)
+			return (NULL);
+		start = i + 1;
+	}
 	return (head);
 }
 
+// returns head, and if head NULL, error occured and list was freed.
+// puts string with size inside t_word_desc and adds that to the end of the list
 t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag)
 {
 	t_word_list	*item;
