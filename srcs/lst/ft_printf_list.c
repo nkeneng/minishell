@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:55:44 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 14:09:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:55:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_printf_command(void *command)
 	int			count;
 
 	cmd = (t_command *) command;
-	count = ft_printf("	%s\n", cmd->cmd);
+	count = ft_printf_char_array(cmd->cmd);
 	count += ft_printf("	%d\n", cmd->flags);
 	if (cmd->redirects)
 		count += ft_printf("	has redirects\n");

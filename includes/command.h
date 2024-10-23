@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:32:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:50:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define PIPE_OR_REDIR_MASK (C_PIPE | C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP)
 /* A structure which represents a command. */
 typedef struct t_command {
-	char	*cmd;		/* Zero terminated string. */
+	char	**cmd;		/* Zero terminated string. */
 	t_redirect	*redirects;	/* Redirections associated with this command. */
 	int	flags;		/* Flags associated with this command. */
 } t_command;
