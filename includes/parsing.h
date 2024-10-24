@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 12:42:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:58:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	missing_close_bracket(char *line);
 
 // word_list1.c
 t_word_list	*make_word_list(char *line);
-t_word_list	*split_at_pipes(char *line);
+t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag);
 
 // word_list2.c
 t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word);
