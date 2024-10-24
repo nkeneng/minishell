@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 14:00:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:53:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ executes a command. Basically, the shell does the following:
 
 t_list	*parse_input(char *line, char **envp)
 {
-	t_list		*lst;
+	/* t_list		*lst; */
 	t_word_list	*word_list_head;
 
 	(void)envp;
@@ -42,8 +42,8 @@ t_list	*parse_input(char *line, char **envp)
 		ft_strjoin(line, rl_gets()); // can't free readline allocated things!!
 	word_list_head = make_word_list(line);
 	ft_printf_word_list(word_list_head);
-	lst = convert_to_command_lst(word_list_head);
-	ft_printf_lst(lst, ft_printf_command);
+	/* lst = convert_to_command_lst(word_list_head); */
+	/* ft_printf_lst(lst, ft_printf_command); */
 	free_word_list(&word_list_head);
-	return (lst);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:19:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/23 16:50:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:26:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_list	*convert_to_command_lst(t_word_list *head)
 	while (curr)
 	{
 		flag = identify_word_type(curr->word);
-		if (flag || curr->next == NULL)
+		if (!flag || curr->next == NULL)
 		{
-			//flag &= curr->word->flags & PIPE_OR_REDIR_MASK;
+			flag &= curr->word->flags & PIPE_OR_REDIR_MASK;
 			command = concat_to_t_command(head, curr);
 			list_curr = ft_lstcreateaddback(&list_curr, (void *) command);
 			if (!command || !list_curr)
@@ -45,7 +45,6 @@ t_list	*convert_to_command_lst(t_word_list *head)
 	}
 	return (list_head);
 }
-
 
 // heads up, this was majorly changed, idk if working...
 // concat from head up until current into one t_command

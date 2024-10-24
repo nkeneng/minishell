@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 12:44:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:28:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,22 @@
 t_word_list	*split_for_var(char *line);
 t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag);
 
-t_word_list	*split_at_squote(t_word_desc *element)
-{
-	t_word_list	*head;
-	t_word_list	*item;
-	int			start;
-	int			quote_start;
-	int			end;
-
-	head = NULL;
-	start = 0;
-	while (element->word[start] != '\'')
-		start++;
-	quote_start = start;
-	if (!head)
-		start = 0;
-	head = ft_calloc(sizeof(t_word_list), 1);
-	item = ft_calloc(sizeof(t_word_list), 1);
-	return (head);
-}
-
-// returns the i that it stopped at, fills to_fill with content from line 
-// until it hits a valid delim (|, <, >, "", '')
+// returns the i that it stopped at, fills to_fill with content from line
+// until it hits a valid delim (|, <, >, "", '', ' ')
 // or until the next one of that kind is hit
 int	fill_with_token(char *line, t_word_desc *to_fill)
 {
 	int	i;
-	
+
 	i = 0;
-	if (!sign_to_flag(line[0]))
+	if (!sign_to_flag(line))
 	{
-		while (!sign_to_flag(line[i]))
+		while (!sign_to_flag(&line[i]))
 			i++;
 	}
 	else
 		i = next_word_till(line, line[0]);
-	to_fill = make_word(line, i, sign_to_flag(line[0]));
+	to_fill = make_word(line, i, sign_to_flag(line));
 	return (i);
 }
 
@@ -58,28 +38,26 @@ t_word_list	*split_at_quote(char *line)
 {
 	t_word_list	*head;
 	t_word_list	*item;
-	int			start;
+	int			st;
 	int			i;
-	char		sign;
 
 	head = NULL;
 	i = 1;
-	start = 0;
-	while (line[start])
+	st = 0;
+	while (line[st])
 	{
-		while (line[start] && line[start] != '\'' || line[start] != '"')
-			start++;
-		sign = line[start];
-		if (start)
-			item = wordlist_from_line(head, line, start, 0);
+		while (line[st] && (line[st] != '\'' || line[st] != '"'))
+			st++;
+		if (st)
+			item = wordlist_from_line(head, line, st, 0);
 		if (!item)
 			return (NULL);
-		while (line[start + i] != sign)
+		while (line[st + i] != line[st])
 			i++;
-		item = wordlist_from_line(head, &line[start], i, sign_to_flag(&sign));
+		item = wordlist_from_line(head, &line[st], i, sign_to_flag(&line[st]));
 		if (!item)
 			return (NULL);
-		start = i + 1;
+		st = i + 1;
 	}
 	return (head);
 }
@@ -104,11 +82,11 @@ t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag)
 t_word_list	*split_for_var(char *line)
 {
 	t_word_list	*head;
-	t_word_desc	*word;
 	int			i;
 	int			start;
 
 	i = 1;
+	head = NULL;
 	while (line[i] && line[i] != '=')
 		i++;
 	start = i;

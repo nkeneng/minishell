@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:14:14 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 12:02:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:28:21 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 void	ft_is_var_name(t_word_desc *word)
 {
 	int	i;
-	int	equals;
 
 	if (word->flags & (W_SQUOTED | W_DQUOTED))
 		return ;
