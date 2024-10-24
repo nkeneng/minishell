@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/23 17:15:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:44:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_word_list	*split_at_quote(char *line)
 	t_word_list	*item;
 	int			start;
 	int			i;
-	int			sign;
+	char		sign;
 
 	head = NULL;
 	i = 1;
@@ -76,7 +76,7 @@ t_word_list	*split_at_quote(char *line)
 			return (NULL);
 		while (line[start + i] != sign)
 			i++;
-		item = wordlist_from_line(head, &line[start], i, sign_to_flag(sign));
+		item = wordlist_from_line(head, &line[start], i, sign_to_flag(&sign));
 		if (!item)
 			return (NULL);
 		start = i + 1;

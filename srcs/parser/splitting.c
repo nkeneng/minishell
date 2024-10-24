@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 12:32:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:09:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,6 @@ int	next_word_till(char *line, char sign)
 	return (i);
 }
 
-int	get_flag_from_sign(char sign)
-{
-	if (sign == '\'')
-		return (W_SQUOTED);
-	if (sign == '"')
-		return (W_DQUOTED);
-	if (sign == '|')
-		return (W_EXECUTE);
-	if (sign == '$')
-		return (W_HASDOLLAR);
-	if (sign == '&')
-		return (W_AND);
-	if (sign == '=')
-		return (W_VAR);
-	return (0);
-}
 /**/
 /* //Breaks the input into words and operators, obeying the quoting rules  */
 /* //described in Quoting. These tokens are separated by metacharacters.  */
