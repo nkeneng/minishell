@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:53:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/14 12:03:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:33:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,3 @@ int	missing_close_bracket(char *line)
 	}
 	return (open);
 }
-
-//main to test missing_close functions
-/* int	main(int argc, char **argv) */
-/* { */
-/* 	(void)argc; */
-/* 	ft_printf("string:\n%s\n", argv[1]); */
-/* 	ft_printf("contains closing brackets: %d\n", missing_close_bracket(argv[1])); */
-/* 	ft_printf("contains closing single quote: %d\n", missing_close_sign(argv[1], '\'')); */
-/* 	ft_printf("contains closing double quote: %d\n", missing_close_sign(argv[1], '"')); */
-/* } */
