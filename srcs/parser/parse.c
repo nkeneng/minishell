@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 12:04:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:00:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_list	*parse_input(char *line, char **envp)
 	(void)envp;
 	//optionally open script if strstr(line, ".sh") and read from it
 	while (missing_close_sign(line, '\'')) // this doesn't work
-		ft_strappend(line, rl_gets()); // can't free readline allocated things!!
+		ft_strjoin(line, rl_gets()); // can't free readline allocated things!!
 	word_list_head = make_word_list(line);
 	ft_printf_word_list(word_list_head);
 	lst = convert_to_command_lst(word_list_head);
