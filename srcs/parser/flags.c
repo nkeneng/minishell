@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 13:53:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/25 08:50:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 //gets flag from beginning of word_desc->word and assigns flag to word
 int	identify_word_type(t_word_desc *word)
 {
-	int	i;
 	int	flag;
 
-	i = 0;
 	flag = sign_to_flag(word->word);
 	word->flags = flag;
 	return (flag);
