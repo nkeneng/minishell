@@ -19,16 +19,15 @@ HEADER_DIR		= includes/
 
 DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests)
 
+#		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
-		$(addprefix dummy_helpers/, fake_commands.c) \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
 		$(addprefix lst/ft_, lstcreate_addback.c free_command.c printf_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c conversion_to_lst.c word_desc.c \
-					splitting.c) \
+		splitting.c cleanup.c flags.c quotes.c vars.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c \
-		tests/conversion_wordlist-lst.c \
 		)
 
 HEADERS := ./includes
@@ -41,16 +40,22 @@ TEST_OBJS = $(TEST_SRCS:$(SRCS_DIR)%.c=$(TEST_OBJS_DIR)%.o) $(TESTS_FILES:./test
 
 .PHONY: all clean fclean re submodules libft test parse
 
-parse: NAME = parse_program
-parse: SRCS = $(SRCS) srcs/tests/conversion_wordlist-lst.c
-parse: $(NAME)
+parse: NAME = parse_minishell
+parse: MAIN = srcs/tests/test_word_list.c
+parse: build
 
-parse: NAME = parse_program
-exec: SRCS += $(SRCS) srcs/main.c
-exec: $(NAME)
+exec: NAME = exec_minishell
+exec: MAIN = srcs/main.c
+exec: build
 
 all: submodules $(LIBFT_A) $(NAME)
 
+build: $(OBJS) $(LIBFT_A)
+	@echo "Compiling $(MAIN)..."
+	@$(CC) $(CFLAGS) -I$(HEADERS) -c $(MAIN) -o $(OBJS_DIR)$(notdir $(MAIN:.c=.o))
+	@echo "Linking executable $(NAME)..."
+	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(OBJS_DIR)$(notdir $(MAIN:.c=.o)) $(INCLUDES) $(LIBFT) $(LIBS) -o $(NAME)
+	@echo "done"
 run: all
 	./$(NAME)
 
@@ -61,9 +66,9 @@ $(TEST_OBJS_DIR):
 	@echo "Creating Test Obj directory.."
 	@mkdir -p $(TEST_OBJS_DIR)
 
-$(NAME): $(OBJS) $(LIBFT_A)
+$(NAME): $(OBJS) $(LIBFT_A) $(MAIN:.c=.o)
 	@echo "Linking executable $(NAME)..."
-	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
+	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
 	@echo "done"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(DIRS)
@@ -96,7 +101,7 @@ debug: all
 	lldb $(NAME)
 
 clean:
-	rm -rf $(OBJS_DIR) $(TEST_OBJS_DIR)
+	rm -rf $(OBJS_DIR) $(TEST_OBJS_DIR) $(MAIN:.c=.o)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
