@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:54:18 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 14:56:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/25 11:10:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int	main(int argc, char **argv, char **envp)
 		line = rl_gets();
 		lst = parse_input(line, envp);
 	}
+	ft_lstclear(&lst, ft_free_command);
 	return (0);
 }

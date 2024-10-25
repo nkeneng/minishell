@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 15:57:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/25 11:01:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 // returns the i that it stopped at, fills to_fill with content from line
 // until it hits a valid delim (|, <, >, "", '', ' ')
 // or until the next one of that kind is hit
-int	fill_with_token(char *line, t_word_desc *to_fill)
+int	fill_with_token(char *line, t_word_list *to_fill)
 {
 	int	i;
+	t_word_desc *desc;
 
 	i = 0;
 	if (!sign_to_flag(line))
@@ -27,7 +28,8 @@ int	fill_with_token(char *line, t_word_desc *to_fill)
 	}
 	else
 		i = next_word_till(line, line[0]);
-	to_fill = make_word(line, i, sign_to_flag(line));
+	desc = make_word(line, i, sign_to_flag(line));
+	to_fill->word = desc;
 	return (i);
 }
 

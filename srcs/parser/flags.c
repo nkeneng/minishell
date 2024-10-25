@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/25 08:50:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/25 11:07:31 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,34 @@ int	is_pipe_or_redirect(char *sign)
 	return (0);
 }
 
-// converts any sign into all possible flags
-int	sign_to_flag(char *sign)
+int	is_quote(char *sign)
 {
 	if (*sign == '"')
 		return (W_DQUOTED);
 	if (*sign == '\'')
 		return (W_SQUOTED);
+	return (0);
+}
+
+int	is_var(char *sign)
+{
 	if (*sign == '$')
 		return (W_VAR);
 	if (*sign == '=')
 		return (W_ASSIGNMENT);
+	return (0);
+}
+
+// converts any sign into all possible flags
+int	sign_to_flag(char *sign)
+{
+	int	i;
+	
+	i = is_quote(sign);
+	if (i)
+		return (i);
+	i = is_var(sign);
+	if (i)
+		return (i);
 	return (is_pipe_or_redirect(sign));
 }

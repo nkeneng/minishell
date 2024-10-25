@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 12:09:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/25 11:06:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 /* t_word_list	*get_next_word(char *line); */
 /* t_word_list	*make_word_list(char *line); */
 
+// TODO: check length of metachar seperator
+
 // use this to create new element containting one or multiple consecutive
-// ' ' or '=' or '|' or << or >> or < or >
+// '$' or '=' or '&' or '|' or << or >> or < or >
 t_word_list	*split_around(t_word_desc *input, char sign)
 {
 	int			i;
@@ -32,7 +34,7 @@ t_word_list	*split_around(t_word_desc *input, char sign)
 	previ = 0;
 	while (input->word[i])
 	{
-		i += (next_word_till(&input->word[i], sign));
+		i += (next_word_till_metachar(&input->word[i]));
 		tmp = word_list_addback(head, make_word(&input->word[previ], i - previ, flag));
 		if (!head)
 			head = tmp;
@@ -44,6 +46,32 @@ t_word_list	*split_around(t_word_desc *input, char sign)
 		previ = i;
 	}
 	return (head);
+}
+
+int	next_word_till_metachar(char *line)
+{
+	int		i;
+	char	sign;
+
+	i = 0;
+	sign = *line;
+	while (line[i])
+	{
+		if (is_quote(line))
+		{
+			while (line[i] != sign)
+				i++;
+			if (line[i + 1])
+				return (i++);
+		}
+		else if (sign_to_flag(line))
+			while (line[i] == sign)
+				i++;
+		else
+			while (line[i] && !sign_to_flag(&line[i]))
+				i++;
+	}
+	return (i);
 }
 
 //returns iterator after continuing over sign or until next letter would be sign
