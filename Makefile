@@ -50,9 +50,9 @@ build: $(OBJS) $(LIBFT_A)
 run: all
 	./$(NAME)
 
-# parse: NAME = parse_minishell
-# parse: MAIN = srcs/tests/test_word_list.c
-# parse: build
+parse: NAME = parse_minishell
+parse: MAIN = srcs/tests/test_word_list.c
+parse: build
 
 exec: NAME = exec_minishell
 exec: MAIN = srcs/main.c
