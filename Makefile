@@ -25,7 +25,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix lst/ft_, lstcreate_addback.c free_command.c printf_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
-		init_envp.c \
+		init_envp.c main.c \
 		)
 
 HEADERS := ./includes
@@ -38,14 +38,6 @@ TEST_OBJS = $(TEST_SRCS:$(SRCS_DIR)%.c=$(TEST_OBJS_DIR)%.o) $(TESTS_FILES:./test
 
 .PHONY: all clean fclean re submodules libft test parse
 
-# parse: NAME = parse_minishell
-# parse: MAIN = srcs/tests/test_word_list.c
-# parse: build
-
-exec: NAME = exec_minishell
-exec: MAIN = srcs/main.c
-exec: build
-
 all: submodules $(LIBFT_A) $(NAME)
 
 build: $(OBJS) $(LIBFT_A)
@@ -54,8 +46,17 @@ build: $(OBJS) $(LIBFT_A)
 	@echo "Linking executable $(NAME)..."
 	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(OBJS_DIR)$(notdir $(MAIN:.c=.o)) $(INCLUDES) $(LIBFT) $(LIBS) -o $(NAME)
 	@echo "done"
+
 run: all
 	./$(NAME)
+
+# parse: NAME = parse_minishell
+# parse: MAIN = srcs/tests/test_word_list.c
+# parse: build
+
+exec: NAME = exec_minishell
+exec: MAIN = srcs/main.c
+exec: build
 
 $(DIRS):
 	mkdir -p $@
