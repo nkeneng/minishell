@@ -1,8 +1,10 @@
 name: Compile Check on Merge to Main
 
-# Trigger the workflow on every push to the main branch
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
