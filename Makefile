@@ -47,6 +47,8 @@ build: $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(OBJS_DIR)$(notdir $(MAIN:.c=.o)) $(INCLUDES) $(LIBFT) $(LIBS) -o $(NAME)
 	@echo "done"
 
+#hello world
+
 run: all
 	./$(NAME)
 
