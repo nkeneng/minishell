@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/25 10:59:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:39:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*rl_gets(void);
 t_list	*parse_input(char *line, char **envp);
 
 // splitting.c 
-t_word_list	*split_around(t_word_desc *input, char sign);
+t_word_list	*split_around(t_word_desc *input);
 int			next_word_till(char *line, char sign);
 int	next_word_till_metachar(char *line);
 

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/25 11:06:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:38:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 // use this to create new element containting one or multiple consecutive
 // '$' or '=' or '&' or '|' or << or >> or < or >
-t_word_list	*split_around(t_word_desc *input, char sign)
+t_word_list	*split_around(t_word_desc *input)
 {
 	int			i;
 	int			previ;
@@ -29,12 +29,12 @@ t_word_list	*split_around(t_word_desc *input, char sign)
 	int			flag;
 
 	head = NULL;
-	flag = get_flag_from_sign(sign);
 	i = 0;
 	previ = 0;
 	while (input->word[i])
 	{
 		i += (next_word_till_metachar(&input->word[i]));
+		flag = get_flag_from_sign(input->word[i]);
 		tmp = word_list_addback(head, make_word(&input->word[previ], i - previ, flag));
 		if (!head)
 			head = tmp;
@@ -70,6 +70,7 @@ int	next_word_till_metachar(char *line)
 		else
 			while (line[i] && !sign_to_flag(&line[i]))
 				i++;
+		return (i);
 	}
 	return (i);
 }
