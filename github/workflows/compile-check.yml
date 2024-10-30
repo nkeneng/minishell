@@ -1,0 +1,31 @@
+name: Compile Check on Merge to Main
+
+# Trigger the workflow on every push to the main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code in the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install necessary dependencies
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make libreadline-dev
+
+      # Run the make command to compile the project
+      - name: Compile with Make
+        run: make
+
+      # Clean up build artifacts after successful compile
+      - name: Clean Up
+        if: always()
+        run: make fclean
