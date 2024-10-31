@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/28 14:38:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:09:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,21 @@ int	next_word_till_metachar(char *line)
 
 	i = 0;
 	sign = *line;
-	while (line[i])
+	if (is_quote(line))
 	{
-		if (is_quote(line))
-		{
-			while (line[i] != sign)
-				i++;
-			if (line[i + 1])
-				return (i++);
-		}
-		else if (sign_to_flag(line))
-			while (line[i] == sign)
-				i++;
-		else
-			while (line[i] && !sign_to_flag(&line[i]))
-				i++;
-		return (i);
+		i++;
+		while (line[i] != sign)
+			i++;
+		if (line[i++])
+			return (i++);
 	}
+	else if (sign_to_flag(line))
+		while (line[i] == sign)
+			i++;
+	else
+		while (line[i] && !sign_to_flag(&line[i]))
+			i++;
+	i += ft_whitespace_seperator(&line[i]);
 	return (i);
 }
 

@@ -6,12 +6,23 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/28 14:34:16 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:42:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// takes a line started from character to check and returns number of characters
+// that are whitespaces in a row
+int	ft_whitespace_seperator(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\n' || line[i] == '\t')
+		i++;
+	return (0);
+}
 //gets flag from beginning of word_desc->word and assigns flag to word
 int	identify_word_type(t_word_desc *word)
 {

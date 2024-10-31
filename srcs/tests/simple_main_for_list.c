@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:02:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/28 14:26:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:05:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_word_list	*word_list_head;
 	// t_list		*lst;
-	char		line[] = "Hello|word | space$here";
+	char		line[] = "Hello|w\"ord |\"	 space$here 		| var=this";
 	// int		exec_ret;
 	(void)argc;
 	(void)argv;
