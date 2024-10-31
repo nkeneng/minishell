@@ -38,6 +38,14 @@ TEST_OBJS = $(TEST_SRCS:$(SRCS_DIR)%.c=$(TEST_OBJS_DIR)%.o) $(TESTS_FILES:./test
 
 .PHONY: all clean fclean re submodules libft test parse
 
+parse: NAME = parse_minishell
+parse: MAIN = srcs/tests/test_word_list.c
+parse: build
+
+exec: NAME = exec_minishell
+exec: MAIN = srcs/main.c
+exec: build
+
 all: submodules $(LIBFT_A) $(NAME)
 
 build: $(OBJS) $(LIBFT_A)
@@ -50,13 +58,6 @@ build: $(OBJS) $(LIBFT_A)
 run: all
 	./$(NAME)
 
-parse: NAME = parse_minishell
-parse: MAIN = srcs/tests/test_word_list.c
-parse: build
-
-exec: NAME = exec_minishell
-exec: MAIN = srcs/main.c
-exec: build
 
 $(DIRS):
 	mkdir -p $@
