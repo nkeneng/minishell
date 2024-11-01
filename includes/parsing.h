@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/31 11:43:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:44:18 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ t_word_list	*split_around(t_word_desc *input);
 int			next_word_till(char *line, char sign);
 int	next_word_till_metachar(char *line);
 
-//flags.c
+//spaces.c
+int	memmove_whitespaces_to_space(char *line);
+int	clean_whitespaces_to_space(t_word_desc *item);
 int	ft_whitespace_seperator(char *line);
+
+//flags.c
 int	is_pipe_or_redirect(char *sign);
 int	identify_word_type(t_word_desc *word);
 int			get_flag_from_sign(char sign);

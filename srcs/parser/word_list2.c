@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 15:57:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:58:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ void	ft_printf_word_list(t_word_list *word_list)
 	while (word_list)
 	{
 		ft_printf("%d: %s\n", i, word_list->word->word);
-		ft_printf("%d flag: %d\n", i++, word_list->word->flags);
+		ft_printf("%d flag: ", i);
+		print_flag_name(word_list->word->flags);
+		ft_printf("\n");
+		i++;
 		word_list = word_list->next;
 	}
 }

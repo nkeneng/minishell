@@ -6,23 +6,12 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 10:51:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:06:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// takes a line started from character to check and returns number of characters
-// that are whitespaces in a row (== index of first nonwhitespace char)
-int	ft_whitespace_seperator(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] == ' ' || line[i] == '\n' || line[i] == '\t')
-		i++;
-	return (0);
-}
 //gets flag from beginning of word_desc->word and assigns flag to word
 int	identify_word_type(t_word_desc *word)
 {
@@ -31,24 +20,6 @@ int	identify_word_type(t_word_desc *word)
 	flag = sign_to_flag(word->word);
 	word->flags = flag;
 	return (flag);
-}
-
-//deprecated, checks some, needs only single char
-int	get_flag_from_sign(char sign)
-{
-	if (sign == '\'')
-		return (W_SQUOTED);
-	if (sign == '"')
-		return (W_DQUOTED);
-	if (sign == '|')
-		return (W_EXECUTE);
-	if (sign == '$')
-		return (W_HASDOLLAR);
-	if (sign == '&')
-		return (W_AND);
-	if (sign == '=')
-		return (W_VAR);
-	return (0);
 }
 
 //only checks if sign is redirect or seperator
@@ -82,20 +53,11 @@ int	is_quote(char *sign)
 	return (0);
 }
 
-int	is_var(char *sign)
-{
-	if (*sign == '$')
-		return (W_VAR);
-	if (*sign == '=')
-		return (W_ASSIGNMENT);
-	return (0);
-}
-
 // converts any sign into all possible flags
 int	sign_to_flag(char *sign)
 {
 	int	i;
-	
+
 	i = is_quote(sign);
 	if (i)
 		return (i);

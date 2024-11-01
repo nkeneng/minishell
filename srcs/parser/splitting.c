@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/31 12:09:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:04:21 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 /* t_word_list	*get_next_word(char *line); */
 /* t_word_list	*make_word_list(char *line); */
 
+//Breaks the input into words and operators, obeying the quoting rules 
+//described in Quoting. These tokens are separated by metacharacters. 
+//Alias expansion is performed by this step (see Aliases).
+
 // TODO: check length of metachar seperator
 
 // use this to create new element containting one or multiple consecutive
@@ -23,29 +27,27 @@
 t_word_list	*split_around(t_word_desc *input)
 {
 	int			i;
-	int			previ;
-	t_word_list	*head;
+	int			pi;
+	t_word_list	*h;
 	t_word_list	*tmp;
-	int			flag;
 
-	head = NULL;
+	h = NULL;
 	i = 0;
-	previ = 0;
+	pi = 0;
 	while (input->word[i])
 	{
 		i += (next_word_till_metachar(&input->word[i]));
-		flag = get_flag_from_sign(input->word[i]);
-		tmp = word_list_addback(head, make_word(&input->word[previ], i - previ, flag));
-		if (!head)
-			head = tmp;
+		tmp = word_list_addback(h, make_word(&input->word[pi], i - pi, 0));
+		if (!h)
+			h = tmp;
 		if (!tmp)
 		{
-			free_word_list(&head);
+			free_word_list(&h);
 			return (NULL);
 		}
-		previ = i;
+		pi = i;
 	}
-	return (head);
+	return (h);
 }
 
 int	next_word_till_metachar(char *line)
@@ -88,10 +90,6 @@ int	next_word_till(char *line, char sign)
 	return (i);
 }
 
-/**/
-/* //Breaks the input into words and operators, obeying the quoting rules  */
-/* //described in Quoting. These tokens are separated by metacharacters.  */
-/* //Alias expansion is performed by this step (see Aliases). */
 /* t_word_list	*split_into_words(char *line) */
 /* { */
 /* 	t_word_list	*word_list; */

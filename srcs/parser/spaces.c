@@ -6,49 +6,61 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:20:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 10:56:55 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:44:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <readline/chardefs.h>
 
-//returns 0 on failed allocation of string where every whitespace constisting
-//of one or several tabs, spaces or returns becomes a single space
-int	clean_whitespaces_to_space(t_word_desc *item)
+// takes a line started from character to check and returns number of characters
+// that are whitespaces in a row (== index of last whitespace char)
+int	ft_whitespace_seperator(char *line)
 {
-	int		i;
-	char	new_string;
+	int	i;
 
-	if (item->flags & W_SQUOTED || item->flags & W_DQUOTED)
-		return (2);
 	i = 0;
-	while (item->word[i] && item)
-	{}
-	return (0);
+	while (line[i] == ' ' || line[i] == '\n' || line[i] == '\t')
+		i++;
+	return (i);
 }
 
-char	*whitespaces_to_single_space(char *line)
+//returns 1 if it tried to perform memmove on string where every whitespace 
+//constisting of one or several tabs, spaces or returns becomes a single space
+//returns 0 if it couldn't do anything because item had quoted flags
+//does not realloc!!
+int	clean_whitespaces_to_space(t_word_desc *item)
 {
-	char	*clean_line;
-	int		i;
-	int		c;
-	int		len;
+	if (item->flags & W_SQUOTED || item->flags & W_DQUOTED)
+		return (0);
+	memmove_whitespaces_to_space(item->word);
+	return (1);
+}
 
-	c = 1;
+// memmoves rest of line over more than one whitespaces
+// but if single whitespace is not a space, it makes it a space
+int	memmove_whitespaces_to_space(char *line)
+{
+	int	i;
+	int	j;
+	int	s;
+	int	len;
+
 	i = 0;
+	j = 0;
+	s = 0;
 	len = ft_strlen(line);
-	clean_line = malloc((len + 1) * sizeof(char));
-	i = ft_whitespace_seperator(line);
-	if (i)
-		clean_line[0] = ' ';
-	else
-		clean_line[0] = *line;
-	while (*line)
+	while (line[i])
 	{
-		line++;
-		clean_line[c] = line[i];
-		i = ft_whitespace_seperator(line);
+		s = ft_whitespace_seperator(&line[i]);
+		if (s && !(s == 1 && line[i] == ' '))
+		{
+			line[i] = ' ';
+			i++;
+			s--;
+			ft_memmove((void *) &line[i], (void *) &line[i + s], len - i + 1);
+		}
+		i++;
 	}
-	
-
+	return (0);
 }
