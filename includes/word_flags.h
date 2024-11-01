@@ -6,14 +6,14 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/17 17:19:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:17:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WORD_FLAGS
 # define WORD_FLAGS
 
-# define W_EXECUTE			2 // 1 << 1  needs to read from a pipe
+# define W_EXECUTE			2 // 1 << 1  general execution
 # define W_COMMAND_BUILTIN  4 // 1 << 2
 # define W_PIPE				8 // 1 << 3  needs to read from a pipe
 # define W_HERE_DOC			16 // 1 << 4  needs to read from a here doc
@@ -21,7 +21,7 @@
 # define W_OPEN_OUT_TRUNC	64 // 1 << 6  open output file truncated
 # define W_OPEN_OUT_APP		128 // 1 << 7  open output file for appending
 # define W_VAR				256 // 1 << 8  variable asignment
-# define W_LAST_PIPE		512 // 1 << 9  execute command output to stdout
+# define W_LAST				512 // 1 << 9  execute command output to stdout
 								//
 # define W_HASDOLLAR	(1 << 10)	/* Dollar sign present. */
 # define W_SQUOTED	(1 << 11)	/* Some signle quote character is present. */
@@ -34,6 +34,8 @@
 # define W_OR		(1 << 18)	/* || operator */
 # define W_DONE		(1 << 30) /* nothing else to do here */
 
+# define WM_REDIR_MASK (W_HERE_DOC | W_OPEN_INFILE | W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP)
+# define WM_OPERATOR_MASK (W_PIPE | W_AND | W_OR)
 
 /* Possible values for the `flags' field of a WORD_DESC. */
 //#define W_HASDOLLAR	(1 << 0)	/* Dollar sign present. */

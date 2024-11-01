@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:24:41 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 12:34:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:43:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_flag_name(int flag)
 		ft_printf("W_OPEN_OUT_APP\n");
 	if (flag == W_VAR)
 		ft_printf("W_VAR\n");
-	if (flag == W_LAST_PIPE)
+	if (flag == W_LAST)
 		ft_printf("W_LAST_PIPE\n");
 	if (flag == W_HASDOLLAR)
 		ft_printf("W_HASDOLLAR\n");

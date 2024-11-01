@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 17:30:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:35:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	is_pipe_or_redirect(char *sign)
 
 int	is_quote(char *sign)
 {
-	if (*sign == '"' && *(sign + 1) == '\0')
+	if (*sign == '"')
 		return (W_DQUOTED);
-	if (*sign == '\'' && *(sign + 1) == '\0')
+	if (*sign == '\'')
 		return (W_SQUOTED);
 	return (0);
 }

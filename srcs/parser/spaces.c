@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:20:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 16:44:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:37:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,10 @@ int	clean_whitespaces_to_space(t_word_desc *item)
 int	memmove_whitespaces_to_space(char *line)
 {
 	int	i;
-	int	j;
 	int	s;
 	int	len;
 
 	i = 0;
-	j = 0;
 	s = 0;
 	len = ft_strlen(line);
 	while (line[i])

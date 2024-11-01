@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 16:44:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:42:38 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ t_list	**convert_line_to_dlist(char *line);
 
 // reading.c
 char	*rl_gets(void);
+
+//cleanup
+void	clean_line_whitespace(t_word_desc *obj);
+void	wl_clean_whitespace(t_word_list *lst);
 
 //parse.c
 t_list	*parse_input(char *line, char **envp);
@@ -37,9 +41,12 @@ int	ft_whitespace_seperator(char *line);
 //flags.c
 int	is_pipe_or_redirect(char *sign);
 int	identify_word_type(t_word_desc *word);
-int			get_flag_from_sign(char sign);
 int	sign_to_flag(char *sign);
 int	is_quote(char *sign);
+
+//flags_setting.c
+void	assign_flag(t_word_list *list);
+void	assign_operator_till_end(t_word_list *list, int flag);
 
 //missing_close.c
 int	missing_close_sign(char *line, char sign);
