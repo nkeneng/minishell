@@ -129,9 +129,48 @@ assign the variable
 ASSIGNMENTS
 export PATH=$PATH:/new/path
 
+
+lmeubrin@c4c3c2:~$ command="<<EOF|grep 'cat'"
+lmeubrin@c4c3c2:~$ $command 
+<<EOF|grep: command not found
+lmeubrin@c4c3c2:~$ command="<< EOF | grep 'cat'"
+lmeubrin@c4c3c2:~$ $command 
+<<: command not found
+lmeubrin@c4c3c2:~$ command="cat << EOF | grep 'cat'"
+lmeubrin@c4c3c2:~$ $command 
+cat: '<<': No such file or directory
+cat: EOF: No such file or directory
+cat: '|': No such file or directory
+cat: grep: No such file or directory
+cat: "'cat'": No such file or directory
+
+expands and tokenizes and executes
+lmeubrin@c4c3c2:~$ command="echo hello     there"
+lmeubrin@c4c3c2:~$ $command
+hello there
+
+after expansion, the element expects all things to belong to the first word, and that word might be a command, the rest is split and saved in an array as arguments.
+lmeubrin@c4c3c2:~$ command='echo "hello    $USER" |grep "hello"'
+lmeubrin@c4c3c2:~$ $command                      
+"hello $USER" |grep "hello"
+
 QUOTES BEHAVIOUR
 lmeubrin@c3a1c1:~$ export VAR="$HOME love 'come $HOME'"
 lmeubrin@c3a1c1:~$ echo $VAR
 /home/lmeubrin love 'come /home/lmeubrin'
 
 single quotes inside double quotes don't do anything!!
+
+
+RETURNS
+bash
+NULL string returns 0
+""
+echo $?
+0
+
+empty strings return 0
+bash
+$unnassigned_variable
+echo $?
+0

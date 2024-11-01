@@ -24,8 +24,11 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
 		$(addprefix lst/ft_, lstcreate_addback.c free_command.c printf_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
+		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c conversion_to_lst.c word_desc.c \
+		splitting.c cleanup.c flags.c quotes.c vars.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
-		init_envp.c main.c \
+		init_envp.c \
+		main.c \
 		)
 
 HEADERS := ./includes
@@ -51,7 +54,7 @@ run: all
 	./$(NAME)
 
 parse: NAME = parse_minishell
-parse: MAIN = srcs/tests/test_word_list.c
+parse: MAIN = srcs/tests/simple_main_for_list.c
 parse: build
 
 exec: NAME = exec_minishell

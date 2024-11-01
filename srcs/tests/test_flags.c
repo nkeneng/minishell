@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_command.c                                  :+:      :+:    :+:   */
+/*   test_flags.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 12:39:22 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/23 14:52:41 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/10/24 12:18:33 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/10/24 12:44:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/functions_to_remove_later.h"
 
-void	ft_free_command(void *command)
+int	main(int argc, char *argv[])
 {
-	t_command	*com;
+	int	flag;
 
-	com = (t_command *) command;
-	// free_redirects(command->redirects);
-	free_char_array(com->cmd, 0);
-	//free redirects
-	free(com);
-	return ;
+	if (argc != 2)
+		printf("usage: ./a.out <your sign or string starting with sign here>");
+	flag = sign_to_flag(argv[1]);
+	print_flag_name(flag);
 }

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 12:32:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:09:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 /* t_word_list	*get_next_word(char *line); */
 /* t_word_list	*make_word_list(char *line); */
 
+// TODO: check length of metachar seperator
+
 // use this to create new element containting one or multiple consecutive
-// ' ' or '=' or '|' or << or >> or < or >
-t_word_list	*split_around(t_word_desc *input, char sign)
+// '$' or '=' or '&' or '|' or << or >> or < or >
+t_word_list	*split_around(t_word_desc *input)
 {
 	int			i;
 	int			previ;
@@ -27,12 +29,12 @@ t_word_list	*split_around(t_word_desc *input, char sign)
 	int			flag;
 
 	head = NULL;
-	flag = get_flag_from_sign(sign);
 	i = 0;
 	previ = 0;
 	while (input->word[i])
 	{
-		i += (next_word_till(&input->word[i], sign));
+		i += (next_word_till_metachar(&input->word[i]));
+		flag = get_flag_from_sign(input->word[i]);
 		tmp = word_list_addback(head, make_word(&input->word[previ], i - previ, flag));
 		if (!head)
 			head = tmp;
@@ -44,6 +46,31 @@ t_word_list	*split_around(t_word_desc *input, char sign)
 		previ = i;
 	}
 	return (head);
+}
+
+int	next_word_till_metachar(char *line)
+{
+	int		i;
+	char	sign;
+
+	i = 0;
+	sign = *line;
+	if (is_quote(line))
+	{
+		i++;
+		while (line[i] != sign)
+			i++;
+		if (line[i++])
+			return (i++);
+	}
+	else if (sign_to_flag(line))
+		while (line[i] == sign)
+			i++;
+	else
+		while (line[i] && !sign_to_flag(&line[i]))
+			i++;
+	i += ft_whitespace_seperator(&line[i]);
+	return (i);
 }
 
 //returns iterator after continuing over sign or until next letter would be sign
@@ -61,22 +88,6 @@ int	next_word_till(char *line, char sign)
 	return (i);
 }
 
-int	get_flag_from_sign(char sign)
-{
-	if (sign == '\'')
-		return (W_SQUOTED);
-	if (sign == '"')
-		return (W_DQUOTED);
-	if (sign == '|')
-		return (W_EXECUTE);
-	if (sign == '$')
-		return (W_HASDOLLAR);
-	if (sign == '&')
-		return (W_AND);
-	if (sign == '=')
-		return (W_VAR);
-	return (0);
-}
 /**/
 /* //Breaks the input into words and operators, obeying the quoting rules  */
 /* //described in Quoting. These tokens are separated by metacharacters.  */

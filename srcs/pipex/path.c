@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:56:59 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:34:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:23:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	**get_paths(char *envp[])
 	return (NULL);
 }
 
+// this needs to return properly and afterwards if failed free the whole list
 int	make_exec(t_command *cmd, char *envp[])
 {
 	char	**paths;
@@ -57,10 +58,9 @@ int	make_exec(t_command *cmd, char *envp[])
 	int		err;
 
 	paths = get_paths(envp);
-	command = ft_split(cmd->cmd, ' ');
-	if (!command || !paths)
+	command = cmd->cmd;
+	if (!paths)
 	{
-		free_char_array(command, 1);
 		free_char_array(paths, 1);
 		return (rperror("malloc"));
 	}
