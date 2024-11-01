@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 17:06:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:30:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,32 @@ int	is_pipe_or_redirect(char *sign)
 {
 	if (*sign == '|')
 	{
-		if (*(sign + 1) == '|')
+		if (*(sign + 1) == '|' && *(sign + 2) == '\0')
 			return (W_OR);
-		return (W_PIPE);
+		if (*(sign + 1) == '\0')
+			return (W_PIPE);
+		return (0);
 	}
 	if (*sign == '&' && *(sign + 1) == '&')
 		return (W_AND);
 	if (*sign == '>')
 	{
-		if (*(sign + 1) == '>')
+		if (*(sign + 1) == '>' && *(sign + 2) == '\0')
 			return (W_OPEN_OUT_APP);
-		return (W_OPEN_OUT_TRUNC);
+		if (*(sign + 1) == '\0')
+			return (W_OPEN_OUT_TRUNC);
+		return (0);
 	}
-	if (*sign == '<')
+	if (*sign == '<' && *(sign + 1) == '\0')
 		return (W_OPEN_INFILE);
 	return (0);
 }
 
 int	is_quote(char *sign)
 {
-	if (*sign == '"')
+	if (*sign == '"' && *(sign + 1) == '\0')
 		return (W_DQUOTED);
-	if (*sign == '\'')
+	if (*sign == '\'' && *(sign + 1) == '\0')
 		return (W_SQUOTED);
 	return (0);
 }
@@ -61,9 +65,9 @@ int	sign_to_flag(char *sign)
 	i = is_quote(sign);
 	if (i)
 		return (i);
-	if (*sign == '$')
+	if (*sign == '$' && *(sign + 1) == '\0')
 		return (W_VAR);
-	if (*sign == '=')
+	if (*sign == '=' && *(sign + 1) == '\0')
 		return (W_ASSIGNMENT);
 	return (is_pipe_or_redirect(sign));
 }
