@@ -6,14 +6,14 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/31 11:42:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 10:51:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // takes a line started from character to check and returns number of characters
-// that are whitespaces in a row
+// that are whitespaces in a row (== index of first nonwhitespace char)
 int	ft_whitespace_seperator(char *line)
 {
 	int	i;
