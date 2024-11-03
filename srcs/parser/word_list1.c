@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/03 17:31:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:52:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_word_list	*make_word_list(char *line)
 	if (loop_on_word_list(word_list))
 		return (NULL);
 	assign_flag(word_list);
-	wl_clean_whitespace(word_list);
 	return (word_list);
 }
 
@@ -38,9 +37,10 @@ int	loop_on_word_list(t_word_list *word_list)
 	{
 		if (identify_word_type(curr->word))
 		{
-			/* if (!flag_correctly_delimeted(curr->word)) */
-			/* 	return (syntax_error(word_list, curr->word->word)); */
+			if (!flag_correctly_delimeted(curr->word))
+				return (syntax_error(word_list, curr->word->word));
 		}
+		clean_whitespaces_to_space(curr->word);
 		curr = curr->next;
 	}
 	return (0);
