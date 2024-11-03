@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:24:41 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 18:43:28 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:16:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,44 @@
 
 void	print_flag_name(int flag)
 {
-	if (flag == W_EXECUTE)
+	if (flag & W_EXECUTE)
 		ft_printf("W_EXECUTE\n");
-	if (flag == W_COMMAND_BUILTIN)
+	if (flag & W_COMMAND_BUILTIN)
 		ft_printf("W_COMMAND_BUILTIN\n");
-	if (flag == W_PIPE)
+	if (flag & W_PIPE)
 		ft_printf("W_PIPE\n");
-	if (flag == W_HERE_DOC)
+	if (flag & W_HERE_DOC)
 		ft_printf("W_HERE_DOC\n");
-	if (flag == W_OPEN_INFILE)
+	if (flag & W_OPEN_INFILE)
 		ft_printf("W_OPEN_INFILE\n");
-	if (flag == W_OPEN_OUT_TRUNC)
+	if (flag & W_OPEN_OUT_TRUNC)
 		ft_printf("W_OPEN_OUT_TRUNC\n");
-	if (flag == W_OPEN_OUT_APP)
+	if (flag & W_OPEN_OUT_APP)
 		ft_printf("W_OPEN_OUT_APP\n");
-	if (flag == W_VAR)
+	if (flag & W_VAR)
 		ft_printf("W_VAR\n");
-	if (flag == W_LAST)
+	if (flag & W_LAST)
 		ft_printf("W_LAST_PIPE\n");
-	if (flag == W_HASDOLLAR)
+	if (flag & W_HASDOLLAR)
 		ft_printf("W_HASDOLLAR\n");
-	if (flag == W_SQUOTED)
+	if (flag & W_SQUOTED)
 		ft_printf("W_SQUOTED\n");
-	if (flag == W_DQUOTED)
+	if (flag & W_DQUOTED)
 		ft_printf("W_DQUOTED\n");
-	if (flag == W_ASSIGNMENT)
+	if (flag & W_ASSIGNMENT)
 		ft_printf("W_ASSIGNMENT\n");
-	if (flag == W_SPLITSPACE)
+	if (flag & W_SPLITSPACE)
 		ft_printf("W_SPLITSPACE\n");
-	if (flag == W_NOSPLIT)
+	if (flag & W_NOSPLIT)
 		ft_printf("W_NOSPLIT\n");
-	if (flag == W_EXPANDRHS)
+	if (flag & W_EXPANDRHS)
 		ft_printf("W_EXPANDRHS\n");
-	if (flag == W_AND)
+	if (flag & W_AND)
 		ft_printf("W_AND\n");
-	if (flag == W_OR)
+	if (flag & W_OR)
 		ft_printf("W_OR\n");
-	if (flag == W_DONE)
+	if (flag & W_DONE)
 		ft_printf("W_DONE\n");
-	if (flag == 0)
+	if (flag & 0)
 		ft_printf("no flag\n");
 }

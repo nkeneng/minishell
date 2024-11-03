@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:49:46 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 18:41:46 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:29:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	wl_clean_whitespace(t_word_list *lst)
 {
 	while (lst)
 	{
-		clean_line_whitespace(lst->word);
+		clean_whitespaces_to_space(lst->word);
 		lst = lst->next;
 	}
 }
+
+//NOT USING THIS< SEEMS SOMETHING IS WRONG???
 //if not in quotes: deletes multiple spaces and converts tabs to single space
 void	clean_line_whitespace(t_word_desc *obj)
 {

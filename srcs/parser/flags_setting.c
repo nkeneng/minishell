@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:13:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 18:44:14 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:15:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	assign_flag(t_word_list *list)
 			curr->word->flags = flag;
 		else
 		{
-			curr->word->flags = flag;
 			if (flag & W_ASSIGNMENT)
 			{
 				curr->next->word->flags = flag;
@@ -35,10 +34,10 @@ void	assign_flag(t_word_list *list)
 			}
 			else if (flag & W_VAR)
 				curr->next->word->flags = flag;
-			else
+			else if (flag & WM_OPERATOR_MASK)
 			{
 				assign_operator_till_end(list, flag);
-				list = curr;
+				list = curr->next;
 			}
 		}
 		curr = curr->next;
@@ -51,10 +50,15 @@ void	assign_operator_till_end(t_word_list *list, int flag)
 {
 	int	end;
 
-	end = is_pipe_or_redirect(list->word->word);
-	while (list && !(WM_OPERATOR_MASK & end))
+	end = 0;
+	if (list)
+		end = is_pipe_or_redirect(list->word->word);
+	while (!(flag & end))
 	{
-		list->word->flags &= flag;
+		list->word->flags += flag;
 		list = list->next;
+		if (!list)
+			break ;
+		end = is_pipe_or_redirect(list->word->word);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/03 14:41:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:24:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	flag_correctly_delimeted(t_word_desc *item)
 	int	flag;
 
 	flag = sign_to_flag(item->word);
-	if (flag)
+	if (flag & WM_DOUBLE_SIGN || flag & WM_SINGLE_SIGN)
 	{
 		if (flag & WM_DOUBLE_SIGN && item->word[2] == '\0')
 			return (1);
-		if (flag & WM_SINGLE_SING && item->word[1] == '\0')
+		if (flag & WM_SINGLE_SIGN && item->word[1] == '\0')
 			return (1);
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:02:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 10:17:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 17:26:47 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_word_list	*word_list_head;
 	// t_list		*lst;
-	char		line[] = "Hello|w\"ord |\"	 space in	this$here 		| var=this";
+	char		line[] = "Hello|w\"ord      |\"	 space in	this$here 		| var=this";
 	// int		exec_ret;
 	(void)argc;
 	(void)argv;
 	(void)envp;
+	errno = 0;
 	word_list_head = make_word_list(line);
+	if (!word_list_head)
+		return (errno);
 	ft_printf_word_list(word_list_head);
 	// lst = convert_to_command_lst(word_list_head);
 	// ft_printf_lst(lst, ft_printf_command);
