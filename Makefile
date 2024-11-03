@@ -25,7 +25,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix lst/ft_, lstcreate_addback.c free_command.c printf_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c conversion_to_lst.c word_desc.c \
-		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c) \
+		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c) \
 		$(addprefix tests/, prints.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c \

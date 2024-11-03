@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 18:42:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 14:18:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 
 // unsorted shellpromt
 t_list	**convert_line_to_dlist(char *line);
+
+// syntax_error.c
+int	syntax_error(t_word_list *word_list, char *str);
 
 // reading.c
 char	*rl_gets(void);
@@ -39,6 +42,7 @@ int	clean_whitespaces_to_space(t_word_desc *item);
 int	ft_whitespace_seperator(char *line);
 
 //flags.c
+int	flag_correctly_delimeted(t_word_desc *item);
 int	is_pipe_or_redirect(char *sign);
 int	identify_word_type(t_word_desc *word);
 int	sign_to_flag(char *sign);
@@ -53,6 +57,7 @@ int	missing_close_sign(char *line, char sign);
 int	missing_close_bracket(char *line);
 
 // word_list1.c
+int	loop_on_word_list(t_word_list *word_list);
 t_word_list	*make_word_list(char *line);
 t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag);
 
