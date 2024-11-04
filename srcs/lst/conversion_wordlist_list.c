@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:25:08 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/04 16:24:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:52:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,19 @@ t_word_list	*find_redir(t_word_list *list)
 t_redirect	*redirect_addafter(t_redirect *list, t_redirectee *content)
 {
 	t_redirect	*new;
-	t_redirect	*curr;
 
 	if (!content)
 		return (NULL);
 	new = malloc(sizeof(t_redirect));
 	if (!new)
 		return (NULL);
-	new->redirector = content;
+	new->redirector = *content;
 	new->next = NULL;
+	if (!list)
+	{
+		list = new;
+		return (new);
+	}
+	list->next = new;
+	return (new);
 }
