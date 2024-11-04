@@ -21,7 +21,7 @@ int	key_exist(char *key, t_env *envp)
 	len = ft_strlen(key);
 	while (envp[i].key)
 	{
-		if (ft_strncmp(envp[i].key, key, len == 0))
+		if (ft_strncmp(envp[i].key, key , len) == 0)
 			return (1);
 		i++;
 	}
@@ -40,6 +40,23 @@ void	free_old_env(t_shell *shell)
 		i++;
 	}
 	free(shell->envp);
+}
+
+void ft_override_env(char *key, char *value, t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->nb_env)
+	{
+		if (ft_strncmp(shell->envp[i].key, key, ft_strlen(key)) == 0)
+		{
+			free(shell->envp[i].value);
+			shell->envp[i].value = ft_strdup(value);
+			break ;
+		}
+		i++;
+	}
 }
 
 void	ft_setenv(char *key, char *value, t_shell *shell)
@@ -70,24 +87,39 @@ void	ft_setenv(char *key, char *value, t_shell *shell)
  * and its value in the format "VAR=VALUE".
 
 	* @shell: A pointer to the shell structure containing the environment variables.
- * TODO : Handle the case where the environment variable already exists.
  * TODO : Handle the case where the key or value are invalid
  */
 void	ft_export(char *args, t_shell *shell)
 {
 	char	**ret;
+	char	**export_args;
+	int		i;
 
 	if (args)
 	{
-		ret = ft_split(args, '=');
-		if (!ret)
+		export_args = ft_split(args, ' ');
+		if (!export_args)
 			return ;
-		if (!key_exist(ret[0], shell->envp))
+		if (count_char_array(export_args) == 1)
 		{
-			ft_setenv(ret[0], ret[1], shell);
+			ft_printf("export: not enough arguments\n");
+			free_char_array(export_args, 0);
+			return ;
 		}
-		free(ret[0]);
-		free(ret[1]);
-		free(ret);
+		i = 1;
+		while (export_args[i])
+		{
+			ret = ft_split(export_args[i], '=');
+			if (!ret)
+				return ;
+			if (!key_exist(ret[0], shell->envp))
+				ft_setenv(ret[0], ret[1], shell);
+			else
+				ft_override_env(ret[0], ret[1], shell);
+			free(ret[0]);
+			free(ret[1]);
+			free(ret);
+			i++;
+		}
 	}
 }

@@ -26,18 +26,13 @@ int	main(int argc, char **argv, char **envp)
 	i = 0;
 	shell.envp = NULL;
 	init_envp(envp, &shell);
-	ft_export("hello=world", &shell);
-	ft_export("PATH=world", &shell);
+	ft_export("export", &shell);
+	ft_export("export PATH=world hello=world", &shell);
 	ft_printf("number of env variables: %d\n", shell.nb_env);
-	// tmp = shell.envp;
-	// while (tmp)
-	// {
-	// 	ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key,
-	// 		((t_env *)tmp->content)->value);
-	// 	tmp = tmp->next;
-	// }
-	/* tmp = ft_lstlast(g_envp); */
-	/* ft_printf("Key : %s\n Value : %s\n", ((t_env *)tmp->content)->key, */
-	/* 	((t_env *)tmp->content)->value); */
+	while (i < shell.nb_env)
+	{
+		ft_printf("key: %s, value: %s\n", shell.envp[i].key, shell.envp[i].value);
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
