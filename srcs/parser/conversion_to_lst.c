@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:19:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 15:26:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:25:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_list	*convert_to_command_lst(t_word_list *head)
 	return (list_head);
 }
 
-// heads up, this was majorly changed, idk if working...
 // concat from head up until current into one t_command
 t_command	*concat_to_t_command(t_word_list *head, t_word_list *curr)
 {

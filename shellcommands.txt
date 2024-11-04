@@ -178,3 +178,6 @@ echo $?
 export var=3 | echo $var
 
 var is unset!!!
+
+REDIRECTIONS
+command <<EOL >output 2>/dev/null

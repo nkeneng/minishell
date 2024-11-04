@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/03 17:02:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 14:17:30 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define W_EXPANDRHS	(1 << 16)	/* Expanding word in ${paramOPword} */
 # define W_AND		(1 << 17)	/* && operator */
 # define W_OR		(1 << 18)	/* || operator */
+# define W_SUBSHELL	(1 << 19)/* ( ... ) subshell */
+# define W_NEEDCLOSBRC	(1 << 20)	/* need close brace */
 # define W_DONE		(1 << 30) /* nothing else to do here */
 
 # define WM_REDIR_MASK (W_HERE_DOC | W_OPEN_INFILE | W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP)
