@@ -51,7 +51,8 @@ void	ft_setenv(char *key, char *value, t_shell *shell)
 	new_env = malloc(sizeof(t_env) * (shell->nb_env + 1));
 	while (i < shell->nb_env)
 	{
-		new_env[i] = shell->envp[i];
+		new_env[i].key = ft_strdup(shell->envp[i].key);
+		new_env[i].value = ft_strdup(shell->envp[i].value);
 		i++;
 	}
 	new_env[i].key = ft_strdup(key);
@@ -64,7 +65,7 @@ void	ft_setenv(char *key, char *value, t_shell *shell)
 /**
  * ft_export - Adds or updates an environment variable in the shell.
  *
- *
+*
  * @args: A string containing the environment variable
  * and its value in the format "VAR=VALUE".
 
