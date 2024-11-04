@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.envp = NULL;
 	init_envp(envp, &shell);
 	ft_export("export", &shell);
-	ft_export("export PATH=world hello=world", &shell);
+	ft_export("export PATH=world 1223=dsds hello=world", &shell);
 	ft_printf("number of env variables: %d\n", shell.nb_env);
 	while (i < shell.nb_env)
 	{
