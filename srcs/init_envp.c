@@ -6,33 +6,37 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:51:05 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/15 16:32:48 by snkeneng         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:46:16 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_envp(char **env, t_list **envp)
+void	init_envp(char **env, t_shell *shell)
 {
 	int		i;
 	char	**ret;
-	t_env	*tmp_env;
+	t_env	tmp_env;
 
 	i = 0;
-	*envp = NULL;
-	tmp_env = malloc(sizeof(t_env));
+	while (env[i])
+		i++;
+	shell->nb_env = i;
+	shell->envp = malloc(sizeof(t_env) * (i + 1));
+	i = 0;
 	while (env[i])
 	{
 		ret = ft_split(env[i], '=');
-		if (!ret || !ret[0] || !ret[1])
+		if (!ret || !ret[0])
 			return ;
-		tmp_env->key = ft_strdup(ret[0]);
-		tmp_env->value = ft_strdup(ret[1]);
-		ft_lstadd_back(envp, ft_lstnew(tmp_env));
+		if (!ret[1])
+			ret[1] = ft_strdup("");
+		tmp_env.key = ft_strdup(ret[0]);
+		tmp_env.value = ft_strdup(ret[1]);
+		shell->envp[i] = tmp_env;
 		i++;
 		free(ret[0]);
 		free(ret[1]);
 		free(ret);
-		envp = &(*envp)->next;
 	}
 }
