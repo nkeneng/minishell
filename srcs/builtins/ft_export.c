@@ -112,13 +112,16 @@ void	ft_export(char *args, t_shell *shell)
 			ret = ft_split(export_args[i], '=');
 			if (!ret)
 				return ;
-			if (!key_exist(ret[0], shell->envp))
-				ft_setenv(ret[0], ret[1], shell);
+			if (!ret[0] || (!ft_isalpha(ret[0][0]) && ret[0][0] != '_'))
+				ft_printf("export: '%s': not a valid identifier\n", export_args[i]);
 			else
-				ft_override_env(ret[0], ret[1], shell);
-			free(ret[0]);
-			free(ret[1]);
-			free(ret);
+			{
+				if (!key_exist(ret[0], shell->envp))
+					ft_setenv(ret[0], ret[1], shell);
+				else
+					ft_override_env(ret[0], ret[1], shell);
+			}
+			free_char_array(ret, 0);
 			i++;
 		}
 	}
