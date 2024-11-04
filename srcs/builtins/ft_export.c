@@ -47,20 +47,32 @@ void	ft_setenv(char *key, char *value, t_shell *shell)
 	int		i;
 	t_env	*new_env;
 
-	env = malloc(sizeof(t_env));
-	env->key = ft_strdup(key);
-	env->value = ft_strdup(value);
-	ft_lstadd_back(&envp, ft_lstnew(env));
+	i = 0;
+	new_env = malloc(sizeof(t_env) * (shell->nb_env + 1));
+	while (i < shell->nb_env)
+	{
+		new_env[i].key = ft_strdup(shell->envp[i].key);
+		new_env[i].value = ft_strdup(shell->envp[i].value);
+		i++;
+	}
+	new_env[i].key = ft_strdup(key);
+	new_env[i].value = ft_strdup(value);
+	free_old_env(shell);
+	shell->envp = new_env;
+	shell->nb_env++;
 }
 
 /**
  * ft_export - Adds or updates an environment variable in the shell.
  *
- * @args: A string containing the environment variable and its value in the format "VAR=VALUE".
- * @shell: A pointer to the shell structure containing the environment variables.
-* TODO : Handle the case where the environment variable already exists.
-* TODO : Handle the case where the key or value are invalid
-*/
+*
+ * @args: A string containing the environment variable
+ * and its value in the format "VAR=VALUE".
+
+	* @shell: A pointer to the shell structure containing the environment variables.
+ * TODO : Handle the case where the environment variable already exists.
+ * TODO : Handle the case where the key or value are invalid
+ */
 void	ft_export(char *args, t_shell *shell)
 {
 	char	**ret;
