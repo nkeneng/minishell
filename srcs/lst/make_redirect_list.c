@@ -12,58 +12,22 @@
 
 #include "../../includes/minishell.h"
 
-t_word_list	*find_redir(t_word_list *list);
-
-// takes single t_word_desc and turns it into a t_redirectee
-t_redirectee	*make_redirectee_from_word_desc(t_word_desc *item)
-{
-	t_redirectee	*redir;
-
-	redir = malloc(sizeof(t_redirectee));
-	if (!redir)
-		return (NULL);
-	if (ft_isdigit(*item->word))
-		redir->dest = ft_atoi(item->word);
-	else
-	{
-		redir->filename = item;
-	}
-	return (redir);
-}
-
-int	is_file_descriptor(char *str)
-{
-	int	i;
-	int	fd;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 'is_whitespace_seperator')
-			break ;
-		if (!ft_isdigit(str[i]))
-			return (-1);
-		i++;
-	}
-	fd = ft_atoi(str);
-	return (fd);
-}
-
 // takes list of words and makes a list of redirects
 t_redirect	*make_redirect_list(t_word_list **list)
 {
 	t_word_list		*curr;
 	t_redirect		*redir_head;
-	t_redirect		*redir_item;
-	t_redirectee	*redir_union;
 
+	redir_head = NULL;
 	curr = *list;
-	redir_head = malloc(sizeof(t_redirect));
 	while (curr)
 	{
 		curr = find_redir(curr);
-		redir_union = make_redirectee_from_word_desc(curr->word);
+		if (!curr->next)
+			syntax_error(*list, curr->word->word);
+		ft_lstadd_back(&redir_head, ft_lstnew(curr->next->word));
 		word_list_delone(curr);
+		word_list_delone(curr->next);
 	}
 	return (redir_head);
 }
@@ -81,27 +45,4 @@ t_word_list	*find_redir(t_word_list *list)
 		list = list->next;
 	}
 	return (list);
-}
-
-// takes current redirect list item and adds content as redirectee of curr and
-// makes new redirect list item and makes content the redirector this item
-// returns pointer to new and added list item
-t_redirect	*redirect_addafter(t_redirect *list, t_redirectee *content)
-{
-	t_redirect	*new;
-
-	if (!content)
-		return (NULL);
-	new = malloc(sizeof(t_redirect));
-	if (!new)
-		return (NULL);
-	new->redirector = *content;
-	new->next = NULL;
-	if (!list)
-	{
-		list = new;
-		return (new);
-	}
-	list->next = new;
-	return (new);
 }

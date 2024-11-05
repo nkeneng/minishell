@@ -54,4 +54,10 @@ void	print_flag_name(int flag)
 		ft_printf("W_DONE\n");
 	if (flag & 0)
 		ft_printf("no flag\n");
+	if (flag & W_WORD_AND)
+		ft_printf("W_WORD_AND\n");
+	if (flag & W_WORD_OR)
+		ft_printf("W_WORD_OR\n");
+	if (flag & W_WORD_PIPE)
+		ft_printf("W_WORD_PIPE\n");
 }

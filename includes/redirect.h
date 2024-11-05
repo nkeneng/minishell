@@ -38,25 +38,13 @@ typedef struct s_word_list {
 }	t_word_list;
 
 //	REDIRECTION
-
-//	contains fd or file to redirect to
-typedef union s_redirectee {
-	int	dest;			/* Place to redirect REDIRECTOR to, or ... */
-	t_word_desc	*filename;		/* filename to redirect to. */
-}	t_redirectee;
-
-/*	Structure describing a redirection.	If REDIRECTOR is negative, the parser
-		(or translator in redir.c) encountered an out-of-range file descriptor. */
+//UNUSED IGNORE THIS
 typedef struct s_redirect {
-	struct	redirect *next;	/* Next element, or NULL. */
-	t_redirectee	redirector;	/* Descriptor or varname to be redirected. */
-	int	rflags;			/* Private flags for this redirection */
-	int	flags;			/* Flag value for `open'. */
-	enum	e_red_instruction  instruction; /* What to do with the information. */
-	t_redirectee	redirectee;	/* File descriptor or filename */
-	char	*here_doc_eof;		/* The word that appeared in <<foo. */
+	struct s_redirect_list	*next;
+	t_word_desc	*filename;		/* filename (or fd number as string) to redirect to. */
 }	t_redirect;
 
+//UNUSED
 /*	An element used in parsing.	A single word or a single redirection.
 		This is an ephemeral construct. */
 typedef struct s_element {

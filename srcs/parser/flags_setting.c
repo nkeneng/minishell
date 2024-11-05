@@ -36,7 +36,7 @@ void	assign_flag(t_word_list *list)
 				curr->next->word->flags += flag;
 			else if (flag & WM_OPERATOR_MASK)
 			{
-				assign_operator_till_end(list, flag);
+				// assign_operator_till_end(list, flag);
 				list = curr->next;
 			}
 		}

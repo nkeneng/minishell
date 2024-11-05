@@ -15,6 +15,9 @@
 
 # include "../libft/libft_full.h"
 
+//ft_get_file_descriptor.c
+int	ft_get_file_descriptor(char *str);
+
 // unsorted shellpromt
 t_list	**convert_line_to_dlist(char *line);
 

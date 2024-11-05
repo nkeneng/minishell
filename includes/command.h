@@ -30,7 +30,7 @@
 /* A structure which represents a command. */
 typedef struct t_command {
 	char	**cmd;		/* NULL terminated array */
-	t_redirect	*redirects;	/* Redirections associated with this command. */
+	t_list	*redirects;	/* Redirections associated with this command. */
 	int	flags;		/* Flags associated with this command. */
 } t_command;
 
