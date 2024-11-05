@@ -19,9 +19,37 @@ t_redirectee	*make_redirectee_from_word_desc(t_word_desc *item)
 {
 	t_redirectee	*redir;
 
+	redir = malloc(sizeof(t_redirectee));
+	if (!redir)
+		return (NULL);
+	if (ft_isdigit(*item->word))
+		redir->dest = ft_atoi(item->word);
+	else
+	{
+		redir->filename = item;
+	}
 	return (redir);
 }
 
+int	is_file_descriptor(char *str)
+{
+	int	i;
+	int	fd;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 'is_whitespace_seperator')
+			break ;
+		if (!ft_isdigit(str[i]))
+			return (-1);
+		i++;
+	}
+	fd = ft_atoi(str);
+	return (fd);
+}
+
+// takes list of words and makes a list of redirects
 t_redirect	*make_redirect_list(t_word_list **list)
 {
 	t_word_list		*curr;
@@ -40,6 +68,7 @@ t_redirect	*make_redirect_list(t_word_list **list)
 	return (redir_head);
 }
 
+// finds next redirect in list
 t_word_list	*find_redir(t_word_list *list)
 {
 	t_word_desc	*curr_item;
