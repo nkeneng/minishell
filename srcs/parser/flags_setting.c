@@ -23,22 +23,17 @@ void	assign_flag(t_word_list *list)
 	while (curr)
 	{
 		flag = sign_to_flag(curr->word->word);
-		if (flag & W_DQUOTED || flag & W_SQUOTED)
-			curr->word->flags += flag;
-		else
+		if (flag & W_ASSIGNMENT)
 		{
-			if (flag & W_ASSIGNMENT)
-			{
-				curr->next->word->flags += flag;
-				curr->prev->word->flags += flag;
-			}
-			else if (flag & W_VAR)
-				curr->next->word->flags += flag;
-			else if (flag & WM_OPERATOR_MASK)
-			{
-				// assign_operator_till_end(list, flag);
-				list = curr->next;
-			}
+			curr->next->word->flags |= flag;
+			curr->prev->word->flags |= flag;
+		}
+		else if (flag & W_VAR)
+			curr->next->word->flags |= flag;
+		else if (flag & WM_OPERATOR_MASK)
+		{
+			// assign_operator_till_end(list, flag);
+			list = curr->next;
 		}
 		curr = curr->next;
 	}
