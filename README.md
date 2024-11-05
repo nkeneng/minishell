@@ -20,7 +20,7 @@ This header file defines constants and structures used for handling commands in 
 
 This structure represents a command and contains the following fields:
 
-- `char *cmd`: A zero-terminated string representing the command.
+- `char **cmd`: A NULL terminated array representing the command. Element 0 is name of executable, following elements are options.
 - `t_redirect *redirects`: A pointer to the redirections associated with this command.
 - `int flags`: Flags associated with this command, which can be a combination of the constants defined above.
 
