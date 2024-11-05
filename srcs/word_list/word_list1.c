@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/28 14:39:55 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:52:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,31 @@ t_word_list	*make_word_list(char *line)
 
 	word_list_head = init_word_list(line);
 	word_list = (split_around(word_list_head->word));
+	free_word_list(&word_list_head);
 	if (!word_list || !word_list->word)
 		return (NULL);
-	free_word_list(&word_list_head);
+	if (loop_on_word_list(word_list))
+		return (NULL);
+	assign_flag(word_list);
 	return (word_list);
+}
+
+int	loop_on_word_list(t_word_list *word_list)
+{
+	t_word_list	*curr;
+
+	curr = word_list;
+	while (curr)
+	{
+		if (identify_word_type(curr->word))
+		{
+			if (!flag_correctly_delimeted(curr->word))
+				return (syntax_error(word_list, curr->word->word));
+		}
+		clean_whitespaces_to_space(curr->word);
+		curr = curr->next;
+	}
+	return (0);
 }
 
 // returns head, and if head NULL, error occured and list was freed.

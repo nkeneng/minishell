@@ -19,6 +19,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include "functions_to_remove_later.h"
 
 // just for test cases
 # include "dummy.h"

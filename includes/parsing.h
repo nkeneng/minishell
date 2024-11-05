@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/31 11:43:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 15:27:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,21 @@
 
 # include "../libft/libft_full.h"
 
+//ft_get_file_descriptor.c
+int	ft_get_file_descriptor(char *str);
+
 // unsorted shellpromt
 t_list	**convert_line_to_dlist(char *line);
 
+// syntax_error.c
+int	syntax_error(t_word_list *word_list, char *str);
+
 // reading.c
 char	*rl_gets(void);
+
+//cleanup
+void	clean_line_whitespace(t_word_desc *obj);
+void	wl_clean_whitespace(t_word_list *lst);
 
 //parse.c
 t_list	*parse_input(char *line, char **envp);
@@ -29,26 +39,38 @@ t_word_list	*split_around(t_word_desc *input);
 int			next_word_till(char *line, char sign);
 int	next_word_till_metachar(char *line);
 
-//flags.c
+//spaces.c
+int	memmove_whitespaces_to_space(char *line);
+int	clean_whitespaces_to_space(t_word_desc *item);
 int	ft_whitespace_seperator(char *line);
+
+//flags.c
+int	flag_correctly_delimeted(t_word_desc *item);
 int	is_pipe_or_redirect(char *sign);
 int	identify_word_type(t_word_desc *word);
-int			get_flag_from_sign(char sign);
 int	sign_to_flag(char *sign);
 int	is_quote(char *sign);
+
+//flags_setting.c
+void	assign_flag(t_word_list *list);
+void	assign_operator_till_end(t_word_list *list, int flag);
 
 //missing_close.c
 int	missing_close_sign(char *line, char sign);
 int	missing_close_bracket(char *line);
 
 // word_list1.c
+int	loop_on_word_list(t_word_list *word_list);
 t_word_list	*make_word_list(char *line);
 t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag);
 
-// word_list2.c
+// word_list_methods.c
 t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word);
 void		ft_printf_word_list(t_word_list *word_list);
 void		*free_word_list(t_word_list **lst);
+
+// word_list_methods2.c
+void	word_list_delone(t_word_list *to_remove);
 
 // word_list3.c
 t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);

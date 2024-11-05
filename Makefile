@@ -17,18 +17,20 @@ OBJS_DIR		= objs/
 TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
-DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests)
+DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests word_list)
 
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
 		$(addprefix lst/ft_, lstcreate_addback.c free_command.c printf_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
-		$(addprefix parser/, parse.c missing_close.c word_list1.c word_list2.c conversion_to_lst.c word_desc.c \
-		splitting.c cleanup.c flags.c quotes.c vars.c) \
+		$(addprefix parser/, parse.c missing_close.c conversion_to_lst.c \
+		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c) \
+		$(addprefix tests/, prints.c) \
+		$(addprefix word_list/, word_list1.c word_list_methods.c word_list_methods2.c word_desc.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c \
-		main.c \
+		tests/simple_main_for_list.c \
 		)
 
 HEADERS := ./includes

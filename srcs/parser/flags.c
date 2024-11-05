@@ -6,49 +6,36 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 10:51:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:13:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// takes a line started from character to check and returns number of characters
-// that are whitespaces in a row (== index of first nonwhitespace char)
-int	ft_whitespace_seperator(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] == ' ' || line[i] == '\n' || line[i] == '\t')
-		i++;
-	return (0);
-}
 //gets flag from beginning of word_desc->word and assigns flag to word
 int	identify_word_type(t_word_desc *word)
 {
-	int	flag;
-
-	flag = sign_to_flag(word->word);
-	word->flags = flag;
-	return (flag);
+	word->flags += sign_to_flag(word->word);
+	return (word->flags);
 }
 
-//deprecated, checks some, needs only single char
-int	get_flag_from_sign(char sign)
+//returns 1 after splitting around the item that should be an operator 
+//or simmilar has right ammount of signs
+//returns 3 if it is not the sign that converts to a flag
+int	flag_correctly_delimeted(t_word_desc *item)
 {
-	if (sign == '\'')
-		return (W_SQUOTED);
-	if (sign == '"')
-		return (W_DQUOTED);
-	if (sign == '|')
-		return (W_EXECUTE);
-	if (sign == '$')
-		return (W_HASDOLLAR);
-	if (sign == '&')
-		return (W_AND);
-	if (sign == '=')
-		return (W_VAR);
-	return (0);
+	int	flag;
+
+	flag = sign_to_flag(item->word);
+	if (flag & WM_DOUBLE_SIGN || flag & WM_SINGLE_SIGN)
+	{
+		if (flag & WM_DOUBLE_SIGN && item->word[2] == '\0')
+			return (1);
+		if (flag & WM_SINGLE_SIGN && item->word[1] == '\0')
+			return (1);
+		return (0);
+	}
+	return (3);
 }
 
 //only checks if sign is redirect or seperator
@@ -69,7 +56,11 @@ int	is_pipe_or_redirect(char *sign)
 		return (W_OPEN_OUT_TRUNC);
 	}
 	if (*sign == '<')
+	{
+		if (*(sign + 1) == '<')
+			return (W_HERE_DOC);
 		return (W_OPEN_INFILE);
+	}
 	return (0);
 }
 
@@ -82,20 +73,11 @@ int	is_quote(char *sign)
 	return (0);
 }
 
-int	is_var(char *sign)
-{
-	if (*sign == '$')
-		return (W_VAR);
-	if (*sign == '=')
-		return (W_ASSIGNMENT);
-	return (0);
-}
-
 // converts any sign into all possible flags
 int	sign_to_flag(char *sign)
 {
 	int	i;
-	
+
 	i = is_quote(sign);
 	if (i)
 		return (i);

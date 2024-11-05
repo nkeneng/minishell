@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_list2.c                                       :+:      :+:    :+:   */
+/*   word_list_methods.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 15:57:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:02:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word)
 	while (current->next)
 		current = current->next;
 	current->next = new;
+	new->prev = current;
 	return (new);
 }
 
@@ -63,6 +64,7 @@ t_word_list	*word_list_insert(t_word_list *word_list, t_word_desc *word)
 	}
 	new->next = word_list->next;
 	word_list->next = new;
+	new->prev = word_list;
 	return (new);
 }
 
@@ -73,8 +75,11 @@ void	ft_printf_word_list(t_word_list *word_list)
 	i = 1;
 	while (word_list)
 	{
-		ft_printf("%d: %s\n", i, word_list->word->word);
-		ft_printf("%d flag: %d\n", i++, word_list->word->flags);
+		ft_printf("%d:~%s~\n", i, word_list->word->word);
+		ft_printf("flags:\n", i);
+		print_flag_name(word_list->word->flags);
+		ft_printf("\n");
+		i++;
 		word_list = word_list->next;
 	}
 }
