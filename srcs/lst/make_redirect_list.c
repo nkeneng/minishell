@@ -13,10 +13,10 @@
 #include "../../includes/minishell.h"
 
 // takes list of words and makes a list of redirects
-t_redirect	*make_redirect_list(t_word_list **list)
+t_list	*make_redirect_list(t_word_list **list)
 {
 	t_word_list		*curr;
-	t_redirect		*redir_head;
+	t_list			*redir_head;
 
 	redir_head = NULL;
 	curr = *list;
