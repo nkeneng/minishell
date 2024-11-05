@@ -31,7 +31,9 @@ void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert
     t_word_list *last;
 
     if (!head_to_insert || !insert_after)
-        return;
+    {
+        return ;
+    }
 	next_element = insert_after->next;
     insert_after->next = head_to_insert;
     head_to_insert->prev = insert_after;
