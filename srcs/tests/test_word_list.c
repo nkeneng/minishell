@@ -19,11 +19,12 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	while (1)
-	{
-		line = rl_gets();
+	// while (1)
+	// {
+		// line = rl_gets();
+		line = "ls -l | cat -e";
 		lst = parse_input(line, envp);
-	}
+	// }
 	ft_lstclear(&lst, ft_free_command);
 	return (0);
 }
