@@ -19,10 +19,14 @@ HEADER_DIR		= includes/
 
 DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests word_list)
 
+MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
+MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
+
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
-		$(addprefix lst/ft_, lstcreate_addback.c free_command.c printf_list.c) \
+		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
+		convert_word_list_to_list.c make_redirect_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c conversion_to_lst.c \
 		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c) \
@@ -30,8 +34,8 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix word_list/, word_list1.c word_list_methods.c word_list_methods2.c word_desc.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c \
-		tests/simple_main_for_list.c \
 		)
+
 
 HEADERS := ./includes
 
@@ -55,14 +59,6 @@ build: $(OBJS) $(LIBFT_A)
 run: all
 	./$(NAME)
 
-parse: NAME = parse_minishell
-parse: MAIN = srcs/tests/simple_main_for_list.c
-parse: build
-
-exec: NAME = exec_minishell
-exec: MAIN = srcs/main.c
-exec: build
-
 $(DIRS):
 	mkdir -p $@
 
@@ -70,7 +66,7 @@ $(TEST_OBJS_DIR):
 	@echo "Creating Test Obj directory.."
 	@mkdir -p $(TEST_OBJS_DIR)
 
-$(NAME): $(OBJS) $(LIBFT_A) $(MAIN:.c=.o)
+$(NAME): $(OBJS) $(LIBFT_A) $(MAIN_OBJ)
 	@echo "Linking executable $(NAME)..."
 	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
 	@echo "done"

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/04 15:27:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:32:16 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,23 @@ t_word_list	*make_word_list(char *line);
 t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag);
 
 // word_list_methods.c
+t_word_list	*init_word_list(char *line);
 t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word);
 void		ft_printf_word_list(t_word_list *word_list);
 void		*free_word_list(t_word_list **lst);
+t_word_list	*word_list_insert(t_word_list *word_list, t_word_desc *word);
 
 // word_list_methods2.c
-void	word_list_delone(t_word_list *to_remove);
+void	word_list_delone(t_word_list **head, t_word_list *to_remove);
+void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert_after);
+t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink);
 
-// word_list3.c
+// word_list3.c DEPRECATED
 t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);
 t_list	*convert_to_command_lst(t_word_list *head);
-t_word_list	*init_word_list(char *line);
 
 //word_desc.c
-t_word_desc *create_word(char *word, int flags);
+int		ft_printf_word_desc(void *word_desc);
 void		free_word_desc(t_word_desc *word_desc);
 t_word_desc	*make_word(const char *line, const int end, const int flag);
 #endif // !PARSING_H
