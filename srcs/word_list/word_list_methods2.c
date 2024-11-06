@@ -6,12 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 12:56:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:31:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 // deletes a single word_list item and reconnects the list
 void	word_list_delone(t_word_list **head, t_word_list *to_remove)
@@ -27,6 +26,23 @@ void	word_list_delone(t_word_list **head, t_word_list *to_remove)
 	if (to_remove->word)
 		free_word_desc(to_remove->word);
 	free(to_remove);
+}
+
+t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
+{
+	t_word_desc	*word;
+
+	word = to_unlink->word;
+	if (!head || !to_unlink)
+		return (NULL);
+	if (to_unlink == *head)
+		*head = to_unlink->next;
+	if (to_unlink->prev)
+		to_unlink->prev->next = to_unlink->next;
+	if (to_unlink->next)
+		to_unlink->next->prev = to_unlink->prev;
+	free(to_unlink);
+	return (word);
 }
 
 void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert_after)

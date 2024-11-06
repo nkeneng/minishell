@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:14:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 14:42:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:56:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_list	*convert_word_list_to_list(t_word_list *word_list)
 	// t_word_list	*next;
 
 	lst = NULL;
+	redirect_list = NULL;
 	curr = word_list;
 	// while (curr)
 	// {
