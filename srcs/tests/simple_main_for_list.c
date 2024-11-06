@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:02:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/03 19:16:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 10:09:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!word_list_head)
 		return (errno);
 	ft_printf_word_list(word_list_head);
+	convert_word_list_to_list(word_list_head);
 	// lst = convert_to_command_lst(word_list_head);
 	// ft_printf_lst(lst, ft_printf_command);
 	free_word_list(&word_list_head);
