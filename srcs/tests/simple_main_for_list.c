@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:02:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 10:09:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:40:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_word_list	*word_list_head;
 	// t_list		*lst;
-	char		line[] = "Hello|w\"ord      |\"	 space in	>file$here 		| var=this";
+	char		line[] = "echo Hello >outfile.txt >outfile2.txt < infile.txt|l\"s      |\"	 -e 	>file2.txt$here 		| var=this";
 	// int		exec_ret;
 	(void)argc;
 	(void)argv;

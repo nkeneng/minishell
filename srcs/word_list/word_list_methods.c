@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/03 19:02:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:42:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	*free_word_list(t_word_list **lst)
 			if (current->word && current->word->word)
 				free_word_desc(current->word);
 			free(current);
+			current = NULL;
 			(current) = next;
 		}
 	}

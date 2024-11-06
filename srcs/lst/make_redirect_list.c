@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:25:08 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 12:04:46 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 13:03:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,19 @@ t_list	*make_redirect_list(t_word_list **list)
 	while (curr)
 	{
 		curr = find_redir(curr);
-		if (!curr->next)
+		if (!curr)
+			break ;
+		if (curr->next == NULL)
+		{
 			syntax_error(*list, curr->word->word);
+			free_word_list(list);
+			ft_lstclear(&redir_head, free);
+			return (NULL);
+		}
 		ft_lstadd_back(&redir_head, ft_lstnew(curr->next->word));
-		word_list_delone(curr);
-		word_list_delone(curr->next);
+		curr = curr->next->next;
+		word_list_delone(list, curr->prev->prev);
+		word_list_delone(list, curr->prev);
 	}
 	return (redir_head);
 }
@@ -37,12 +45,14 @@ t_word_list	*find_redir(t_word_list *list)
 {
 	t_word_desc	*curr_item;
 
-	while (list && !(list->word->flags & WM_REDIR_MASK))
+	while (list)
 	{
 		curr_item = list->word;
-		if (is_pipe_or_redirect(curr_item->word))
+		if (curr_item->flags & WM_REDIR_MASK)
+			return (list);
+		if (curr_item->flags & WM_OPERATOR_MASK)
 			return (NULL);
 		list = list->next;
 	}
-	return (list);
+	return (NULL);
 }
