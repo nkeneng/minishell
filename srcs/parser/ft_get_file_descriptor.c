@@ -13,7 +13,7 @@ int	ft_get_file_descriptor(char *str)
 	{
 		if (i > 4)
 			return (-1);
-		if (ft_whitespace_sepreator(str[i]))
+		if (ft_whitespace_seperator(&str[i]))
 			break ;
 		if (!ft_isdigit(str[i]))
 			return (-1);
@@ -24,4 +24,3 @@ int	ft_get_file_descriptor(char *str)
 		return (-1);
 	return (fd);
 }
-

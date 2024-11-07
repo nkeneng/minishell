@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:14:14 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/24 15:56:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:10:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,37 @@ void	ft_is_var_name(t_word_desc *word)
 	return ;
 }
 
-//no need for this, just implement ft_is_var_name
-t_word_list	*split_for_var(char *line)
+// function that checks if sign is a special character in bash
+// speacial chars: ? $ @ ! - #
+// returns 1 if true, 0 if false
+int	ft_is_special(char c)
 {
-	t_word_list	*head;
-	int			i;
-	int			start;
+	if (c == '?' || c == '$' || c == '@' || c == '!' || c == '-' || c == '#')
+		return (1);
+	return (0);
+}
 
-	i = 1;
-	head = NULL;
-	while (line[i] && line[i] != '=')
-		i++;
-	start = i;
-	while (start >= 0 && line[start] != ' ')
-		start--;
-	while (line[i] && line[i] != ' ')
-		i++;
-	if (start)
+// function that checks if the word is a valid variable name
+// return 0 if it is not, return iterator of last sign that is still part of varname
+// takes a line after $ sign
+int	ft_is_var_till(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (ft_is_special(line[i]))
+		return (1);
+	while (line[i])
 	{
-		word_list_addback(head, make_word(line, start, 0));
-		if (!head)
-			return (NULL);
+		if (!(ft_isalnum(line[i]) || line[i] == '_'))
+			return (i);
+		i++;
 	}
-	word_list_addback(head, make_word(&line[start], i, W_VAR));
-	return (head);
+	// while (line[i] && line[i] != '=')
+	// {
+	// 	if (!(ft_isalnum(line[i]) || line[i] == '_'))
+	// 		return (0);
+	// 	i++;
+	// }
+	return (i);
 }
