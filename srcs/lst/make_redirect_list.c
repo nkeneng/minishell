@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:25:08 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 15:42:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 10:28:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ t_list	*make_redirect_list(t_word_list **list)
 		{
 			syntax_error(*list, curr->word->word);
 			free_word_list(list);
+			list = NULL;
 			ft_lstclear(&redir_head, free);
 			return (NULL);
 		}
-		word_to_add = word_list_unlink(list, curr->next); //run clean spaces on that
+		word_to_add = word_list_unlink(list, curr->next);
+		wd_remove_whitespace(word_to_add);
 		ft_lstadd_back(&redir_head, ft_lstnew(word_to_add));
 		next = curr->next;
 		word_list_delone(list, curr);

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/04 14:17:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:52:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define WM_OPERATOR_MASK (W_PIPE | W_AND | W_OR)
 
 # define WM_DOUBLE_SIGN (W_HERE_DOC | W_AND | W_OR | W_OPEN_OUT_APP)
-# define WM_SINGLE_SIGN (W_PIPE | W_OPEN_OUT_TRUNC | W_OPEN_INFILE | W_VAR | W_ASSIGNMENT)
+# define WM_SINGLE_SIGN (W_PIPE | W_OPEN_OUT_TRUNC | W_OPEN_INFILE |  W_ASSIGNMENT)
 
 /* Possible values for the `flags' field of a WORD_DESC. */
 //#define W_HASDOLLAR	(1 << 0)	/* Dollar sign present. */
