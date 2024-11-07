@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 15:32:16 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:29:45 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define PARSING_H
 
 # include "../libft/libft_full.h"
+
+//vars.c
+int	ft_is_var_till(char *line);
+int	ft_is_special(char c);
+void	ft_is_var_name(t_word_desc *word);
 
 //ft_get_file_descriptor.c
 int	ft_get_file_descriptor(char *str);
@@ -41,6 +46,8 @@ int	next_word_till_metachar(char *line);
 
 //spaces.c
 int	memmove_whitespaces_to_space(char *line);
+int	ft_remove_spaces(char *line);
+int	wd_remove_whitespace(t_word_desc *item);
 int	clean_whitespaces_to_space(t_word_desc *item);
 int	ft_whitespace_seperator(char *line);
 

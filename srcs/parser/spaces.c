@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:20:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 18:37:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 09:33:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,35 @@ int	ft_whitespace_seperator(char *line)
 	while (line[i] == ' ' || line[i] == '\n' || line[i] == '\t')
 		i++;
 	return (i);
+}
+
+int	wd_remove_whitespace(t_word_desc *item)
+{
+	if (item->flags & W_SQUOTED || item->flags & W_DQUOTED)
+		return (0);
+	return (ft_remove_spaces(item->word));
+}
+
+// removes all whitespaces from line (ALL, even the ones iside the word!!!)
+int	ft_remove_spaces(char *line)
+{
+	int	i;
+	int	s;
+	int	len;
+
+	s = 0;
+	if (line[0] == '\0')
+		return (-1);
+	len = ft_strlen(line);
+	i = 0;
+	while (line[i])
+	{
+		s = ft_whitespace_seperator(&line[i]);
+		if (s)
+			ft_memmove((void *) &line[i], (void *) &line[i + s], len - i + 1);
+		i++;
+	}
+	return (s);
 }
 
 //returns 1 if it tried to perform memmove on string where every whitespace 

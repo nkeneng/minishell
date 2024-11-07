@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/04 12:13:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:45:47 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,15 @@ int	next_word_till_metachar(char *line)
 		if (line[i++])
 			return (i++);
 	}
+	else if (sign == '$')
+		i += ft_is_var_till(&line[i + 1]) + 1;
 	else if (sign_to_flag(line))
 		while (line[i] == sign)
 			i++;
 	else
 		while (line[i] && !sign_to_flag(&line[i]))
 			i++;
-	// uncomment this to add the whitespace at the end of every sign, breaks checking for right operators dleimited by \0
-	/* i += ft_whitespace_seperator(&line[i]); */
+	i += ft_whitespace_seperator(&line[i]); // uncomment this to add the whitespace at the end of every sign, breaks checking for right operators dleimited by \0
 	return (i);
 }
 
