@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:14:14 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 15:28:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:10:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,17 @@ int	ft_is_var_till(char *line)
 	i = 0;
 	if (ft_is_special(line[i]))
 		return (1);
-	if (!(ft_isalpha(line[i]) || line[i] == '_'))
-		return (0);
-	i = 1;
 	while (line[i])
 	{
 		if (!(ft_isalnum(line[i]) || line[i] == '_'))
 			return (i);
 		i++;
 	}
-	while (line[i] && line[i] != '=')
-	{
-		if (!(ft_isalnum(line[i]) || line[i] == '_'))
-			return (0);
-		i++;
-	}
-	return (0);
+	// while (line[i] && line[i] != '=')
+	// {
+	// 	if (!(ft_isalnum(line[i]) || line[i] == '_'))
+	// 		return (0);
+	// 	i++;
+	// }
+	return (i);
 }

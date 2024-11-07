@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/03 19:13:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:28:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,24 @@ int	identify_word_type(t_word_desc *word)
 int	flag_correctly_delimeted(t_word_desc *item)
 {
 	int	flag;
+	int	trailing_wh;
 
 	flag = sign_to_flag(item->word);
-	if (flag & WM_DOUBLE_SIGN || flag & WM_SINGLE_SIGN)
+	if (flag & WM_DOUBLE_SIGN)
 	{
-		if (flag & WM_DOUBLE_SIGN && item->word[2] == '\0')
+		trailing_wh = ft_whitespace_seperator(&item->word[2]);
+		if (item->word[1 + trailing_wh + 1] == '\0')
 			return (1);
-		if (flag & WM_SINGLE_SIGN && item->word[1] == '\0')
+		else
+			return (0);
+	}
+	if (flag & WM_SINGLE_SIGN)
+	{
+		trailing_wh = ft_whitespace_seperator(&item->word[1]);
+		if (item->word[trailing_wh + 1] == '\0')
 			return (1);
-		return (0);
+		else
+			return (0);
 	}
 	return (3);
 }
