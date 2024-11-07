@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 15:29:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:45:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define PARSING_H
 
 # include "../libft/libft_full.h"
+
+//quotes.c
+t_word_desc	*remove_quotes(t_word_desc *word);
 
 //vars.c
 int	ft_is_var_till(char *line);
