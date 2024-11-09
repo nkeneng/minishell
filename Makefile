@@ -19,8 +19,7 @@ HEADER_DIR		= includes/
 
 DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests word_list)
 
-# MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
-MAIN = $(SRCS_DIR)tests/conversion_wordlist-lst.c
+MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
 MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 #		$(addprefix dummy_helpers/, fake_commands.c)

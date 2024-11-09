@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	word_list_head = make_word_list(line);
 	if (!word_list_head)
 		return (errno);
-	ft_printf_word_list(word_list_head);
+	// ft_printf_word_list(word_list_head);
 	convert_word_list_to_list(word_list_head);
 	// lst = convert_to_command_lst(word_list_head);
 	// ft_printf_lst(lst, ft_printf_command);

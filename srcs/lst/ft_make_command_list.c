@@ -1,14 +1,5 @@
 #include "../../includes/minishell.h"
 
-t_word_list	*mock_data(void)
-{
-	t_word_list	*word_list;
-
-	word_list = make_word_list(ft_strdup("ls -l | cat -e"));
-	ft_printf_word_list(word_list);
-	return (word_list);
-}
-
 int	get_number_of_words_before_pipe(t_word_list *word_list)
 {
 	int	number_of_words_before_pipe;
@@ -43,22 +34,4 @@ t_command	*make_command_list(t_word_list *word_list, t_word_list *curr)
 	}
 	curr = word_list;
 	return (command);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_word_list	*word_list;
-	t_command	*lst;
-	t_word_list	*curr;
-
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	curr = NULL;
-	word_list = mock_data();
-	lst = make_command_list(word_list, curr);
-	ft_printf("Command is : \n");
-	/* ft_printf_command(lst); */
-	(void)lst;
-	return (0);
 }
