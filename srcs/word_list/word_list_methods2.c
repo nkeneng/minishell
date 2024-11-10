@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 15:31:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 13:33:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,42 @@ t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
 	return (word);
 }
 
+t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink)
+{
+	t_redirect	*redirect;
+
+	if (!head || !to_unlink || !to_unlink->word)
+		return (NULL);
+	redirect = malloc(sizeof(t_redirect));
+	if (!redirect)
+		return (NULL);
+	redirect->filename = to_unlink->word;
+	redirect->next = NULL;
+	if (to_unlink == *head)
+		*head = to_unlink->next;
+	if (to_unlink->prev)
+		to_unlink->prev->next = to_unlink->next;
+	if (to_unlink->next)
+		to_unlink->next->prev = to_unlink->prev;
+	to_unlink->word = NULL;
+	free(to_unlink);
+	return (redirect);
+}
+
 void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert_after)
 {
-    t_word_list *next_element;
-    t_word_list *last;
+	t_word_list	*next_element;
+	t_word_list	*last;
 
-    if (!head_to_insert || !insert_after)
-    {
-        return ;
-    }
+	if (!head_to_insert || !insert_after)
+		return ;
 	next_element = insert_after->next;
-    insert_after->next = head_to_insert;
-    head_to_insert->prev = insert_after;
+	insert_after->next = head_to_insert;
+	head_to_insert->prev = insert_after;
 	last = head_to_insert;
-    while (last->next)
-        last = last->next;
-    last->next = next_element;
-    if (next_element)
-        next_element->prev = last;
+	while (last->next)
+		last = last->next;
+	last->next = next_element;
+	if (next_element)
+		next_element->prev = last;
 }

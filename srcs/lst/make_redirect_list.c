@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:25:08 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 10:28:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 12:02:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_list	*make_redirect_list(t_word_list **list)
 {
 	t_word_list		*curr;
 	t_list			*redir_head;
-	t_word_desc		*word_to_add;
+	t_redirect		*redir_item;
 	t_word_list		*next;
 
 	redir_head = NULL;
@@ -35,9 +35,9 @@ t_list	*make_redirect_list(t_word_list **list)
 			ft_lstclear(&redir_head, free);
 			return (NULL);
 		}
-		word_to_add = word_list_unlink(list, curr->next);
-		wd_remove_whitespace(word_to_add);
-		ft_lstadd_back(&redir_head, ft_lstnew(word_to_add));
+		redir_item = word_list_to_redirect(list, curr->next);
+		wd_remove_whitespace(redir_item->filename);
+		ft_lstadd_back(&redir_head, ft_lstnew(redir_item));
 		next = curr->next;
 		word_list_delone(list, curr);
 		curr = next;
