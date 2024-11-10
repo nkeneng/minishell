@@ -19,15 +19,15 @@ HEADER_DIR		= includes/
 
 DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests word_list)
 
-# MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
-MAIN = $(SRCS_DIR)tests/conversion_wordlist-lst.c
+MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
+# MAIN = $(SRCS_DIR)tests/conversion_wordlist-lst.c
 MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
-		convert_word_list_to_list.c make_redirect_list.c ft_printf_redirect.c) \
+		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c conversion_to_lst.c \
 		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c) \
