@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <readline/chardefs.h>
+#include <readline/readline.h>
 
 // takes a line started from character to check and returns number of characters
 // that are whitespaces in a row (== index of last whitespace char)

@@ -5,7 +5,7 @@ MAKEFILES := libft/Makefile
 NAME = minishell
 
 CC := cc
-CFLAGS := -Werror -Wall -Wextra -g
+CFLAGS := -Wall -Wextra -g
 LIBS := -lreadline
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
@@ -19,15 +19,15 @@ HEADER_DIR		= includes/
 
 DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests word_list)
 
-# MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
-MAIN = $(SRCS_DIR)tests/conversion_wordlist-lst.c
+MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
+# MAIN = $(SRCS_DIR)tests/conversion_wordlist-lst.c
 MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
-		convert_word_list_to_list.c make_redirect_list.c ft_printf_redirect.c) \
+		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c conversion_to_lst.c \
 		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c) \
@@ -78,17 +78,30 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(DIRS)
 $(TEST_OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(TEST_OBJS_DIR)
 	@$(CC) $(CFLAGS) -I$(HEADERS) -c $< -o $@
 
+LIBFT_DIR := libft
+
 submodules:
-	@mkdir -p libft
-	@if [ ! -d "$(LIBFT_DIR)" ] || [ -z "$$(ls -A $(LIBFT_DIR))" ]; then \
+	@mkdir -p $(LIBFT_DIR)
+	@if [ ! -d "$(LIBFT_DIR)/.git" ]; then \
 		echo "Initializing libft and its submodules..."; \
-		git submodule add -q -f git@github.com:Moat423/Libft_full.git $(LIBFT_DIR); \
-		git submodule update --init --recursive -- $(LIBFT_DIR); \
-	else \
+		git submodule add -q -f git@github.com:Moat423/Libft_full.git $(LIBFT_DIR) || true; \
+		git submodule update --init --recursive $(LIBFT_DIR); \
+	elif [ -z "$$(ls -A $(LIBFT_DIR))" ]; then \
 		echo "Updating libft and its submodules..."; \
-		git submodule update --init --recursive -- $(LIBFT_DIR); \
+		git submodule update --init --recursive $(LIBFT_DIR); \
 	fi
-	@make -s -C $(LIBFT_DIR) > /dev/null 2>&1
+	@make -C $(LIBFT_DIR)
+# submodules:
+# 	@mkdir -p libft
+# 	@if [ ! -d "$(LIBFT_DIR)" ] || [ -z "$$(ls -A $(LIBFT_DIR))" ]; then \
+# 		echo "Initializing libft and its submodules..."; \
+# 		git submodule add -q -f git@github.com:Moat423/Libft_full.git $(LIBFT_DIR); \
+# 		git submodule update --init --recursive -- $(LIBFT_DIR); \
+# 	else \
+# 		echo "Updating libft and its submodules..."; \
+# 		git submodule update --init --recursive -- $(LIBFT_DIR); \
+# 	fi
+# 	@make -s -C $(LIBFT_DIR) > /dev/null 2>&1
 
 $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT_DIR)
