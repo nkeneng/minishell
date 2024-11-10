@@ -22,6 +22,6 @@ int		ft_printf_command(void *command);
 t_list	*convert_word_list_to_list(t_word_list *word_list);
 t_list	*make_redirect_list(t_word_list **list);
 t_word_list	*find_redir(t_word_list *list);
-t_command	*make_command_list(t_word_list *word_list, t_word_list *curr);
+t_command	*make_command_list(t_word_list **word_list);
 int	ft_printf_redirect(void *redirect);
 #endif //!LIST_H
