@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:14:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 14:56:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:33:55 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list	*convert_word_list_to_list(t_word_list *word_list)
 		// if (!command)
 			// ft_lstclear(&lst, free_command); // free_command is not implemented
 		// command->redirects = redirect_list;
-		ft_printf_lst(redirect_list, ft_printf_word_desc);
+		ft_printf_lst(redirect_list, ft_printf_redirect);
 		// ft_lstadd_back(&lst, ft_lstnew(command));
 	ft_printf_word_list(word_list);
 	// }

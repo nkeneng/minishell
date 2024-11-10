@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 13:33:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:41:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	word_list_delone(t_word_list **head, t_word_list *to_remove)
 	free(to_remove);
 }
 
+// unused!!!
 t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
 {
 	t_word_desc	*word;
@@ -45,6 +46,21 @@ t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
 	return (word);
 }
 
+/**
+ * @brief Converts a word list element to a redirect item and removes the 
+ * element from the list.
+ *
+ * This function takes a word list element (`to_unlink`), creates a new 
+ * redirect item (`t_redirect`) containing the word from `to_unlink`, and 
+ * removes `to_unlink` from the word list. The word in `to_unlink` is moved 
+ * to the new redirect item, and `to_unlink` is freed.
+ *
+ * @param head A pointer to the head of the word list.
+ * @param to_unlink The word list element to be converted to a redirect item 
+ * and removed from the list.
+ * @return A pointer to the newly created redirect item, or NULL if an error 
+ * occurs.
+ */
 t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink)
 {
 	t_redirect	*redirect;
