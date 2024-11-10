@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 17:45:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 11:59:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void		*free_word_list(t_word_list **lst);
 t_word_list	*word_list_insert(t_word_list *word_list, t_word_desc *word);
 
 // word_list_methods2.c
+t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink);
 void	word_list_delone(t_word_list **head, t_word_list *to_remove);
 void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert_after);
 t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink);
