@@ -3,14 +3,16 @@
 int	get_number_of_words_before_pipe(t_word_list *word_list)
 {
 	int	number_of_words_before_pipe;
+	t_word_list	*tmp;
 
 	number_of_words_before_pipe = 0;
-	while (word_list)
+	tmp = word_list;
+	while (tmp->next)
 	{
-		if (word_list->word->flags & WM_OPERATOR_MASK)
+		if (tmp->word->flags & WM_OPERATOR_MASK)
 			break ;
 		number_of_words_before_pipe++;
-		word_list = word_list->next;
+		tmp = tmp->next;
 	}
 	return (number_of_words_before_pipe);
 }
@@ -19,6 +21,8 @@ t_command	*make_command_list(t_word_list *word_list, t_word_list *curr)
 {
 	t_command	*command;
 	int			number_of_words_before_pipe;
+	int i = 0;
+	t_word_list	*tmp;
 
 	(void)curr;
 	number_of_words_before_pipe = 0;
@@ -26,12 +30,17 @@ t_command	*make_command_list(t_word_list *word_list, t_word_list *curr)
 	number_of_words_before_pipe = get_number_of_words_before_pipe(word_list);
 	command->cmd = (char **)malloc(sizeof(char *) * (number_of_words_before_pipe
 				+ 1));
-	command->cmd[number_of_words_before_pipe] = NULL;
-	while (number_of_words_before_pipe--)
+	tmp = word_list;
+	while (i < number_of_words_before_pipe)
 	{
-		command->cmd[number_of_words_before_pipe] = ft_strdup(word_list->word->word);
-		word_list_delone(&word_list, word_list);
+		ft_printf("word_list->word->word : %s\n", word_list->word->word);
+		command->cmd[i] = ft_strdup(word_list->word->word);
+		word_list_delone(&word_list, tmp);
+		tmp = word_list;
+		i++;
 	}
+	word_list_delone(&word_list, tmp); // remove the pipe
+	command->cmd[i] = NULL;
 	curr = word_list;
 	return (command);
 }
