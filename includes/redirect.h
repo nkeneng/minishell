@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:26:45 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/01 17:18:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:32:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_word_list {
 //	REDIRECTION
 //UNUSED IGNORE THIS
 typedef struct s_redirect {
-	struct s_redirect_list	*next;
+	struct s_redirect	*next;
 	t_word_desc	*filename;		/* filename (or fd number as string) to redirect to. */
 }	t_redirect;
 
