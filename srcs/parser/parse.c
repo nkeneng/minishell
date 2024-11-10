@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 16:38:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:03:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ executes a command. Basically, the shell does the following:
 t_list	*parse_input(char *line, char **envp)
 {
 	t_word_list	*word_list_head;
+	t_shell		*shell;
 	// t_list		*lst;
-	(void)envp;
 	errno = 0;
-	word_list_head = make_word_list(line);
+	shell = init_shell(envp);
+	word_list_head = make_word_list(line); // add envp to make word list to expand env variables
 	if (!word_list_head)
 		return (NULL);
 	ft_printf_word_list(word_list_head);
-	convert_word_list_to_list(word_list_head);
+	// convert_word_list_to_list(word_list_head);
 	// lst = convert_to_command_lst(word_list_head);
 	// ft_printf_lst(lst, ft_printf_command);
 	free_word_list(&word_list_head);

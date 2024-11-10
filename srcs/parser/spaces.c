@@ -6,12 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:20:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 09:33:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 17:22:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <readline/readline.h>
 
 // takes a line started from character to check and returns number of characters
 // that are whitespaces in a row (== index of last whitespace char)
@@ -32,7 +31,7 @@ int	wd_remove_whitespace(t_word_desc *item)
 	return (ft_remove_spaces(item->word));
 }
 
-// removes all whitespaces from line (ALL, even the ones iside the word!!!)
+// removes all whitespaces from line (ALL, even the ones inside the word!!!)
 int	ft_remove_spaces(char *line)
 {
 	int	i;

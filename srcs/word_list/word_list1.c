@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 17:46:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:27:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,34 @@ t_word_list	*make_word_list(char *line)
 	if (loop_on_word_list(word_list))
 		return (NULL);
 	assign_flag(word_list);
+	if (loop_to_split_on_spaces(word_list))
+		return (NULL);
 	return (word_list);
+}
+
+int	loop_to_split_on_spaces(t_word_list *word_list)
+{
+	t_word_list	*curr;
+	t_word_list	*tmp;
+
+	curr = word_list;
+	while (curr)
+	{
+		ft_printf("CURR OUTSIDE\n");
+		ft_printf_word_desc(curr->word);
+		if (!(curr->word->flags & WM_SPLIT_AT_SPACES))
+		{
+			tmp = split_at_spaces(curr);
+			ft_printf("debug print: split at spaces CURR\n");
+			ft_printf_word_desc(curr->word);
+			ft_printf("debug print: split at spaces TMP\n");
+			ft_printf_word_desc(tmp->word);
+			word_list_delone(&word_list, curr);
+			curr = tmp;
+		}
+		curr = curr->next;
+	}
+	return (0);
 }
 
 int	loop_on_word_list(t_word_list *word_list)

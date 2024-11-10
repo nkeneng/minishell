@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 11:59:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 18:04:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int	wd_remove_whitespace(t_word_desc *item);
 int	clean_whitespaces_to_space(t_word_desc *item);
 int	ft_whitespace_seperator(char *line);
 
+//split_at_space.c
+t_word_list	*split_at_spaces(t_word_list *item);
+
 //flags.c
 int	flag_correctly_delimeted(t_word_desc *item);
 int	is_pipe_or_redirect(char *sign);
@@ -73,6 +76,7 @@ int	missing_close_bracket(char *line);
 int	loop_on_word_list(t_word_list *word_list);
 t_word_list	*make_word_list(char *line);
 t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag);
+int	loop_to_split_on_spaces(t_word_list *word_list);
 
 // word_list_methods.c
 t_word_list	*init_word_list(char *line);

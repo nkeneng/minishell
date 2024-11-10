@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 17:12:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:19:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 # define WM_REDIR_MASK (W_HERE_DOC | W_OPEN_INFILE | W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP)
 # define WM_OPERATOR_MASK (W_PIPE | W_AND | W_OR)
+# define WM_SPLIT_AT_SPACES (W_SQUOTED | W_DQUOTED | WM_OPERATOR_MASK | WM_REDIR_MASK)
 
 # define WM_DOUBLE_SIGN (W_HERE_DOC | W_AND | W_OR | W_OPEN_OUT_APP)
 # define WM_SINGLE_SIGN (W_PIPE | W_OPEN_OUT_TRUNC | W_OPEN_INFILE | W_ASSIGNMENT)

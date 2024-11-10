@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 14:58:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:23:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,13 @@ t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word)
 	return (new);
 }
 
+//inserts word after word_list
 t_word_list	*word_list_insert(t_word_list *word_list, t_word_desc *word)
 {
 	t_word_list	*new;
 
+	if (!word)
+		return (NULL);
 	new = malloc(sizeof(t_word_list));
 	if (!new)
 		return (NULL);
@@ -63,6 +66,7 @@ t_word_list	*word_list_insert(t_word_list *word_list, t_word_desc *word)
 		return (new);
 	}
 	new->next = word_list->next;
+	word_list->next->prev = new;
 	word_list->next = new;
 	new->prev = word_list;
 	return (new);

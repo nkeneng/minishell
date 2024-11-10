@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 17:38:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 18:02:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 // returns word_desc
 t_word_desc	*remove_quotes(t_word_desc *word)
 {
-	int	len;
+	int		len;
+	char *end_string;
+	int		len_end;
 
 	if (!(word->flags & W_SQUOTED || word->flags & W_DQUOTED))
 		return (word);
 	len = ft_strlen(word->word);
-	word->word[len - 1] = '\0';
+	end_string = ft_strrchr(word->word, word->word[0]);
+	len_end = ft_strlen(end_string);
 	ft_memmove(word->word, word->word + 1, len - 1);
 	return (word);
 }
