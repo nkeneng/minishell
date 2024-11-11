@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:07:48 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/11 15:48:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:28:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_word_list	*word_list_ft_split(char *line)
 	i = ft_skip_whitespace(line);
 	begin_word = i;
 	curr = NULL;
-	*head = NULL;
+	head = &curr;
 	while (line[i])
 	{
 		s = ft_whitespace_seperator(&line[i]);
@@ -66,7 +66,7 @@ t_word_list	*word_list_ft_split(char *line)
 			i += s;
 			new_item = make_word(&line[begin_word], i - begin_word, 0);
 			ft_printf("new_item->word: \"%s\"\n", new_item->word);
-			curr = word_list_addback(*head, new_item);
+			curr = word_list_addback(head, new_item);
 			ft_printf_word_list(*head);
 			ft_printf_word_list(curr);
 			if (!curr)
