@@ -6,11 +6,31 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 14:41:03 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:18:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+// Helper function to create and add a word node at the back,
+// frees everything in case of error
+t_word_list	*wl_add_node(t_word_list **head, char *line, int len, int flag)
+{
+	t_word_desc	*new_item;
+	t_word_list	*new_node;
+
+	if (len <= 0)
+		return (*head);
+	new_item = make_word(line, len, flag);
+	if (!new_item)
+		return (free_word_list(head));
+	new_node = word_list_addback(*head, new_item);
+	if (!new_node)
+		return (free_word_list(head));
+	if (!*head)
+		*head = new_node;
+	return (new_node);
+}
 
 // deletes a single word_list item and reconnects the list
 void	word_list_delone(t_word_list **head, t_word_list *to_remove)

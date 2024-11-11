@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 19:23:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:27:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word)
 		return (NULL);
 	new->word = word;
 	new->next = NULL;
+	new->prev = NULL;
 	if (!word_list)
 	{
 		word_list = new;
@@ -80,9 +81,6 @@ void	ft_printf_word_list(t_word_list *word_list)
 	while (word_list)
 	{
 		ft_printf_word_desc(word_list->word);
-		// ft_printf("%d:~%s~\n", i, word_list->word->word);
-		// ft_printf("flags:\n", i);
-		print_flag_name(word_list->word->flags);
 		ft_printf("\n");
 		i++;
 		word_list = word_list->next;
