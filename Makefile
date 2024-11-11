@@ -5,7 +5,8 @@ MAKEFILES := libft/Makefile
 NAME = minishell
 
 CC := cc
-CFLAGS := -Wall -Wextra -g
+#-fPIE: Used during compilation to generate position-independent code
+CFLAGS := -Wall -Wextra -Wextra -g -fPIE
 LIBS := -lreadline
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
@@ -68,9 +69,10 @@ $(TEST_OBJS_DIR):
 	@echo "Creating Test Obj directory.."
 	@mkdir -p $(TEST_OBJS_DIR)
 
+#-pie is used to generate position-independent code, new security feature
 $(NAME): $(OBJS) $(LIBFT_A) $(MAIN_OBJ)
 	@echo "Linking executable $(NAME)..."
-	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
+	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@ -pie
 	@echo "done"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(DIRS)
@@ -83,7 +85,7 @@ LIBFT_DIR := libft
 
 submodules:
 	@mkdir -p $(LIBFT_DIR)
-	@if [ ! -d "$(LIBFT_DIR)/.git" ]; then \
+	@if [ -d "$(LIBFT_DIR)/.git" ]; then \
 		echo "Initializing libft and its submodules..."; \
 		git submodule add -q -f git@github.com:Moat423/Libft_full.git $(LIBFT_DIR) || true; \
 		git submodule update --init --recursive $(LIBFT_DIR); \
