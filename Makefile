@@ -5,7 +5,7 @@ MAKEFILES := libft/Makefile
 NAME = minishell
 
 CC := cc
-CFLAGS := -Wall -Wextra -g
+CFLAGS := -Werror -Wall -Wextra -g
 LIBS := -lreadline
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
@@ -19,12 +19,12 @@ HEADER_DIR		= includes/
 
 DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests word_list)
 
-MAIN = $(SRCS_DIR)tests/simple_main_for_list.c
-# MAIN = $(SRCS_DIR)tests/conversion_wordlist-lst.c
+MAIN = $(SRCS_DIR)main.c
 MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
+		$(addprefix dummy_helpers/, fake_commands.c) \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
 		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c) \

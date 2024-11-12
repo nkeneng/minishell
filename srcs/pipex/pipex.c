@@ -22,19 +22,12 @@
 // TODO: make pipex use linked list instead of double array
 int	start_pipex(t_list **cmd_list, char *envp[])
 {
-	// int		i;
-	// int		fileindicator;
-	/* dummy_cmd_list(cmd_list); */
-	// fileindicator = input_checker(argc, argv[1]);
-	// i = 2;
-	// if (fileindicator == 2)
-	// 	pipheredoc(argv[i++]);
-	// else
-	// 	open_doc(argv[1], 0);
-	// open_doc(argv[argc - 1], fileindicator);
-	/* ft_printf_lst(*cmd_list, ft_printf_command); */
-	pipex(envp, cmd_list);
-	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
+	(void)envp;
+	dummy_cmd_list(cmd_list);
+	ft_printf_command((*cmd_list)->content);
+	// pipex(envp, cmd_list);
+	// return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
+	return (0);
 }
 
 // opens file, dup2s over correct std fd, filekind 0:inf, 1:outf, 2:outf(append)
