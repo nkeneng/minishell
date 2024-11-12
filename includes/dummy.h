@@ -10,4 +10,4 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	dummy_cmd_list(t_list **cmd_list);
+void	dummy_cmd_list(t_list **cmd_list, int num_cmds, ...);
