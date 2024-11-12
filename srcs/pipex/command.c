@@ -12,6 +12,38 @@
 
 #include "../../includes/minishell.h"
 
+/**
+ * TODO handle cd error code
+ */
+void handle_builtin(t_command *command, char *envp[])
+{
+	if (ft_strncmp(command->cmd[0], "cd", ft_strlen("cd")) == 0)
+		ft_cd(command->cmd[1]);
+	else if (ft_strncmp(command->cmd[0], "echo", ft_strlen("echo")) == 0)
+	{
+		if (ft_strncmp(command->cmd[1], "-n", ft_strlen("-n")) == 0)
+			ft_echo(command->cmd, 1);
+		else
+			ft_echo(command->cmd, 0);
+	}
+	else if (ft_strncmp(command->cmd[0], "pwd", ft_strlen("pwd")) == 0)
+		ft_pwd();
+	// else if (ft_strncmp(command->cmd[0], "export", ft_strlen("export")) == 0)
+	// {
+	// 	ft_export(command->cmd);
+	// 	return ;
+	// }
+	// else if (ft_strncmp(command->cmd[0], "unset", ft_strlen("unset")) == 0)
+	// {
+	// 	ft_unset(command->cmd);
+	// 	return ;
+	// }
+	else if (ft_strncmp(command->cmd[0], "env", ft_strlen("env")) == 0)
+		ft_env(envp);
+	else if (ft_strncmp(command->cmd[0], "exit", ft_strlen("exit")) == 0)
+		ft_exit();
+}
+
 int	exec_command(t_command *command, char *envp[], int *fd)
 {
 	pid_t	cpid;
@@ -28,7 +60,10 @@ int	exec_command(t_command *command, char *envp[], int *fd)
 				return (rperror("dup2"));
 			close(fd[1]);
 		}
-		make_exec(command, envp);
+		if (command->flags & C_BUILTIN)
+			handle_builtin(command, envp);
+		else
+			make_exec(command, envp);
 		exit(errno);
 	}
 	return (cpid);
@@ -44,7 +79,7 @@ int	pipex(char **envp, t_list **cmd_list)
 	while (tmp_list->next)
 	{
 		if (pipe(pipefd) == -1)
-			return (rperror("pipe"));
+			return (rperror("pipe"));	
 		cpid = exec_command(tmp_list->content, envp, pipefd);
 		if (cpid == -1)
 			return (rperror("fork"));
@@ -55,7 +90,7 @@ int	pipex(char **envp, t_list **cmd_list)
 		tmp_list = tmp_list->next;
 	}
 	close(pipefd[0]);
-	return (1);
+	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
 }
 
 int	exec_to_stdout(char **envp, t_command *cmd)
@@ -68,7 +103,10 @@ int	exec_to_stdout(char **envp, t_command *cmd)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		make_exec(cmd, envp);
+		if (cmd->flags & C_BUILTIN)
+			handle_builtin(cmd,envp);
+		else
+			make_exec(cmd, envp);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}

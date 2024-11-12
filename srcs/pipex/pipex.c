@@ -23,11 +23,11 @@
 int	start_pipex(t_list **cmd_list, char *envp[])
 {
 	(void)envp;
-	dummy_cmd_list(cmd_list);
-	// ft_printf_command((*cmd_list)->content);
-	pipex(envp, cmd_list);
-	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
-	return (0);
+	// dummy_cmd_list(cmd_list, 3, "ls -la", 0, "grep .c", 0, "wc -l", 0);
+	dummy_cmd_list(cmd_list, 1, "exit", C_BUILTIN);
+	if (!cmd_list)
+		return (rperror("command list empty"));
+	return (pipex(envp, cmd_list));
 }
 
 // opens file, dup2s over correct std fd, filekind 0:inf, 1:outf, 2:outf(append)

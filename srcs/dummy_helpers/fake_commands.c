@@ -11,34 +11,24 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdarg.h>
 
-void	dummy_cmd_list(t_list **cmd_list)
+void	dummy_cmd_list(t_list **cmd_list, int num_cmds, ...)
 {
-	t_command	*cmd1;
-	t_command	*cmd2;
-	t_command	*cmd3;
-	t_command	*cmd4;
-	t_command	*cmd5;
+	va_list	args;
+	t_command	*cmd;
+	int		i;
 
 	*cmd_list = NULL;
-	cmd1 = ft_calloc(1, sizeof(t_command));
-	cmd2 = ft_calloc(1, sizeof(t_command));
-	cmd3 = ft_calloc(1, sizeof(t_command));
-	cmd4 = ft_calloc(1, sizeof(t_command));
-	cmd5 = ft_calloc(1, sizeof(t_command));
-	cmd1->cmd = ft_split("ls -la", ' ');
-	cmd2->cmd = ft_split("grep .c", ' ');
-	cmd3->cmd = ft_split("wc -l", ' ');
-	cmd4->cmd = ft_split("sort -r", ' ');
-	cmd5->cmd = ft_split("cat -e", ' ');
-	cmd1->flags = 0;
-	cmd2->flags = 0;
-	cmd3->flags = 0;
-	cmd4->flags = 0;
-	cmd5->flags = 0;
-	ft_lstadd_back(cmd_list, ft_lstnew(cmd1));
-	ft_lstadd_back(cmd_list, ft_lstnew(cmd2));
-	ft_lstadd_back(cmd_list, ft_lstnew(cmd3));
-	ft_lstadd_back(cmd_list, ft_lstnew(cmd4));
-	ft_lstadd_back(cmd_list, ft_lstnew(cmd5));
+	va_start(args, num_cmds);
+	i = 0;
+	while (i < num_cmds)
+	{
+		cmd = ft_calloc(1, sizeof(t_command));
+		cmd->cmd = ft_split(va_arg(args, char *), ' ');
+		cmd->flags = va_arg(args, int);
+		ft_lstadd_back(cmd_list, ft_lstnew(cmd));
+		i++;
+	}
+	va_end(args);
 }

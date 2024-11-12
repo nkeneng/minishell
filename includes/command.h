@@ -25,6 +25,7 @@
 # define C_OPEN_OUT_APP		128 // 1 << 7  open output file for appending
 # define C_VAR				256 // 1 << 8  variable asignment
 # define C_LAST_PIPE		512 // 1 << 9  execute command output to stdout
+# define C_BUILTIN			1024 // 1 << 10  builtin shell function
 
 # define PIPE_OR_REDIR_MASK (C_PIPE | C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP)
 /* A structure which represents a command. */
