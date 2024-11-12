@@ -73,6 +73,7 @@ void	ft_printf_word_list(t_word_list *word_list)
 	int	i;
 
 	i = 1;
+	(void)i;
 	while (word_list)
 	{
 		ft_printf_word_desc(word_list->word);
