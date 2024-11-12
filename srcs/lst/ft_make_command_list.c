@@ -11,7 +11,8 @@ int	get_number_of_words_before_pipe(t_word_list *word_list)
 	{
 		if (tmp->word->flags & WM_OPERATOR_MASK)
 			break ;
-		number_of_words_before_pipe++;
+		if (tmp->word->flags & W_SPLITSPACE)
+			number_of_words_before_pipe++;
 		tmp = tmp->next;
 	}
 	return (number_of_words_before_pipe);
@@ -29,8 +30,7 @@ t_command	*make_command_list(t_word_list **word_list)
 	number_of_words_before_pipe = 0;
 	command = (t_command *)malloc(sizeof(t_command));
 	number_of_words_before_pipe = get_number_of_words_before_pipe(*word_list);
-	command->cmd = (char **)malloc(sizeof(char *) * (number_of_words_before_pipe
-				+ 1));
+	command->cmd = (char **)malloc(sizeof(char *) * (number_of_words_before_pipe + 1));
 	tmp = *word_list;
 	while (i < number_of_words_before_pipe)
 	{
