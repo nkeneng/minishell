@@ -24,9 +24,9 @@ int	start_pipex(t_list **cmd_list, char *envp[])
 {
 	(void)envp;
 	dummy_cmd_list(cmd_list);
-	ft_printf_command((*cmd_list)->content);
-	// pipex(envp, cmd_list);
-	// return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
+	// ft_printf_command((*cmd_list)->content);
+	pipex(envp, cmd_list);
+	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
 	return (0);
 }
 

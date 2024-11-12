@@ -41,7 +41,7 @@ int	pipex(char **envp, t_list **cmd_list)
 	t_list	*tmp_list;
 
 	tmp_list = *cmd_list;
-	while (tmp_list)
+	while (tmp_list->next)
 	{
 		if (pipe(pipefd) == -1)
 			return (rperror("pipe"));

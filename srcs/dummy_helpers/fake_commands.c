@@ -26,7 +26,7 @@ void	dummy_cmd_list(t_list **cmd_list)
 	cmd3 = ft_calloc(1, sizeof(t_command));
 	cmd4 = ft_calloc(1, sizeof(t_command));
 	cmd5 = ft_calloc(1, sizeof(t_command));
-	cmd1->cmd = ft_split("ls -l", ' ');
+	cmd1->cmd = ft_split("ls -la", ' ');
 	cmd2->cmd = ft_split("grep .c", ' ');
 	cmd3->cmd = ft_split("wc -l", ' ');
 	cmd4->cmd = ft_split("sort -r", ' ');
