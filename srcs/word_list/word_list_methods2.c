@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/11 20:18:46 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:42:16 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,23 @@ t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink)
 	return (redirect);
 }
 
-void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert_after)
+// inserts a word list called new_lst after a word list element called after
+// returns the last element of the inserted list
+t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 {
 	t_word_list	*next_element;
 	t_word_list	*last;
 
-	if (!head_to_insert || !insert_after)
-		return ;
-	next_element = insert_after->next;
-	insert_after->next = head_to_insert;
-	head_to_insert->prev = insert_after;
-	last = head_to_insert;
+	if (!new_lst || !after)
+		return (NULL);
+	next_element = after->next;
+	after->next = new_lst;
+	new_lst->prev = after;
+	last = new_lst;
 	while (last->next)
 		last = last->next;
 	last->next = next_element;
 	if (next_element)
 		next_element->prev = last;
+	return (last);
 }

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:07:48 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/11 20:26:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:59:21 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_word_list	*word_list_ft_split(char *line)
 		}
 		i++;
 	}
-	if (!wl_add_node(&head, &line[begin_word] , i - begin_word, 0))
+	if (!wl_add_node(&head, &line[begin_word], i - begin_word, 0))
 		return (NULL);
 	return (head);
 }

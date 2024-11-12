@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/11 19:42:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:35:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_word_list	*word_list_insert(t_word_list *word_list, t_word_desc *word);
 t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink);
 t_word_list	*wl_add_node(t_word_list **head, char *line, int begin, int len);
 void	word_list_delone(t_word_list **head, t_word_list *to_remove);
-void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert_after);
+t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after);
 t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink);
 
 // word_list3.c DEPRECATED

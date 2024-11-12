@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/11 15:18:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:00:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_list	*parse_input(char *line, char **envp)
 	errno = 0;
 	shell = init_shell(envp);
 	(void)shell;
-	// word_list_head = make_word_list(line); // add envp to make word list to expand env variables
-	word_list_head = word_list_ft_split(line);
+	word_list_head = make_word_list(line); // add envp to make word list to expand env variables
+	// word_list_head = word_list_ft_split(line);
 	if (!word_list_head)
 		return (NULL);
 	ft_printf_word_list(word_list_head);
