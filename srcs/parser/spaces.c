@@ -6,12 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:20:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 09:33:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 15:03:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <readline/readline.h>
 
 // takes a line started from character to check and returns number of characters
 // that are whitespaces in a row (== index of last whitespace char)
@@ -29,29 +28,37 @@ int	wd_remove_whitespace(t_word_desc *item)
 {
 	if (item->flags & W_SQUOTED || item->flags & W_DQUOTED)
 		return (0);
+	if (ft_remove_spaces(item->word))
+	{
+		ft_printf("wd_remove_whitespace: removed spaces\n");
+		item->flags |= W_SPLITSPACE;
+	}
 	return (ft_remove_spaces(item->word));
 }
 
-// removes all whitespaces from line (ALL, even the ones iside the word!!!)
+// removes all whitespaces from line (ALL, even the ones inside the word!!!)
 int	ft_remove_spaces(char *line)
 {
 	int	i;
 	int	s;
 	int	len;
+	int	whitespace_removed;
 
 	s = 0;
 	if (line[0] == '\0')
 		return (-1);
 	len = ft_strlen(line);
 	i = 0;
+	whitespace_removed = 0;
 	while (line[i])
 	{
 		s = ft_whitespace_seperator(&line[i]);
 		if (s)
 			ft_memmove((void *) &line[i], (void *) &line[i + s], len - i + 1);
 		i++;
+		whitespace_removed += s;
 	}
-	return (s);
+	return (whitespace_removed);
 }
 
 //returns 1 if it tried to perform memmove on string where every whitespace 

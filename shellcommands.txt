@@ -181,3 +181,11 @@ var is unset!!!
 
 REDIRECTIONS
 command <<EOL >output 2>/dev/null
+
+cat | cat | cat | ls
+cat | cat |ls
+
+cat | cat
+
+variable called SHLVL.
+if you call the shell in the shell, it increases. if you set it to 1000000 it says shell level too high, resetting to 1, and it resets the variable to 1

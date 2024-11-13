@@ -33,7 +33,7 @@ t_word_list	*split_around(t_word_desc *input)
 	while (input->word[i])
 	{
 		i += (next_word_till_metachar(&input->word[i]));
-		tmp = word_list_addback(h, make_word(&input->word[pi], i - pi, 0));
+		tmp = wl_addback(h, wd_make_word(&input->word[pi], i - pi, 0));
 		if (!h)
 			h = tmp;
 		if (!tmp)

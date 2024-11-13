@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:51:05 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/22 15:46:16 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/11/10 16:18:13 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_envp(char **env, t_shell *shell)
 		i++;
 	shell->nb_env = i;
 	shell->envp = malloc(sizeof(t_env) * (i + 1));
+	if (!shell->envp)
+		return ;
 	i = 0;
 	while (env[i])
 	{

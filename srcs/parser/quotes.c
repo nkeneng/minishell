@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 17:46:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:22:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@
 // returns word_desc
 t_word_desc	*remove_quotes(t_word_desc *word)
 {
-	int	len;
+	int		len;
+	char	*end_string;
+	int		len_end;
 
 	if (!(word->flags & W_SQUOTED || word->flags & W_DQUOTED))
 		return (word);
 	len = ft_strlen(word->word);
-	word->word[len - 1] = '\0';
-	ft_memmove(word->word, word->word + 1, len - 1);
+	end_string = ft_strrchr(word->word, word->word[0]);
+	len_end = ft_strlen(end_string);
+	ft_bzero(end_string, len_end);
+	ft_memmove(word->word, word->word + 1, len - len_end);
 	return (word);
 }
 
@@ -44,7 +48,7 @@ int	fill_with_token(char *line, t_word_list *to_fill)
 	}
 	else
 		i = next_word_till(line, line[0]);
-	desc = make_word(line, i, sign_to_flag(line));
+	desc = wd_make_word(line, i, sign_to_flag(line));
 	to_fill->word = desc;
 	return (i);
 }
@@ -55,6 +59,7 @@ t_word_list	*split_at_quote(char *line)
 	t_word_list	*item;
 	int			st;
 	int			i;
+	int			flag;
 
 	head = NULL;
 	i = 1;
@@ -64,12 +69,18 @@ t_word_list	*split_at_quote(char *line)
 		while (line[st] && (line[st] != '\'' || line[st] != '"'))
 			st++;
 		if (st)
-			item = wordlist_from_line(head, line, st, 0);
+			item = wl_from_line(head, line, st, 0);
 		if (!item)
 			return (NULL);
 		while (line[st + i] != line[st])
 			i++;
-		item = wordlist_from_line(head, &line[st], i, sign_to_flag(&line[st]));
+		flag = sign_to_flag(&line[st]);
+		if (ft_whitespace_seperator(&line[st + i + 1]))
+		{
+			line[st + i++] = ' ';
+			flag |= W_SPLITSPACE;
+		}
+		item = wl_from_line(head, &line[st], i, flag);
 		if (!item)
 			return (NULL);
 		st = i + 1;

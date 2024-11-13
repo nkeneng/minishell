@@ -35,11 +35,11 @@ t_list	*make_redirect_list(t_word_list **list)
 			ft_lstclear(&redir_head, free);
 			return (NULL);
 		}
-		redir_item = word_list_to_redirect(list, curr->next);
+		redir_item = wl_to_redirect(list, curr->next);
 		wd_remove_whitespace(redir_item->filename);
 		ft_lstadd_back(&redir_head, ft_lstnew(redir_item));
 		next = curr->next;
-		word_list_delone(list, curr);
+		wl_delone(list, curr);
 		curr = next;
 	}
 	return (redir_head);

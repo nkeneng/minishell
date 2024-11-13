@@ -5,7 +5,8 @@ MAKEFILES := libft/Makefile
 NAME = minishell
 
 CC := cc
-CFLAGS := -Werror -Wall -Wextra -g
+#-fPIE: Used during compilation to generate position-independent code
+CFLAGS := -Wall -Wextra -Wextra -g -fPIE
 LIBS := -lreadline
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
@@ -29,12 +30,13 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
 		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
-		$(addprefix parser/, parse.c missing_close.c conversion_to_lst.c \
-		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c) \
+		$(addprefix parser/, parse.c missing_close.c \
+		splitting.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c \
+		split_at_space.c make_word_list.c) \
 		$(addprefix tests/, prints.c) \
-		$(addprefix word_list/, word_list1.c word_list_methods.c word_list_methods2.c word_desc.c) \
+		$(addprefix word_list/, word_list_methods.c word_list_methods2.c word_list_methods3.c word_desc.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
-		init_envp.c \
+		init_envp.c init_shell.c \
 		)
 
 
@@ -67,9 +69,10 @@ $(TEST_OBJS_DIR):
 	@echo "Creating Test Obj directory.."
 	@mkdir -p $(TEST_OBJS_DIR)
 
+#-pie is used to generate position-independent code, new security feature
 $(NAME): $(OBJS) $(LIBFT_A) $(MAIN_OBJ)
 	@echo "Linking executable $(NAME)..."
-	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@
+	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@ -pie
 	@echo "done"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(DIRS)
@@ -82,7 +85,7 @@ LIBFT_DIR := libft
 
 submodules:
 	@mkdir -p $(LIBFT_DIR)
-	@if [ ! -d "$(LIBFT_DIR)/.git" ]; then \
+	@if [ -d "$(LIBFT_DIR)/.git" ]; then \
 		echo "Initializing libft and its submodules..."; \
 		git submodule add -q -f git@github.com:Moat423/Libft_full.git $(LIBFT_DIR) || true; \
 		git submodule update --init --recursive $(LIBFT_DIR); \

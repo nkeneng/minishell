@@ -64,4 +64,7 @@ int					exec_to_stdout(char **envp, t_command *command);
 // init_envp.c
 void				init_envp(char **env, t_shell *shell);
 
+// init_shell.c
+t_shell	*init_shell(char **env);
+
 #endif

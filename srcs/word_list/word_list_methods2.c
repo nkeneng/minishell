@@ -6,17 +6,41 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 14:41:03 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:37:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// deletes a single word_list item and reconnects the list
-void	word_list_delone(t_word_list **head, t_word_list *to_remove)
+// Helper function to create and add a word node at the back,
+// frees everything in case of error
+t_word_list	*wl_add_node(t_word_list **head, char *line, int len, int flag)
 {
+	t_word_desc	*new_item;
+	t_word_list	*new_node;
+
+	if (len <= 0)
+		return (*head);
+	new_item = wd_make_word(line, len, flag);
+	if (!new_item)
+		return (free_word_list(head));
+	new_node = wl_addback(*head, new_item);
+	if (!new_node)
+		return (free_word_list(head));
+	if (!*head)
+		*head = new_node;
+	return (new_node);
+}
+
+// deletes a single word_list item and reconnects the list
+// returns new current item
+t_word_list	*wl_delone(t_word_list **head, t_word_list *to_remove)
+{
+	t_word_list	*next;
+
+	next = to_remove->next;
 	if (!head || !to_remove)
-		return ;
+		return NULL;
 	if (*head == to_remove)
 		*head = to_remove->next;
 	if (to_remove->prev)
@@ -26,10 +50,11 @@ void	word_list_delone(t_word_list **head, t_word_list *to_remove)
 	if (to_remove->word)
 		free_word_desc(to_remove->word);
 	free(to_remove);
+	return (next);
 }
 
 // unused!!!
-t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
+t_word_desc	*wl_unlink(t_word_list **head, t_word_list *to_unlink)
 {
 	t_word_desc	*word;
 
@@ -61,7 +86,7 @@ t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
  * @return A pointer to the newly created redirect item, or NULL if an error 
  * occurs.
  */
-t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink)
+t_redirect	*wl_to_redirect(t_word_list **head, t_word_list *to_unlink)
 {
 	t_redirect	*redirect;
 
@@ -83,20 +108,23 @@ t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink)
 	return (redirect);
 }
 
-void	word_list_insert_word_list(t_word_list *head_to_insert, t_word_list *insert_after)
+// inserts a word list called new_lst after a word list element called after
+// returns the last element of the inserted list
+t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 {
 	t_word_list	*next_element;
 	t_word_list	*last;
 
-	if (!head_to_insert || !insert_after)
-		return ;
-	next_element = insert_after->next;
-	insert_after->next = head_to_insert;
-	head_to_insert->prev = insert_after;
-	last = head_to_insert;
+	if (!new_lst || !after)
+		return (NULL);
+	next_element = after->next;
+	after->next = new_lst;
+	new_lst->prev = after;
+	last = new_lst;
 	while (last->next)
 		last = last->next;
 	last->next = next_element;
 	if (next_element)
 		next_element->prev = last;
+	return (last);
 }
