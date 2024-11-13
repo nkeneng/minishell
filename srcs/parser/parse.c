@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/12 18:43:12 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:18:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_list	*parse_input(char *line, char **envp)
 {
 	t_word_list	*word_list_head;
 	t_shell		*shell;
-	t_list		*lst;
+	// t_list		*lst;
 
 	errno = 0;
 	shell = init_shell(envp);
@@ -44,8 +44,8 @@ t_list	*parse_input(char *line, char **envp)
 	if (!word_list_head)
 		return (NULL);
 	ft_printf_word_list(word_list_head);
-	lst = convert_word_list_to_list(word_list_head);
-	ft_printf_lst(lst, ft_printf_command);
+	// lst = convert_word_list_to_list(word_list_head);
+	// ft_printf_lst(lst, ft_printf_command);
 	free_word_list(&word_list_head);
 	return (NULL);
 }

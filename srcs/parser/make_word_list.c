@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 14:59:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:43:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,7 @@ t_word_list	*make_word_list(char *line)
 		return (NULL);
 	assign_flag(word_list);
 	if (loop_to_split_on_spaces(&word_list))
-	{
-		ft_printf("error in loop_to_split_on_spaces\n");
 		return (NULL);
-	}
-	ft_printf_word_list(word_list);
 	return (word_list);
 }
 
@@ -70,9 +66,8 @@ int	loop_to_split_on_spaces(t_word_list **word_list)
 			wl_delone(word_list, curr);
 			curr = tmp;
 		}
-		wd_remove_whitespace(curr->word);
-		ft_printf("removed whitespace\n");
-		ft_printf_word_desc(curr->word);
+		// not needed, already removing the unneccessary whitespace:
+		// wd_remove_whitespace(curr->word);
 		curr = curr->next;
 	}
 	return (0);

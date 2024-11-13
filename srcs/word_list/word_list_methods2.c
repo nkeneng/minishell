@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 14:44:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:37:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_redirect	*wl_to_redirect(t_word_list **head, t_word_list *to_unlink)
 }
 
 // inserts a word list called new_lst after a word list element called after
-// returns the first element of the inserted list
+// returns the last element of the inserted list
 t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 {
 	t_word_list	*next_element;
@@ -126,5 +126,5 @@ t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 	last->next = next_element;
 	if (next_element)
 		next_element->prev = last;
-	return (after->next);
+	return (last);
 }
