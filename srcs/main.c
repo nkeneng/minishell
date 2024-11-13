@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_list	*tmp;
 	t_shell	shell;
+	t_list *cmd_list;
 	int		i;
 
 	(void)argc;
@@ -26,13 +27,6 @@ int	main(int argc, char **argv, char **envp)
 	i = 0;
 	shell.envp = NULL;
 	init_envp(envp, &shell);
-	ft_export("export", &shell);
-	ft_export("export PATH=world 1223=dsds hello=world", &shell);
-	ft_printf("number of env variables: %d\n", shell.nb_env);
-	while (i < shell.nb_env)
-	{
-		ft_printf("key: %s, value: %s\n", shell.envp[i].key, shell.envp[i].value);
-		i++;
-	}
+	start_pipex(&cmd_list, envp);
 	return (EXIT_SUCCESS);
 }
