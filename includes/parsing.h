@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/12 18:26:14 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:21:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	missing_close_sign(char *line, char sign);
 int	missing_close_bracket(char *line);
 
 // word_list1.c
-int	loop_on_word_list(t_word_list *word_list);
+int	loop_on_word_list(t_word_list **word_list);
 t_word_list	*make_word_list(char *line);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
 int	loop_to_split_on_spaces(t_word_list **word_list);
@@ -89,7 +89,7 @@ t_word_list	*wl_insert(t_word_list *word_list, t_word_desc *word);
 // word_list_methods2.c
 t_redirect	*wl_to_redirect(t_word_list **head, t_word_list *to_unlink);
 t_word_list	*wl_add_node(t_word_list **head, char *line, int begin, int len);
-void	wl_delone(t_word_list **head, t_word_list *to_remove);
+t_word_list	*wl_delone(t_word_list **head, t_word_list *to_remove);
 t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after);
 t_word_desc	*wl_unlink(t_word_list **head, t_word_list *to_unlink);
 
