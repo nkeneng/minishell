@@ -12,19 +12,19 @@
 
 #include "../../includes/minishell.h"
 
-t_word_list	*init_word_list(char *line)
+t_word_list	*wl_init(char *line)
 {
 	t_word_list	*first_item;
 	t_word_desc	*desc;
 
-	desc = make_word(line, ft_strlen(line), 0);
+	desc = wd_make_word(line, ft_strlen(line), 0);
 	if (!desc)
 		return (NULL);
-	first_item = word_list_addback(NULL, desc);
+	first_item = wl_addback(NULL, desc);
 	return (first_item);
 }
 
-t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word)
+t_word_list	*wl_addback(t_word_list *word_list, t_word_desc *word)
 {
 	t_word_list	*new;
 	t_word_list	*current;
@@ -51,7 +51,7 @@ t_word_list	*word_list_addback(t_word_list *word_list, t_word_desc *word)
 }
 
 //inserts word after t_word_list item called item
-t_word_list	*word_list_insert(t_word_list *item, t_word_desc *word)
+t_word_list	*wl_insert(t_word_list *item, t_word_desc *word)
 {
 	t_word_list	*new;
 

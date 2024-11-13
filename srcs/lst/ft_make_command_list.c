@@ -35,11 +35,11 @@ t_command	*make_command_list(t_word_list **word_list)
 	while (i < number_of_words_before_pipe)
 	{
 		command->cmd[i] = ft_strdup((*word_list)->word->word);
-		word_list_delone(word_list, tmp);
+		wl_delone(word_list, tmp);
 		tmp = *word_list;
 		i++;
 	}
-	word_list_delone(word_list, tmp); // remove the pipe
+	wl_delone(word_list, tmp); // remove the pipe
 	command->cmd[i] = NULL;
 	return (command);
 }

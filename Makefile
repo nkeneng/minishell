@@ -32,9 +32,9 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c conversion_to_lst.c \
 		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c \
-		split_at_space.c) \
+		split_at_space.c make_word.c) \
 		$(addprefix tests/, prints.c) \
-		$(addprefix word_list/, word_list1.c word_list_methods.c word_list_methods2.c word_desc.c) \
+		$(addprefix word_list/, word_list_methods.c word_list_methods2.c word_list_methods3.c word_desc.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
 		init_envp.c init_shell.c \
 		)

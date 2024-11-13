@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_list1.c                                       :+:      :+:    :+:   */
+/*  wd_wd_make_word.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
+/*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/12 19:26:32 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/11/13 12:44:21 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/11/13 12:45:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_word_list	*make_word_list(char *line)
 	t_word_list	*word_list_head;
 	t_word_list	*word_list;
 
-	word_list_head = init_word_list(line);
+	word_list_head = wl_init(line);
 	word_list = (split_around(word_list_head->word));
 	free_word_list(&word_list_head);
 	if (!word_list || !word_list->word)
@@ -47,7 +47,7 @@ int	loop_to_split_on_spaces(t_word_list **word_list)
 				return (0);
 			}
 			tmp = wl_insert_word_list(tmp, curr);
-			word_list_delone(word_list, curr);
+			wl_delone(word_list, curr);
 			curr = tmp;
 		}
 		curr = curr->next;
@@ -82,20 +82,4 @@ int	loop_on_word_list(t_word_list *word_list)
 		curr = curr->next;
 	}
 	return (0);
-}
-
-// returns head, and if head NULL, error occured and list was freed.
-// puts string with size inside t_word_desc and adds that to the end of the list
-t_word_list	*wordlist_from_line(t_word_list *h, char *line, int size, int flag)
-{
-	t_word_list	*item;
-	t_word_desc	*desc;
-
-	desc = make_word(line, size, flag);
-	if (!desc)
-		return (NULL);
-	item = word_list_addback(h, desc);
-	if (!item)
-		free_word_list(&h);
-	return (h);
 }

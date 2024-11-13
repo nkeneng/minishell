@@ -50,7 +50,7 @@ int	ft_printf_word_desc(void *word_desc)
 
 // makes a word and puts it inside word_desc from start of line to end and
 // inherits flag to new item
-t_word_desc	*make_word(const char *line, const int end, const int flag)
+t_word_desc	*wd_make_word(const char *line, const int end, const int flag)
 {
 	t_word_desc	*item;
 

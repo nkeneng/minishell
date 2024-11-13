@@ -48,7 +48,7 @@ int	fill_with_token(char *line, t_word_list *to_fill)
 	}
 	else
 		i = next_word_till(line, line[0]);
-	desc = make_word(line, i, sign_to_flag(line));
+	desc = wd_make_word(line, i, sign_to_flag(line));
 	to_fill->word = desc;
 	return (i);
 }
@@ -69,7 +69,7 @@ t_word_list	*split_at_quote(char *line)
 		while (line[st] && (line[st] != '\'' || line[st] != '"'))
 			st++;
 		if (st)
-			item = wordlist_from_line(head, line, st, 0);
+			item = wl_from_line(head, line, st, 0);
 		if (!item)
 			return (NULL);
 		while (line[st + i] != line[st])
@@ -80,7 +80,7 @@ t_word_list	*split_at_quote(char *line)
 			line[st + i++] = ' ';
 			flag |= W_SPLITSPACE;
 		}
-		item = wordlist_from_line(head, &line[st], i, flag);
+		item = wl_from_line(head, &line[st], i, flag);
 		if (!item)
 			return (NULL);
 		st = i + 1;

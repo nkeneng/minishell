@@ -21,10 +21,10 @@ t_word_list	*wl_add_node(t_word_list **head, char *line, int len, int flag)
 
 	if (len <= 0)
 		return (*head);
-	new_item = make_word(line, len, flag);
+	new_item = wd_make_word(line, len, flag);
 	if (!new_item)
 		return (free_word_list(head));
-	new_node = word_list_addback(*head, new_item);
+	new_node = wl_addback(*head, new_item);
 	if (!new_node)
 		return (free_word_list(head));
 	if (!*head)
@@ -33,7 +33,7 @@ t_word_list	*wl_add_node(t_word_list **head, char *line, int len, int flag)
 }
 
 // deletes a single word_list item and reconnects the list
-void	word_list_delone(t_word_list **head, t_word_list *to_remove)
+void	wl_delone(t_word_list **head, t_word_list *to_remove)
 {
 	if (!head || !to_remove)
 		return ;
@@ -49,7 +49,7 @@ void	word_list_delone(t_word_list **head, t_word_list *to_remove)
 }
 
 // unused!!!
-t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
+t_word_desc	*wl_unlink(t_word_list **head, t_word_list *to_unlink)
 {
 	t_word_desc	*word;
 
@@ -81,7 +81,7 @@ t_word_desc	*word_list_unlink(t_word_list **head, t_word_list *to_unlink)
  * @return A pointer to the newly created redirect item, or NULL if an error 
  * occurs.
  */
-t_redirect	*word_list_to_redirect(t_word_list **head, t_word_list *to_unlink)
+t_redirect	*wl_to_redirect(t_word_list **head, t_word_list *to_unlink)
 {
 	t_redirect	*redirect;
 

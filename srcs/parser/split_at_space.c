@@ -32,8 +32,8 @@ t_word_list	*split_at_spaces(t_word_list *item)
 		if (s)
 		{
 			i += s;
-			new_item = make_word(&item->word->word[begin_word], i - begin_word, item->word->flags);
-			curr = word_list_insert(curr, new_item);
+			new_item = wd_make_word(&item->word->word[begin_word], i - begin_word, item->word->flags);
+			curr = wl_insert(curr, new_item);
 			if (!curr)
 				return (NULL);
 			begin_word = i;
