@@ -35,5 +35,4 @@ int	main(int argc, char **argv, char **envp)
 	// ft_lstclear(&lst, ft_free_command);
 	// exec_ret = do_list(&wordlist, envp);
 	return (0);
-	// return (exec_ret);
 }

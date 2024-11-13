@@ -22,6 +22,7 @@ void	ft_pwd(void)
 		perror("getcwd");
 		return ;
 	}
+	// ft_putendl_fd("hello", STDOUT_FILENO);
 	ft_putendl_fd(buf, STDOUT_FILENO);
 	free(buf);
 }
