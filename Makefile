@@ -30,8 +30,8 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
 		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
-		$(addprefix parser/, parse.c missing_close.c conversion_to_lst.c \
-		splitting.c cleanup.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c \
+		$(addprefix parser/, parse.c missing_close.c \
+		splitting.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c \
 		split_at_space.c make_word_list.c) \
 		$(addprefix tests/, prints.c) \
 		$(addprefix word_list/, word_list_methods.c word_list_methods2.c word_list_methods3.c word_desc.c) \
