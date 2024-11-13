@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:14:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 18:23:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:48:53 by lmeubrin         ###   ########.fr       */
 /*   Updated: 2024/11/06 16:22:55 by snkeneng         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -29,6 +29,8 @@ t_list	*convert_word_list_to_list(t_word_list *word_list)
 		if (!redirect_list && !word_list)
 			return (NULL);
 		command = make_command_list(&word_list);
+		if (redirect_list)
+			command->redirects = redirect_list;
 		// ft_printf_word_list(word_list);
 		// if (!command)
 		// ft_lstclear(&lst, free_command); // free_command is not implemented

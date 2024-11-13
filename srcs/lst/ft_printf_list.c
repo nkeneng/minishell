@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:55:44 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 18:21:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:47:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	ft_printf_command(void *command)
 	count += ft_printf("flags:\n");
 	print_flag_name(cmd->flags);
 	if (cmd->redirects)
+	{
 		count += ft_printf("	has redirects\n");
+		count += ft_printf_lst(cmd->redirects, ft_printf_redirect);
+	}
 	count += ft_printf("\n");
 	return (count);
 }
