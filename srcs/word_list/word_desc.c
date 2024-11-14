@@ -6,11 +6,23 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:19:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/11 20:10:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:46:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	ft_free_word_desc(void *word_desc)
+{
+	if (word_desc)
+	{
+		if (((t_word_desc *)word_desc)->word)
+			free(((t_word_desc *)word_desc)->word);
+		free(word_desc);
+		word_desc = NULL;
+	}
+	return ;
+}
 
 void	free_word_desc(t_word_desc *word_desc)
 {
