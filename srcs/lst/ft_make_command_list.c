@@ -11,12 +11,12 @@ int	get_number_of_words_before_pipe(t_word_list *word_list)
 	{
 		if (tmp->word->flags & WM_OPERATOR_MASK)
 			break ;
-		if (tmp->word->flags & W_SPLITSPACE)
+		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK)
 			number_of_words_before_pipe++;
 		tmp = tmp->next;
 	}
-	if (tmp)
-		number_of_words_before_pipe++;
+	if (!tmp->next)
+			number_of_words_before_pipe++;
 	return (number_of_words_before_pipe);
 }
 
