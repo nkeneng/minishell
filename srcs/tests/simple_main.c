@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simple_main_for_list.c                             :+:      :+:    :+:   */
+/*   simple_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:02:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 16:42:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:16:40 by lmeubrin         ###   ########.fr       */
 /*   Updated: 2024/11/07 16:05:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	errno = 0;
-	lst = parse_input(line, envp);
+	lst = parse_input(line, NULL);
 	if (!lst)
 		return (errno);
 	// ft_printf_word_list(word_list_head);

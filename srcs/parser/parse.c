@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 16:57:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:10:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,19 @@ executes a command. Basically, the shell does the following:
 	(see Exit Status).
 */
 
-t_list	*parse_input(char *line, char **envp)
+t_list	*parse_input(char *line, t_shell *shell)
 {
 	t_word_list	*word_list_head;
-	t_shell		*shell;
 	t_list		*lst;
 
-	errno = 0;
-	shell = init_shell(envp);
 	(void)shell;
+	errno = 0;
 	word_list_head = make_word_list(line); // add envp to make word list to expand env variables
 	if (!word_list_head)
 		return (NULL);
 	ft_printf_word_list(word_list_head);
 	lst = convert_word_list_to_list(word_list_head);
+	ft_printf("completed list:\n");
 	ft_printf_lst(lst, ft_printf_command);
 	// free_word_list(&word_list_head);
 	return (NULL);
