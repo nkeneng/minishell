@@ -189,3 +189,10 @@ cat | cat
 
 variable called SHLVL.
 if you call the shell in the shell, it increases. if you set it to 1000000 it says shell level too high, resetting to 1, and it resets the variable to 1
+
+bash sets variables to env if its the first thing and no command follows!! if it is part of a command, it is not set to env and it is not in a child Process
+(not even as the last command in a pipe!!!!)
+it does get set, if the only thing that follows is something that expands to an empty string. So it has to be followed by NOTHING
+lmeubrin@c4b8c2:~$ var=ls $var
+lmeubrin@c4b8c2:~$ var=8 echo $var
+ls

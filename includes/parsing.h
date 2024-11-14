@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 14:21:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:25:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	clean_line_whitespace(t_word_desc *obj);
 void	wl_clean_whitespace(t_word_list *lst);
 
 //parse.c
-t_list	*parse_input(char *line, char **envp);
+t_list	*parse_input(char *line, t_shell *shell);
 
 // splitting.c 
 t_word_list	*split_around(t_word_desc *input);

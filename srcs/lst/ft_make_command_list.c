@@ -15,26 +15,28 @@ int	get_number_of_words_before_pipe(t_word_list *word_list)
 			number_of_words_before_pipe++;
 		tmp = tmp->next;
 	}
+	if (tmp)
+		number_of_words_before_pipe++;
 	return (number_of_words_before_pipe);
 }
 
 t_command	*make_command_list(t_word_list **word_list)
 {
 	t_command	*command;
-	int			number_of_words_before_pipe;
+	int			wordcount_till_pipe;
 	int i = 0;
 	t_word_list	*tmp;
 
 	if(!word_list)
 		return (NULL);
-	number_of_words_before_pipe = 0;
+	wordcount_till_pipe = 0;
 	command = (t_command *)ft_calloc(sizeof(t_command), 1);
-	number_of_words_before_pipe = get_number_of_words_before_pipe(*word_list);
-	command->cmd = (char **)malloc(sizeof(char *) * (number_of_words_before_pipe + 1));
+	wordcount_till_pipe = get_number_of_words_before_pipe(*word_list);
+	command->cmd = (char **)malloc(sizeof(char *) * (wordcount_till_pipe + 1));
 	tmp = *word_list;
-	while (i < number_of_words_before_pipe)
+	while (i < wordcount_till_pipe)
 	{
-		if ((*word_list)->word->flags & W_SPLITSPACE)
+		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK)
 		{
 			command->cmd[i] = ft_strdup((*word_list)->word->word);
 			i++;

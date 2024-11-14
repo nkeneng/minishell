@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 16:37:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:18:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ t_word_list	*wl_delone(t_word_list **head, t_word_list *to_remove)
 {
 	t_word_list	*next;
 
-	next = to_remove->next;
 	if (!head || !to_remove)
 		return NULL;
+	next = to_remove->next;
 	if (*head == to_remove)
 		*head = to_remove->next;
 	if (to_remove->prev)
