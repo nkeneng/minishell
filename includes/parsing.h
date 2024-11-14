@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/14 12:25:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:47:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);
 t_list	*convert_to_command_lst(t_word_list *head);
 
 //word_desc.c
+void	ft_free_word_desc(void *word_desc);
 int		ft_printf_word_desc(void *word_desc);
 void		free_word_desc(t_word_desc *word_desc);
 t_word_desc	*wd_make_word(const char *line, const int end, const int flag);
