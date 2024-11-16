@@ -196,3 +196,6 @@ it does get set, if the only thing that follows is something that expands to an 
 lmeubrin@c4b8c2:~$ var=ls $var
 lmeubrin@c4b8c2:~$ var=8 echo $var
 ls
+
+empty environment: executables should still be finddable by parsing /etc/passwd
+env -i ./minishell

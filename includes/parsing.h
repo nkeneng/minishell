@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/14 14:47:14 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:41:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ t_word_desc	*remove_quotes(t_word_desc *word);
 int	ft_is_var_till(char *line);
 int	ft_is_special(char c);
 void	ft_is_var_name(t_word_desc *word);
+
+//expand.c
+int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
 
 //ft_get_file_descriptor.c
 int	ft_get_file_descriptor(char *str);
@@ -75,9 +78,9 @@ int	missing_close_bracket(char *line);
 
 // word_list1.c
 int	loop_on_word_list(t_word_list **word_list);
-t_word_list	*make_word_list(char *line);
+t_word_list	*make_word_list(char *line, t_shell *shell);
+int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
-int	loop_to_split_on_spaces(t_word_list **word_list);
 
 // word_list_methods.c
 t_word_list	*wl_init(char *line);

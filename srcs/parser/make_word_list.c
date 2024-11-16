@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 16:43:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:41:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_word_list	*remove_whitespace_element(t_word_list **head, t_word_list *curr)
 	return (curr);
 }
 
-t_word_list	*make_word_list(char *line)
+t_word_list	*make_word_list(char *line, t_shell *shell)
 {
 	t_word_list	*word_list_head;
 	t_word_list	*word_list;
@@ -40,15 +40,16 @@ t_word_list	*make_word_list(char *line)
 	if (loop_on_word_list(&word_list))
 		return (NULL);
 	assign_flag(word_list);
-	if (loop_to_split_on_spaces(&word_list))
+	if (loop_to_split_on_spaces(&word_list, shell))
 		return (NULL);
 	return (word_list);
 }
 
-int	loop_to_split_on_spaces(t_word_list **word_list)
+int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell)
 {
 	t_word_list	*curr;
 	t_word_list	*tmp;
+	int			tmp_expand_var_output;
 
 	curr = *word_list;
 	while (curr)
@@ -66,6 +67,9 @@ int	loop_to_split_on_spaces(t_word_list **word_list)
 			wl_delone(word_list, curr);
 			curr = tmp;
 		}
+		tmp_expand_var_output = ft_expand_variable_name(curr->word, shell);
+		ft_printf("output from tmp_expand_var_output:%d\n", tmp_expand_var_output);
+		ft_printf_word_desc(curr->word);
 		// not needed, already removing the unneccessary whitespace:
 		// wd_remove_whitespace(curr->word);
 		curr = curr->next;
