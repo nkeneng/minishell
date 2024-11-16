@@ -6,14 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/16 16:34:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:59:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*get_varname(char *str);
-char	*envp_keytovalue(char *key, t_shell *shell);
 
 // takes one item, checks if variables should be expanded, expands $variables
 // from environment
@@ -26,6 +23,7 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 {
 	char	*varname;
 	char	*value;
+	char	*new_word;
 
 	(void) shell;
 	if (item->flags & (WM_OPERATOR_MASK | W_SQUOTED))
@@ -36,25 +34,15 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 	if (!(*varname))
 		return (-1);
 	value = envp_keytovalue(varname, shell);
-	ft_printf("VALUE: -%s-\n", value);
-	// ft_strexchange(item->word, varname, value);
+	new_word = ft_strexchange(item->word, varname, value);
 	free(varname);
+	if (!new_word)
+		return (0); //malloc error
+	free(item->word);
+	item->word = new_word;
+	item->flags += W_EXPANDED;
 	return (-2);
 }
-
-//function to exchange the string to_replace and its preceeding $ with new_string
-// in the original string and frees the original
-// returns a malloced string or NULL if allocation failed
-// char	*ft_strexchange(char *original, char *to_replace, char *new_str)
-// {
-// 	int	len_to_replace;
-// 	int	len_original;
-//
-// 	len_to_replace = ft_strlen(to_replace);
-// 	len_original = ft_strlen(original);
-//
-// 	return (NULL);
-// }
 
 // returns a valid variable name in an allocated string
 // return "\0" empty string (local var), if no $ or var ended with length 0
@@ -82,8 +70,8 @@ char	*get_varname(char *str)
 
 char	*envp_keytovalue(char *key, t_shell *shell)
 {
-	int	i;
-	int	keylen;
+	int		i;
+	int		keylen;
 	t_env	*env;
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/16 15:41:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:54:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,14 @@ int	ft_is_var_till(char *line);
 int	ft_is_special(char c);
 void	ft_is_var_name(t_word_desc *word);
 
+//ft_strexchange.c
+char	*ft_strexchange(char *original, char *to_replace, char *new_str);
+
 //expand.c
 int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
+char	*get_varname(char *str);
+char	*envp_keytovalue(char *key, t_shell *shell);
+
 
 //ft_get_file_descriptor.c
 int	ft_get_file_descriptor(char *str);

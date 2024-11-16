@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:24:41 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/03 18:16:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:59:16 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	print_flag_name(int flag)
 		ft_printf("W_WORD_AND\n");
 	if (flag & W_WORD_OR)
 		ft_printf("W_WORD_OR\n");
-	if (flag & W_WORD_PIPE)
-		ft_printf("W_WORD_PIPE\n");
+	if (flag & W_EXPANDED)
+		ft_printf("W_EXPANDED\n");
 }
