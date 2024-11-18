@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/14 12:26:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:06:16 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		lst = parse_input(line, &shell);
 		if (!lst)
 			continue ;
-		start_pipex(&lst, envp);
+		// start_pipex(&lst, envp);
 		ft_lstclear(&lst, ft_free_command);
 		// exec_ret = do_list(&wordlist, envp);
 	}
