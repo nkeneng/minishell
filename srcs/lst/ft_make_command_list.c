@@ -20,6 +20,23 @@ int	get_number_of_words_before_pipe(t_word_list *word_list)
 	return (number_of_words_before_pipe);
 }
 
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*joined_str;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	joined_str = (char *) malloc(len1 + len2 + 1);
+	if (!joined_str)
+		return (NULL);
+	ft_strlcpy(joined_str, s1, len1 + 1);
+	ft_strlcpy(joined_str + len1, s2, len2 + 1);
+	joined_str[len1 + len2 + 1] = '\0';
+	return (joined_str);
+}
+
 t_command	*make_command_list(t_word_list **word_list)
 {
 	t_command	*command;
@@ -31,18 +48,27 @@ t_command	*make_command_list(t_word_list **word_list)
 		return (NULL);
 	wordcount_till_pipe = 0;
 	command = (t_command *)ft_calloc(sizeof(t_command), 1);
+	if (!command)
+		return (NULL);
 	wordcount_till_pipe = get_number_of_words_before_pipe(*word_list);
 	command->cmd = (char **)malloc(sizeof(char *) * (wordcount_till_pipe + 1));
+	if (!command->cmd)
+	{
+		free(command);
+		return (NULL);
+	}
 	tmp = *word_list;
 	while (i < wordcount_till_pipe)
 	{
-		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK)
+		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK \
+			|| !command->cmd[i])
 		{
-			command->cmd[i] = ft_strdup((*word_list)->word->word);
+			command->cmd[i] = ft_strdup(tmp->word->word);
 			i++;
 		}
 		else
-			command->cmd[i] = ft_strjoin(command->cmd[i], (*word_list)->word->word);
+			command->cmd[i] = ft_strjoin(command->cmd[i], tmp->word->word);
+		// if not command->cmd[i], free
 		command->flags += (*word_list)->word->flags;
 		wl_delone(word_list, tmp);
 		tmp = *word_list;
