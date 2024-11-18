@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/16 17:54:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:26:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,12 @@ void	assign_operator_till_end(t_word_list *list, int flag);
 int	missing_close_sign(char *line, char sign);
 int	missing_close_bracket(char *line);
 
-// word_list1.c
+// make_word_list.c
 int	loop_on_word_list(t_word_list **word_list);
 t_word_list	*make_word_list(char *line, t_shell *shell);
 int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
+t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell);
 
 // word_list_methods.c
 t_word_list	*wl_init(char *line);
