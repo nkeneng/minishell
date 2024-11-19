@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 15:58:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:57:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_word_list	*wl_delone(t_word_list **head, t_word_list *to_remove)
 	t_word_list	*next;
 
 	if (!head || !to_remove)
-		return NULL;
+		return (NULL);
 	next = to_remove->next;
 	if (*head == to_remove)
 		*head = to_remove->next;
@@ -108,8 +108,8 @@ t_redirect	*wl_to_redirect(t_word_list **head, t_word_list *to_unlink)
 	return (redirect);
 }
 
-//returns the first element of the inserted list
-//changes old to the last element of the inserted list
+// inserts a word list called new_lst instead of a word list element called old
+//returns the last element of the inserted list
 t_word_list	*wl_insert_instead(t_word_list *new_lst, t_word_list *old)
 {
 	t_word_list	*next_element;
@@ -133,12 +133,11 @@ t_word_list	*wl_insert_instead(t_word_list *new_lst, t_word_list *old)
 		next_element->prev = last;
 	free_word_desc(old->word);
 	free(old);
-	old = last;
-	return (new_lst);
+	return (last);
 }
 
 // inserts a word list called new_lst after a word list element called after
-// returns the first element of the inserted list
+// returns the last element of the inserted list
 t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 {
 	t_word_list	*next_element;
@@ -155,5 +154,5 @@ t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 	last->next = next_element;
 	if (next_element)
 		next_element->prev = last;
-	return (new_lst);
+	return (last);
 }
