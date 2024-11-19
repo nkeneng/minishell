@@ -23,8 +23,16 @@ char	*rl_gets(void)
 		line = NULL;
 	}
 	line = readline("minishell$ ");
-	if (!line || ft_strncmp("exit", line, 4) == 0)
+	if (!line)
+	{
+		ft_printf("exiting");
 		exit (0);
+	}
+	if (ft_strncmp("exit", line, 4) == 0)
+	{
+		ft_printf("exiting strncmp");
+		exit (0);
+	}
 	if (line && *line) // seeing if line is not is unnecessary because auf previous check, leaving it in for later
 		add_history(line);
 	return (line);

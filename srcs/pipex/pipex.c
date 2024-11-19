@@ -22,9 +22,7 @@
 // TODO: make pipex use linked list instead of double array
 int	start_pipex(t_list **cmd_list, char *envp[])
 {
-	(void)envp;
 	// dummy_cmd_list(cmd_list, 3, "ls -la", 0, "grep .c", 0, "wc -l", 0);
-	dummy_cmd_list(cmd_list, 1, "exit", C_BUILTIN);
 	if (!cmd_list)
 		return (rperror("command list empty"));
 	return (pipex(envp, cmd_list));
@@ -82,24 +80,4 @@ int	pipheredoc(char *arg)
 	close(pipefd[0]);
 	waitpid(cpid, NULL, 0);
 	return (EXIT_SUCCESS);
-}
-
-int	input_checker(int argc, char *arg)
-{
-	if (argc <= 4)
-	{
-		ft_fprintf(2, "pipex: parse error\n");
-		exit(0);
-	}
-	else if (ft_strncmp("here_doc", arg, 8) == 0)
-	{
-		if (argc < 6)
-		{
-			ft_fprintf(2, "pipex: parse error\n");
-			exit(0);
-		}
-		else
-			return (2);
-	}
-	return (1);
 }
