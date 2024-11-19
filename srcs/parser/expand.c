@@ -63,7 +63,6 @@ char	*get_varname(char *str)
 		varname = ft_substr(varname, 0, end);
 		if (!varname)
 			return (NULL);
-		ft_printf("varname: %s\n", varname);
 	}
 	return (varname);
 }

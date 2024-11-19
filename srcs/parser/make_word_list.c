@@ -57,11 +57,14 @@ t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
 		tmp = word_list_ft_split(item->word->word, item->word->flags);
 		if (!tmp)
 			return (free_word_list(word_list));
-		tmp = wl_insert_instead(tmp, item);
+		// tmp = wl_insert_instead(tmp, item);
+		tmp = wl_insert_word_list(tmp, item);
 		if (!tmp)
 			return (free_word_list(word_list));
+		wl_delone(word_list, item);
+		item = tmp;
 	}
-	return (tmp);
+	return (item);
 }
 
 int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell)
