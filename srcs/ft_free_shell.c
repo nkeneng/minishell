@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_command_list.c                             :+:      :+:    :+:   */
+/*   ft_free_shell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 14:28:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 10:25:14 by lmeubrin         ###   ########.fr       */
+/*   Created: 2024/11/18 10:07:58 by lmeubrin          #+#    #+#             */
+/*   Updated: 2024/11/18 10:30:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-void	ft_free_command_list(t_list **lst)
+// TODO: make this work, it is leaking memory
+
+void	ft_free_shell(t_shell **shell)
 {
-	t_list	*tmp;
+	if (!shell || !*shell)
+		return ;
+	if ((*shell)->envp)
+		ft_free_envp((*shell)->envp, (*shell)->nb_env);
+	free(*shell);
+	*shell = NULL;
+}
 
-	if (!lst)
-		return ;
-	if (!*lst)
-		return ;
-	tmp = *lst;
-	while (*lst)
+void	ft_free_envp(t_env *envp, int nb_env)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_env)
 	{
-		ft_lstclear(&((t_command *)tmp->content)->redirects, ft_free_word_desc);
-		ft_free_command(tmp->content);
-		tmp = (*lst)->next;
-		free(*lst);
-		*lst = tmp;
+		free(envp[i].key);
+		free(envp[i].value);
+		i++;
 	}
-	return ;
+	free(envp);
 }

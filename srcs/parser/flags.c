@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:01:31 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 17:28:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 13:23:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,5 @@ int	sign_to_flag(char *sign)
 	i = is_quote(sign);
 	if (i)
 		return (i);
-	if (*sign == '$')
-		return (W_VAR);
-	if (*sign == '=')
-		return (W_ASSIGNMENT);
 	return (is_pipe_or_redirect(sign));
 }

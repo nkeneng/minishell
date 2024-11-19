@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/13 16:43:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:51:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_word_list	*remove_whitespace_element(t_word_list **head, t_word_list *curr)
 	return (curr);
 }
 
-t_word_list	*make_word_list(char *line)
+t_word_list	*make_word_list(char *line, t_shell *shell)
 {
 	t_word_list	*word_list_head;
 	t_word_list	*word_list;
@@ -40,37 +40,69 @@ t_word_list	*make_word_list(char *line)
 	if (loop_on_word_list(&word_list))
 		return (NULL);
 	assign_flag(word_list);
-	if (loop_to_split_on_spaces(&word_list))
+	if (loop_to_split_on_spaces(&word_list, shell))
 		return (NULL);
 	return (word_list);
 }
 
-int	loop_to_split_on_spaces(t_word_list **word_list)
+t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
+{
+	t_word_list	*tmp;
+
+	item = remove_whitespace_element(word_list, item);
+	if (!(item->word->flags & WM_SPLIT_AT_SPACES))
+	{
+		tmp = word_list_ft_split(item->word->word);
+		if (!tmp)
+			return (free_word_list(word_list));
+		tmp = wl_insert_word_list(tmp, item);
+		if (!tmp)
+			return (free_word_list(word_list));
+		wl_delone(word_list, item);
+		item = tmp;
+	}
+	return (item);
+}
+
+int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell)
 {
 	t_word_list	*curr;
 	t_word_list	*tmp;
 
+	(void)shell;
 	curr = *word_list;
 	while (curr)
 	{
-		curr = remove_whitespace_element(word_list, curr);
-		if (!(curr->word->flags & WM_SPLIT_AT_SPACES))
-		{
-			tmp = word_list_ft_split(curr->word->word);
-			if (!tmp)
-			{
-				free_word_list(word_list);
-				return (1);
-			}
-			tmp = wl_insert_word_list(tmp, curr);
-			wl_delone(word_list, curr);
-			curr = tmp;
-		}
-		// not needed, already removing the unneccessary whitespace:
-		// wd_remove_whitespace(curr->word);
+		tmp = curr;
+		curr = split_element_at_wh(word_list, curr);
+		if (!tmp)
+			free_word_list(word_list);
+		ft_printf("\nWORD in LOOP:\n");
+		ft_printf_word_desc(curr->word);
+		if (curr->word->flags != W_EXPANDED)
+			curr = expand_and_split(word_list, curr, shell);
+		ft_printf("\nWORD after expansion:\n");
+		ft_printf_word_desc(curr->word);
+		if (!tmp)
+			free_word_list(word_list);
 		curr = curr->next;
 	}
 	return (0);
+}
+
+t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell)
+{
+	int			expand_ret;
+
+	expand_ret = ft_expand_variable_name(curr->word, shell);
+	if (expand_ret == 0)
+	{
+		free_word_list(word_list);
+		return (NULL);
+	}
+	// else if (expand_ret == -2)
+	// 	curr = split_element_at_wh(word_list, curr);
+	return (curr);
 }
 
 int	loop_on_word_list(t_word_list **word_list)

@@ -65,6 +65,10 @@ int					exec_to_stdout(char **envp, t_command *command);
 void				init_envp(char **env, t_shell *shell);
 
 // init_shell.c
-t_shell	*init_shell(char **env);
+t_shell				*init_shell(char **env);
+
+// ft_free_shell.c
+void				ft_free_shell(t_shell **shell);
+void				ft_free_envp(t_env *envp, int nb_env);
 
 #endif

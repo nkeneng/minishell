@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/12 15:36:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:56:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define W_LAST				262144 // 1 << 18  execute command output to stdout
 # define W_SUBSHELL	524288/* ( ... ) subshell */
 # define W_NEEDCLOSBRC	1048576	/* need close brace */
-# define W_WORD_PIPE 8388608  /* word is not the operator but a word that needs to be piped */
+# define W_EXPANDED 8388608  /* word is not the operator but a word that needs to be piped */
 # define W_WORD_AND 268435456  /* word is not the operator but a word that needs to be anded */
 # define W_WORD_OR 536870912  /* word is not the operator but a word that needs to be ored */
 # define W_DONE		1073741824 /* nothing else to do here */

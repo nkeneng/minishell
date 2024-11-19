@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/14 14:47:14 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:26:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ t_word_desc	*remove_quotes(t_word_desc *word);
 int	ft_is_var_till(char *line);
 int	ft_is_special(char c);
 void	ft_is_var_name(t_word_desc *word);
+
+//ft_strexchange.c
+char	*ft_strexchange(char *original, char *to_replace, char *new_str);
+
+//expand.c
+int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
+char	*get_varname(char *str);
+char	*envp_keytovalue(char *key, t_shell *shell);
+
 
 //ft_get_file_descriptor.c
 int	ft_get_file_descriptor(char *str);
@@ -73,11 +82,12 @@ void	assign_operator_till_end(t_word_list *list, int flag);
 int	missing_close_sign(char *line, char sign);
 int	missing_close_bracket(char *line);
 
-// word_list1.c
+// make_word_list.c
 int	loop_on_word_list(t_word_list **word_list);
-t_word_list	*make_word_list(char *line);
+t_word_list	*make_word_list(char *line, t_shell *shell);
+int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
-int	loop_to_split_on_spaces(t_word_list **word_list);
+t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell);
 
 // word_list_methods.c
 t_word_list	*wl_init(char *line);

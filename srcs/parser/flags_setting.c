@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:13:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/06 15:46:12 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 13:33:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,7 @@ void	assign_flag(t_word_list *list)
 	while (curr)
 	{
 		flag = sign_to_flag(curr->word->word);
-		if (flag & W_ASSIGNMENT)
-		{
-			curr->next->word->flags |= flag;
-			curr->prev->word->flags |= flag;
-		}
-		else if (flag & W_VAR && curr->next)
-			curr->next->word->flags |= flag;
-		else if (flag & WM_OPERATOR_MASK)
+		if (flag & WM_OPERATOR_MASK)
 			list = curr->next;
 		else if (flag & WM_REDIR_MASK && curr->next)
 			curr->next->word->flags |= flag;
