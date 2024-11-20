@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 12:36:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:57:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_word_list	*wl_delone(t_word_list **head, t_word_list *to_remove)
 	t_word_list	*next;
 
 	if (!head || !to_remove)
-		return NULL;
+		return (NULL);
 	next = to_remove->next;
 	if (*head == to_remove)
 		*head = to_remove->next;
@@ -108,8 +108,36 @@ t_redirect	*wl_to_redirect(t_word_list **head, t_word_list *to_unlink)
 	return (redirect);
 }
 
+// inserts a word list called new_lst instead of a word list element called old
+//returns the last element of the inserted list
+t_word_list	*wl_insert_instead(t_word_list *new_lst, t_word_list *old)
+{
+	t_word_list	*next_element;
+	t_word_list	*last;
+
+	if (!new_lst || !old)
+		return (NULL);
+	next_element = old->next;
+	if (old->prev)
+	{
+		old->prev->next = new_lst;
+		new_lst->prev = old->prev;
+	}
+	else
+		new_lst->prev = NULL;
+	last = new_lst;
+	while (last->next)
+		last = last->next;
+	last->next = next_element;
+	if (next_element)
+		next_element->prev = last;
+	free_word_desc(old->word);
+	free(old);
+	return (last);
+}
+
 // inserts a word list called new_lst after a word list element called after
-// returns the first element of the inserted list
+// returns the last element of the inserted list
 t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 {
 	t_word_list	*next_element;
@@ -126,5 +154,5 @@ t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
 	last->next = next_element;
 	if (next_element)
 		next_element->prev = last;
-	return (new_lst);
+	return (last);
 }

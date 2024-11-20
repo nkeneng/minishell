@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 16:34:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:45:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	start_pipex(t_list **cmd_list, char *envp[])
 {
 	(void)envp;
 	// dummy_cmd_list(cmd_list, 3, "ls -la", 0, "grep .c", 0, "wc -l", 0);
-	dummy_cmd_list(cmd_list, 1, "exit", C_BUILTIN);
+	// dummy_cmd_list(cmd_list, 1, "exit", C_BUILTIN);
 	if (!cmd_list)
 		return (rperror("command list empty"));
 	return (pipex(envp, cmd_list));

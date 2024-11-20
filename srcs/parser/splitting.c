@@ -19,7 +19,7 @@
 // TODO: check length of metachar seperator
 
 // use this to create new element containting one or multiple consecutive
-// '$' or '=' or '&' or '|' or << or >> or < or >
+// '&' or '|' or << or >> or < or >
 t_word_list	*split_around(t_word_desc *input)
 {
 	int			i;
