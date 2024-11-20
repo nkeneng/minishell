@@ -27,7 +27,7 @@ t_word_list	*make_word_list(char *line, t_shell *shell)
 	assign_flag(word_list);
 	if (wl_split_on_whitesp(&word_list, shell))
 		return (NULL);
-	if (wl_expand_list(&word_list, shell))
+	if (1 == wl_expand_list(&word_list, shell))
 		return (NULL);
 	return (word_list);
 }
@@ -47,8 +47,6 @@ t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
 			return (free_word_list(word_list));
 		// tmp = wl_insert_instead(tmp, item);
 		tmp = wl_insert_word_list(tmp, item);
-		if (!tmp)
-			return (free_word_list(word_list));
 		wl_delone(word_list, item);
 		item = tmp;
 	}

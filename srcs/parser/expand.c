@@ -18,6 +18,7 @@
 // returns 2 if syntax error
 // returns -1 if it didn't need to change any items
 // returns -2 if it expanded item
+// returns -3 current elemented should be deleted (it expanded to empty str)
 // instead of item
 int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 {
@@ -34,6 +35,8 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 	if (!(*varname))
 		return (-1);
 	value = envp_keytovalue(varname, shell);
+	if (!(*value))
+		return (-3);
 	new_word = ft_strexchange(item->word, varname, value);
 	free(varname);
 	if (!new_word)
