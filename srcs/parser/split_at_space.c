@@ -71,7 +71,7 @@ t_word_list	*word_list_ft_split(char *line, int	flags)
 	}
 	if (begin_word != i)
 	{
-		if (!wl_add_node(&head, &line[begin_word], i - begin_word, flags & ~W_SPLITSPACE))
+		if (!wl_add_node(&head, &line[begin_word], i - begin_word, flags))
 			return (NULL);
 	}
 	return (head);

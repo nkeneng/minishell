@@ -60,15 +60,13 @@ t_command	*make_command_list(t_word_list **word_list)
 	tmp = *word_list;
 	while (i < wordcount_till_pipe)
 	{
-		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK \
-			|| !command->cmd[i])
-		{
-			command->cmd[i] = ft_strdup(tmp->word->word);
-			i++;
-		}
-		else
+		if (command->cmd[i] && (tmp->prev && tmp->prev->word->flags & ~W_SPLITSPACE))
 			command->cmd[i] = ft_strjoin(command->cmd[i], tmp->word->word);
-		// if not command->cmd[i], free
+		else
+			command->cmd[i] = ft_strdup(tmp->word->word);
+		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK)
+			i++;
+		// TODO: free if !command->cmd[i]
 		command->flags += (*word_list)->word->flags;
 		wl_delone(word_list, tmp);
 		tmp = *word_list;

@@ -78,15 +78,11 @@ int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell)
 	{
 		tmp = curr;
 		curr = split_element_at_wh(word_list, curr);
-		if (!tmp)
+		if (!curr)
 			free_word_list(word_list);
-		ft_printf("\nWORD in LOOP:\n");
-		ft_printf_word_desc(curr->word);
 		if (!(curr->word->flags & W_EXPANDED))
 			curr = expand_and_split(word_list, curr, shell);
 		curr = remove_whitespace_element(word_list, curr);
-		ft_printf("\nWORD after expansion:\n");
-		ft_printf_word_desc(curr->word);
 		if (!tmp)
 			free_word_list(word_list);
 		curr = curr->next;
