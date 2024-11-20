@@ -31,6 +31,9 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
 char	*get_varname(char *str);
 char	*envp_keytovalue(char *key, t_shell *shell);
 
+//wl_expansion.c
+int	wl_expand_list(t_word_list **word_list, t_shell *shell);
+t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell);
 
 //ft_get_file_descriptor.c
 int	ft_get_file_descriptor(char *str);
@@ -83,11 +86,11 @@ int	missing_close_sign(char *line, char sign);
 int	missing_close_bracket(char *line);
 
 // make_word_list.c
-int	loop_on_word_list(t_word_list **word_list);
 t_word_list	*make_word_list(char *line, t_shell *shell);
-int	loop_to_split_on_spaces(t_word_list **word_list, t_shell *shell);
+int	wl_identify_words(t_word_list **word_list);
+int	wl_split_on_whitesp(t_word_list **word_list, t_shell *shell);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
-t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell);
+t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item);
 
 // word_list_methods.c
 t_word_list	*wl_init(char *line);
@@ -104,9 +107,9 @@ t_word_list	*wl_insert_instead(t_word_list *new_lst, t_word_list *old);
 t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after);
 t_word_desc	*wl_unlink(t_word_list **head, t_word_list *to_unlink);
 
-// word_list3.c DEPRECATED
-t_command *concat_to_t_command(t_word_list *head, t_word_list *curr);
-t_list	*convert_to_command_lst(t_word_list *head);
+// word_list_methods3.c
+t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
+t_word_list	*wl_remove_whitespace_element(t_word_list **head, t_word_list *curr);
 
 //word_desc.c
 void	ft_free_word_desc(void *word_desc);

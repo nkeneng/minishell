@@ -39,7 +39,6 @@ int	ft_printf_command(void *command)
 	print_flag_name(cmd->flags);
 	if (cmd->redirects)
 	{
-		count += ft_printf("	has redirects\n");
 		count += ft_printf_lst(cmd->redirects, ft_printf_redirect);
 	}
 	count += ft_printf("\n");

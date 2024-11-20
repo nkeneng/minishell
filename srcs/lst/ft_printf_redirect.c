@@ -18,6 +18,7 @@ int	ft_printf_redirect(void *redirect)
 	int			count;
 
 	redir = (t_redirect *)redirect;
-	count = ft_printf("redirect:	%s\n", redir->filename->word);
+	count = ft_printf("	redirect:	\n");
+	count = ft_printf_word_desc(redir->filename);
 	return (count);
 }
