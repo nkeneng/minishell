@@ -27,21 +27,18 @@ t_list	*make_redirect_list(t_word_list **list)
 		curr = find_redir(curr);
 		if (!curr)
 			break ;
-		next = curr->next;
-		if (curr->next == NULL || (next->word->flags & (WM_OPERATOR_MASK | WM_REDIR_MASK)))
+		if (curr->next == NULL)
 		{
-			if (curr->next == NULL)
-				syntax_error(list, curr->word->word);
-			else
-				syntax_error(list, next->word->word);
+			syntax_error(*list, curr->word->word);
 			free_word_list(list);
 			list = NULL;
 			ft_lstclear(&redir_head, free);
 			return (NULL);
 		}
-		redir_item = wl_to_redirect(list, next);
+		redir_item = wl_to_redirect(list, curr->next);
 		wd_remove_whitespace(redir_item->filename);
 		ft_lstadd_back(&redir_head, ft_lstnew(redir_item));
+		next = curr->next;
 		wl_delone(list, curr);
 		curr = next;
 	}
