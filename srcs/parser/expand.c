@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/16 17:59:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:10:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,34 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 	char	*value;
 	char	*new_word;
 
-	(void) shell;
+	new_word = NULL;
 	if (item->flags & (WM_OPERATOR_MASK | W_SQUOTED))
 		return (-1);
-	varname = get_varname(item->word);
-	if (!varname)
-		return (0); // return a malloc error here?
-	if (!(*varname))
+	varname = ft_strchr(item->word, '$');
+	if (varname)
+	{
+		if (*varname && *(varname + 1) == '?')
+		{
+			value = ft_itoa(shell->exit_status);
+			new_word = ft_strexchange(item->word, "$?", value);
+			free(value);
+		}
+		else if (*varname)
+		{
+			varname = get_varname(++varname);
+			if (!varname)
+				return (0); // return a malloc error here?
+			if (!(*varname))
+				return (-1);
+			value = envp_keytovalue(varname, shell);
+			if (!(*value))
+				return (-3);
+			new_word = ft_strexchange(item->word, varname, value);
+			free(varname);
+		}
+	}
+	else
 		return (-1);
-	value = envp_keytovalue(varname, shell);
-	if (!(*value))
-		return (-3);
-	new_word = ft_strexchange(item->word, varname, value);
-	free(varname);
 	if (!new_word)
 		return (0); //malloc error
 	free(item->word);
@@ -50,17 +65,17 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 // returns a valid variable name in an allocated string
 // return "\0" empty string (local var), if no $ or var ended with length 0
 // return NULL if allocation failed
-char	*get_varname(char *str)
+char	*get_varname(char *varname)
 {
-	char	*varname;
 	int		end;
 
-	varname = ft_strchr(str, '$');
+	// varname = ft_strchr(str, '$');
+	ft_printf("varname: %s\n", varname);
 	if (!varname)
 		return ("\0");
 	if ((*varname))
 	{
-		end = ft_is_var_till(++varname);
+		end = ft_is_var_till(varname);
 		if (end == 0)
 			return ("\0");
 		varname = ft_substr(varname, 0, end);
