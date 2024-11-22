@@ -43,6 +43,7 @@ t_list	**convert_line_to_dlist(char *line);
 
 // syntax_error.c
 int	syntax_error(t_word_list **word_list, char *str);
+int	syntax_error_unexpected_eof(t_word_list **word_list);
 
 // reading.c
 char	*rl_gets(void);

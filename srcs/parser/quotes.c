@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/11 20:22:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:34:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int	fill_with_token(char *line, t_word_list *to_fill)
 	return (i);
 }
 
+// FIXME: THIS FUNCTION IS NOT USED
+// returns a list of words
+// makes new word from everything before quotes, 
+// then new word from everything in quotes
 t_word_list	*split_at_quote(char *line)
 {
 	t_word_list	*head;
@@ -74,6 +78,11 @@ t_word_list	*split_at_quote(char *line)
 			return (NULL);
 		while (line[st + i] != line[st])
 			i++;
+		if (!line[st + i])
+		{
+			syntax_error_unexpected_eof(&head);
+			return (NULL);
+		}
 		flag = sign_to_flag(&line[st]);
 		if (ft_whitespace_seperator(&line[st + i + 1]))
 		{

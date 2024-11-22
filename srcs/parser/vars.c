@@ -6,13 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:14:14 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/16 14:52:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:35:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-t_word_list	*split_for_var(char *line);
 
 //checks if line is valid var name and sets flag if it is.
 //write different check for word after assignment
