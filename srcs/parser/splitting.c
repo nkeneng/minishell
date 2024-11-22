@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 16:45:47 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/22 09:46:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 //Breaks the input into words and operators, obeying the quoting rules 
 //described in Quoting. These tokens are separated by metacharacters. 
 //Alias expansion is performed by this step (see Aliases).
-
-// TODO: check length of metachar seperator
 
 // use this to create new element containting one or multiple consecutive
 // '&' or '|' or << or >> or < or >
