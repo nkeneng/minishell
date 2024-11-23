@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 16:34:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 14:19:47 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,21 @@
 // TODO: make pipex use linked list instead of double array
 int	start_pipex(t_list **cmd_list, char *envp[])
 {
+	int	exit_code;
 	// dummy_cmd_list(cmd_list, 3, "ls -la", 0, "grep .c", 0, "wc -l", 0);
 	if (!cmd_list)
 		return (rperror("command list empty"));
-	return (pipex(envp, cmd_list));
+	exit_code = pipex(envp, cmd_list);
+	if (!isatty(STDIN_FILENO))
+	{
+		close(STDIN_FILENO);
+		if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
+		{
+			perror("Failed to reopen stdin");
+			exit(EXIT_FAILURE);
+		}
+	}
+	return (exit_code);
 }
 
 // opens file, dup2s over correct std fd, filekind 0:inf, 1:outf, 2:outf(append)
