@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/22 19:10:04 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 11:35:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,27 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 	if (item->flags & (WM_OPERATOR_MASK | W_SQUOTED))
 		return (-1);
 	varname = ft_strchr(item->word, '$');
-	if (varname)
-	{
-		if (*varname && *(varname + 1) == '?')
-		{
-			value = ft_itoa(shell->exit_status);
-			new_word = ft_strexchange(item->word, "$?", value);
-			free(value);
-		}
-		else if (*varname)
-		{
-			varname = get_varname(++varname);
-			if (!varname)
-				return (0); // return a malloc error here?
-			if (!(*varname))
-				return (-1);
-			value = envp_keytovalue(varname, shell);
-			if (!(*value))
-				return (-3);
-			new_word = ft_strexchange(item->word, varname, value);
-			free(varname);
-		}
-	}
-	else
+	if (!varname)
 		return (-1);
+	if (*varname && *(varname + 1) == '?')
+	{
+		value = ft_itoa(shell->exit_status);
+		new_word = ft_strexchange(item->word, "$?", value);
+		free(value);
+	}
+	else if (*varname)
+	{
+		varname = get_varname(++varname);
+		if (!varname)
+			return (0); // return a malloc error here?
+		if (!(*varname))
+			return (-1);
+		value = envp_keytovalue(varname, shell, ft_strlen(varname));
+		if (!(*value))
+			return (-3);
+		new_word = ft_strexchange(item->word, varname, value);
+		free(varname);
+	}
 	if (!new_word)
 		return (0); //malloc error
 	free(item->word);
@@ -85,14 +82,12 @@ char	*get_varname(char *varname)
 	return (varname);
 }
 
-char	*envp_keytovalue(char *key, t_shell *shell)
+char	*envp_keytovalue(char *key, t_shell *shell, int keylen)
 {
 	int		i;
-	int		keylen;
 	t_env	*env;
 
 	i = 0;
-	keylen = ft_strlen(key);
 	env = shell->envp;
 	while (i < shell->nb_env)
 	{

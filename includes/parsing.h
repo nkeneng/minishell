@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 15:50:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 11:13:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strexchange(char *original, char *to_replace, char *new_str);
 //expand.c
 int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
 char	*get_varname(char *str);
-char	*envp_keytovalue(char *key, t_shell *shell);
+char	*envp_keytovalue(char *key, t_shell *shell, int keylen);
 
 //wl_expansion.c
 int	wl_expand_list(t_word_list **word_list, t_shell *shell);
