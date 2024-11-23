@@ -29,7 +29,7 @@ char	*ft_strexchange(char *original, char *to_replace, char *new_str);
 //expand.c
 int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
 char	*get_varname(char *str);
-char	*envp_keytovalue(char *key, t_shell *shell);
+char	*envp_keytovalue(char *key, t_shell *shell, int keylen);
 
 //wl_expansion.c
 int	wl_expand_list(t_word_list **word_list, t_shell *shell);
@@ -42,7 +42,8 @@ int	ft_get_file_descriptor(char *str);
 t_list	**convert_line_to_dlist(char *line);
 
 // syntax_error.c
-int	syntax_error(t_word_list *word_list, char *str);
+int	syntax_error(t_word_list **word_list, char *str);
+int	syntax_error_unexpected_eof(t_word_list **word_list);
 
 // reading.c
 char	*rl_gets(void);

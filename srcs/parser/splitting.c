@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:57:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/07 16:45:47 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:53:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 //Breaks the input into words and operators, obeying the quoting rules 
 //described in Quoting. These tokens are separated by metacharacters. 
 //Alias expansion is performed by this step (see Aliases).
-
-// TODO: check length of metachar seperator
 
 // use this to create new element containting one or multiple consecutive
 // '&' or '|' or << or >> or < or >
@@ -33,6 +31,8 @@ t_word_list	*split_around(t_word_desc *input)
 	while (input->word[i])
 	{
 		i += (next_word_till_metachar(&input->word[i]));
+		if (errno == 2)
+			return (free_word_list(&h));
 		tmp = wl_addback(h, wd_make_word(&input->word[pi], i - pi, 0));
 		if (!h)
 			h = tmp;
@@ -56,8 +56,10 @@ int	next_word_till_metachar(char *line)
 	if (is_quote(line))
 	{
 		i++;
-		while (line[i] != sign)
+		while (line[i] && line[i] != sign)
 			i++;
+		if (!line[i])
+			return (syntax_error_unexpected_eof(NULL));
 		if (line[i++])
 			return (i++);
 	}

@@ -29,7 +29,7 @@ t_list	*make_redirect_list(t_word_list **list)
 			break ;
 		if (curr->next == NULL)
 		{
-			syntax_error(*list, curr->word->word);
+			syntax_error(list, "newline");
 			free_word_list(list);
 			list = NULL;
 			ft_lstclear(&redir_head, free);

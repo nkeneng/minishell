@@ -83,7 +83,7 @@ int	wl_identify_words(t_word_list **word_list)
 		if (identify_word_type(curr->word))
 		{
 			if (!flag_correctly_delimeted(curr->word))
-				return (syntax_error(*word_list, curr->word->word));
+				return (syntax_error(word_list, curr->word->word));
 			remove_quotes(curr->word);
 		}
 		curr = curr->next;
