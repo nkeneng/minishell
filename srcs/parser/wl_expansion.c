@@ -16,25 +16,41 @@
 //if curr was expanded
 //or curr if not expanded
 //or next element if curr was deleted because it got expanded to empty string
+// t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell)
+// {
+// 	int			expand_ret;
+//
+// 	expand_ret = ft_expand_variable_name(curr->word, shell);
+// 	if (expand_ret == 0)
+// 	{
+// 		free_word_list(word_list);
+// 		return (NULL);
+// 	}
+// 	else if (expand_ret == -2)
+// 		curr = split_element_at_wh(word_list, curr);
+// 	else if (expand_ret == -3)
+// 		curr = wl_delone(word_list, curr);
+// 	if (!curr)
+// 		return (NULL);
+// 	return (curr);
+// }
+
 t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell)
 {
-	int			expand_ret;
-
-	expand_ret = ft_expand_variable_name(curr->word, shell);
-	if (expand_ret == 0)
+	if (!wd_expand_var(curr->word, shell))
 	{
 		free_word_list(word_list);
 		return (NULL);
 	}
-	else if (expand_ret == -2)
-		curr = split_element_at_wh(word_list, curr);
-	else if (expand_ret == -3)
+	if (!curr->word->word)
 		curr = wl_delone(word_list, curr);
+	else if (curr->word->flags & W_EXPANDED)
+		curr = split_element_at_wh(word_list, curr);
 	if (!curr)
 		return (NULL);
 	return (curr);
+	
 }
-
 // expands all variables in the word_list
 // if a valiable is at the end at expanded to empty string it returns 2
 // if a malloc error occurs it returns 1

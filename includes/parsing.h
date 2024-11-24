@@ -24,12 +24,13 @@ int	ft_is_special(char c);
 void	ft_is_var_name(t_word_desc *word);
 
 //ft_strexchange.c
-char	*ft_strexchange(char *original, char *to_replace, char *new_str);
+char	*ft_strexchange(char *original, char *old, int len_old, char *new_str);
 
 //expand.c
 int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
 char	*get_varname(char *str);
 char	*envp_keytovalue(char *key, t_shell *shell, int keylen);
+t_word_desc	*wd_expand_var(t_word_desc *item, t_shell *shell);
 
 //wl_expansion.c
 int	wl_expand_list(t_word_list **word_list, t_shell *shell);

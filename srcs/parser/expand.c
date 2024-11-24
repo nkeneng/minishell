@@ -27,10 +27,8 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 	char	*new_word;
 
 	new_word = NULL;
-	if (item->flags & (WM_OPERATOR_MASK | W_SQUOTED))
-		return (-1);
 	varname = ft_strchr(item->word, '$');
-	if (!varname)
+	if (item->flags & (WM_OPERATOR_MASK | W_SQUOTED) || !varname)
 		return (-1);
 	if (*varname && *(varname + 1) == '?')
 	{
@@ -57,6 +55,54 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell)
 	item->word = new_word;
 	item->flags += W_EXPANDED;
 	return (-2);
+}
+
+void	exchange_in_word(t_word_desc *item, char *new_str, char *old_str, int flags)
+{
+	char	*new_word;
+	int		var_till;
+
+	var_till = ft_is_var_till(old_str);
+	if (var_till == 0)
+		return ;
+	new_word = ft_strexchange(item->word, --old_str, ++var_till, new_str);
+	if (!new_word)
+	{
+		free_word_desc(item);
+		return ;
+	}
+	free(item->word);
+	item->word = new_word;
+	item->flags = flags;
+}
+
+t_word_desc	*wd_expand_var(t_word_desc *item, t_shell *shell)
+{
+	char	*value;
+	int		var_till;
+	char	*var_start;
+
+	var_start = ft_strchr(item->word, '$');
+	if (item->flags & (WM_OPERATOR_MASK | W_SQUOTED) || !var_start)
+		return (item);
+	if (*(var_start + 1) != '?')
+	{
+		var_till = ft_is_var_till(++var_start);
+		if (var_till == 0)
+			return (item);
+		value = envp_keytovalue(var_start, shell, var_till);
+		if (!value)
+		{
+			free_word_desc(item);
+			return (NULL);
+		}
+		exchange_in_word(item, value, var_start, item->flags | W_EXPANDED);
+		return (item);
+	}
+	value = ft_itoa(shell->exit_status);
+	exchange_in_word(item, value, "$?", item->flags | W_EXPANDED);
+	free(value);
+	return (item);
 }
 
 // returns a valid variable name in an allocated string
@@ -95,5 +141,5 @@ char	*envp_keytovalue(char *key, t_shell *shell, int keylen)
 			return (env[i].value);
 		i++;
 	}
-	return ("\0");
+	return (NULL);
 }
