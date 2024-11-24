@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:36:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/12 14:30:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 12:19:30 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,11 @@ void	*free_word_list(t_word_list **lst)
 		{
 			next = current->next;
 			if (current->word && current->word->word)
-				free_word_desc(current->word);
+				free_word_desc(&(current->word));
 			free(current);
-			current = NULL;
-			(current) = next;
+			current = next;
 		}
+		*lst = NULL;
 	}
 	return (NULL);
 }

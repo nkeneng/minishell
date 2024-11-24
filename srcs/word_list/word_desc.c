@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:19:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/14 14:46:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 13:01:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void	ft_free_word_desc(void *word_desc)
 	return ;
 }
 
-void	free_word_desc(t_word_desc *word_desc)
+void	*free_word_desc(t_word_desc **word_desc)
 {
-	if (word_desc)
-		if (word_desc->word)
-			free(word_desc->word);
-	free(word_desc);
-	word_desc = NULL;
-	return ;
+	if (word_desc && *word_desc)
+		if ((*word_desc)->word)
+			free((*word_desc)->word);
+	free((*word_desc));
+	(*word_desc) = NULL;
+	return (NULL);
 }
 
 int	ft_printf_word_desc(void *word_desc)
@@ -77,7 +77,7 @@ t_word_desc	*wd_make_word(const char *line, const int end, const int flag)
 	item->word = ft_substr(line, 0, end);
 	if (!item->word)
 	{
-		free_word_desc(item);
+		free_word_desc(&item);
 		return (NULL);
 	}
 	item->flags = flag;

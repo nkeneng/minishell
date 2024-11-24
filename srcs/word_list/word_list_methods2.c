@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/19 18:57:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 13:05:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_word_list	*wl_delone(t_word_list **head, t_word_list *to_remove)
 	if (to_remove->next)
 		to_remove->next->prev = to_remove->prev;
 	if (to_remove->word)
-		free_word_desc(to_remove->word);
+		free_word_desc(&to_remove->word);
 	free(to_remove);
 	return (next);
 }
@@ -131,7 +131,7 @@ t_word_list	*wl_insert_instead(t_word_list *new_lst, t_word_list *old)
 	last->next = next_element;
 	if (next_element)
 		next_element->prev = last;
-	free_word_desc(old->word);
+	free_word_desc(&old->word);
 	free(old);
 	return (last);
 }

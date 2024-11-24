@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:50:39 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/24 10:21:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 10:45:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,18 @@ char	*ft_strexchange(char *original, char *old, int len_old, char *new_str)
 	char	*result;
 	char	*start;
 
-	result = malloc(ft_strlen(original) - len_old + ft_strlen(new_str) + 1);
+	result = malloc(ft_strlen(original) - len_old - 1 + ft_strlen(new_str) + 1);
 	if (!result)
 		return (NULL);
 	start = result;
 	while (*original != '$')
 		*(result++) = *(original++);
 	original++;
+	if (*old != *original)
+	{
+		ft_printf("old: %c, original: %c\n", *old, *original);
+		(ft_printf("error in ft_strexchange\n"));
+	}
 	original += len_old;
 	while (*new_str)
 		*(result++) = *(new_str++);

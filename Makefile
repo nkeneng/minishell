@@ -34,7 +34,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c \
 		splitting.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c \
-		split_at_space.c make_word_list.c expand.c ft_strexchange.c wl_expansion.c) \
+		split_at_space.c make_word_list.c expand.c ft_strexchange.c wl_expansion.c free_str.c) \
 		$(addprefix tests/, prints.c) \
 		$(addprefix word_list/, word_list_methods.c word_list_methods2.c word_list_methods3.c word_desc.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \

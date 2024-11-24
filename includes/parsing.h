@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 15:50:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 13:14:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 //quotes.c
 t_word_desc	*remove_quotes(t_word_desc *word);
 
+//free_str.c
+char	*free_str(char **str);
+
 //vars.c
 int	ft_is_var_till(char *line);
 int	ft_is_special(char c);
@@ -28,9 +31,10 @@ char	*ft_strexchange(char *original, char *old, int len_old, char *new_str);
 
 //expand.c
 int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
+t_word_desc	*wd_expand_var(t_word_desc *(*item), t_shell *shell);
 char	*get_varname(char *str);
+void	exchange_in_word(t_word_desc **item, char *new_str, char *old_str, int flags);
 char	*envp_keytovalue(char *key, t_shell *shell, int keylen);
-t_word_desc	*wd_expand_var(t_word_desc *item, t_shell *shell);
 
 //wl_expansion.c
 int	wl_expand_list(t_word_list **word_list, t_shell *shell);
@@ -116,6 +120,6 @@ t_word_list	*wl_remove_whitespace_element(t_word_list **head, t_word_list *curr)
 //word_desc.c
 void	ft_free_word_desc(void *word_desc);
 int		ft_printf_word_desc(void *word_desc);
-void		free_word_desc(t_word_desc *word_desc);
+void	*free_word_desc(t_word_desc **word_desc);
 t_word_desc	*wd_make_word(const char *line, const int end, const int flag);
 #endif // !PARSING_H
