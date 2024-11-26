@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -27,11 +29,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = rl_gets();
-		/* word_list_head = make_word_list_new(line); */
-		/* ft_printf_word_list(word_list_head); */
-		/* lst = convert_to_command_lst(word_list_head); */
-		/* ft_printf_lst(lst, ft_printf_command); */
-		/* free_word_list(&word_list_head); */
 		lst = parse_input(line, &shell);
 		if (!lst)
 			continue ;
