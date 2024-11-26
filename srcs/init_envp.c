@@ -12,19 +12,22 @@
 
 #include "../includes/minishell.h"
 
-void	init_envp(char **env, t_shell *shell)
+static int	get_env_size(char **env)
 {
-	int		i;
-	char	**ret;
-	t_env	tmp_env;
+	int	i;
 
 	i = 0;
 	while (env[i])
 		i++;
-	shell->nb_env = i;
-	shell->envp = malloc(sizeof(t_env) * (i + 1));
-	if (!shell->envp)
-		return ;
+	return (i);
+}
+
+static void copy_values(t_env *envp, char **env)
+{
+	int i;
+	char **ret;
+	t_env tmp_env;
+	
 	i = 0;
 	while (env[i])
 	{
@@ -35,10 +38,26 @@ void	init_envp(char **env, t_shell *shell)
 			ret[1] = ft_strdup("");
 		tmp_env.key = ft_strdup(ret[0]);
 		tmp_env.value = ft_strdup(ret[1]);
-		shell->envp[i] = tmp_env;
+		envp[i] = tmp_env;
 		i++;
 		free(ret[0]);
 		free(ret[1]);
 		free(ret);
 	}
+	envp[i] = (t_env){NULL, NULL};
+}
+
+void	init_envp(char **env, t_shell *shell)
+{
+	int		i;
+
+	i = get_env_size(env);
+	shell->nb_env = i;
+	shell->envp = malloc(sizeof(t_env) * (i + 1));
+	if (!shell->envp)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+	copy_values(shell->envp, env);
 }
