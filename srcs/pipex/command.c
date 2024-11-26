@@ -35,7 +35,7 @@ char **env_to_array(t_env *envp)
 /**
  * TODO handle cd error code
  */
-void handle_builtin(t_command *command, t_env *envp)
+void handle_builtin(t_command *command, t_env **envp)
 {
 	if (ft_strncmp(command->cmd[0], "cd", ft_strlen("cd")) == 0)
 		ft_cd(command->cmd[1]);
@@ -48,23 +48,20 @@ void handle_builtin(t_command *command, t_env *envp)
 	}
 	else if (ft_strncmp(command->cmd[0], "pwd", ft_strlen("pwd")) == 0)
 		ft_pwd();
-	// else if (ft_strncmp(command->cmd[0], "export", ft_strlen("export")) == 0)
-	// {
-	// 	ft_export(command->cmd);
-	// 	return ;
-	// }
+	else if (ft_strncmp(command->cmd[0], "export", ft_strlen("export")) == 0)
+		ft_export(command->cmd, envp);
 	// else if (ft_strncmp(command->cmd[0], "unset", ft_strlen("unset")) == 0)
 	// {
 	// 	ft_unset(command->cmd);
 	// 	return ;
 	// }
 	else if (ft_strncmp(command->cmd[0], "env", ft_strlen("env")) == 0)
-		ft_env(env_to_array(envp));
+		ft_env(env_to_array(*envp));
 	else if (ft_strncmp(command->cmd[0], "exit", ft_strlen("exit")) == 0)
 		ft_exit();
 }
 
-int	exec_command(t_command *command, t_env *envp, int *fd)
+int	exec_command(t_command *command, t_env **envp, int *fd)
 {
 	pid_t	cpid;
 	char **envp_array;
@@ -85,7 +82,7 @@ int	exec_command(t_command *command, t_env *envp, int *fd)
 			handle_builtin(command, envp);
 		else
 		{
-			envp_array = env_to_array(envp);
+			envp_array = env_to_array(*envp);
 			make_exec(command, envp_array);
 		}
 		exit(errno);
@@ -93,7 +90,7 @@ int	exec_command(t_command *command, t_env *envp, int *fd)
 	return (cpid);
 }
 
-int	pipex(t_env *envp, t_list **cmd_list)
+int	pipex(t_env **envp, t_list **cmd_list)
 {
 	int		pipefd[2];
 	pid_t	cpid;
@@ -117,7 +114,7 @@ int	pipex(t_env *envp, t_list **cmd_list)
 	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
 }
 
-int	exec_to_stdout(t_env *envp, t_command *cmd)
+int	exec_to_stdout(t_env **envp, t_command *cmd)
 {
 	pid_t	cpid;
 	int		status;
@@ -128,11 +125,11 @@ int	exec_to_stdout(t_env *envp, t_command *cmd)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		if (cmd->flags & C_BUILTIN)
+		if ((cmd->flags & C_BUILTIN))
 			handle_builtin(cmd,envp);
 		else
 		{
-			envp_array = env_to_array(envp);
+			envp_array = env_to_array(*envp);
 			make_exec(cmd, envp_array);
 		}
 		perror("execve");

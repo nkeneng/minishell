@@ -21,5 +21,5 @@ void	ft_echo(char **args, int n);
 void	ft_exit(void);
 void	ft_pwd(void);
 void	ft_env(char **envp);
-void	ft_export(char *args, t_shell *shell);
+void	ft_export(char **args, t_env **envp);
 #endif

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <sys/wait.h>
+#include <signal.h>
 
 int	key_exist(char *key, t_env *envp)
 {
@@ -28,55 +30,61 @@ int	key_exist(char *key, t_env *envp)
 	return (0);
 }
 
-void	free_old_env(t_shell *shell)
+void	free_old_env(t_env **envp)
 {
 	int	i;
 
 	i = 0;
-	while (i < shell->nb_env)
+
+	while ((*envp)[i].key)
 	{
-		free(shell->envp[i].key);
-		free(shell->envp[i].value);
+		free((*envp)[i].key);
+		free((*envp)[i].value);
 		i++;
 	}
-	free(shell->envp);
+	free(*envp);
 }
 
-void ft_override_env(char *key, char *value, t_shell *shell)
+void ft_override_env(char *key, char *value, t_env **envp)
 {
 	int	i;
 
 	i = 0;
-	while (i < shell->nb_env)
+	while ((*envp)[i].key)
 	{
-		if (ft_strncmp(shell->envp[i].key, key, ft_strlen(key)) == 0)
+		if (ft_strncmp((*envp[i]).key, key, ft_strlen(key)) == 0)
 		{
-			free(shell->envp[i].value);
-			shell->envp[i].value = ft_strdup(value);
+			free((*envp)[i].value);
+			(*envp)[i].value = ft_strdup(value);
 			break ;
 		}
 		i++;
 	}
 }
 
-void	ft_setenv(char *key, char *value, t_shell *shell)
+t_env	*ft_setenv(char *key, char *value, t_env **envp)
 {
 	int		i;
 	t_env	*new_env;
+	int		nb_env;
 
 	i = 0;
-	new_env = malloc(sizeof(t_env) * (shell->nb_env + 1));
-	while (i < shell->nb_env)
+	nb_env = ft_env_size(*envp);
+	new_env = malloc(sizeof(t_env) * (nb_env + 2));
+	if (!new_env)
+		return (NULL);
+	while (i < nb_env)
 	{
-		new_env[i].key = ft_strdup(shell->envp[i].key);
-		new_env[i].value = ft_strdup(shell->envp[i].value);
+		new_env[i].key = ft_strdup((*envp)[i].key);
+		new_env[i].value = ft_strdup((*envp)[i].value);
 		i++;
 	}
 	new_env[i].key = ft_strdup(key);
 	new_env[i].value = ft_strdup(value);
-	free_old_env(shell);
-	shell->envp = new_env;
-	shell->nb_env++;
+	new_env[i + 1].key = NULL;
+	new_env[i + 1].value = NULL;
+	free_old_env(envp);
+	return (new_env);
 }
 
 /**
@@ -89,37 +97,33 @@ void	ft_setenv(char *key, char *value, t_shell *shell)
 	* @shell: A pointer to the shell structure containing the environment variables.
  * TODO : Handle the case where the key or value are invalid
  */
-void	ft_export(char *args, t_shell *shell)
+void	ft_export(char **args, t_env **envp)
 {
 	char	**ret;
-	char	**export_args;
 	int		i;
 
 	if (args)
 	{
-		export_args = ft_split(args, ' ');
-		if (!export_args)
-			return ;
-		if (count_char_array(export_args) == 1)
+		if (count_char_array(args) == 1)
 		{
 			ft_printf("export: not enough arguments\n");
-			free_char_array(export_args, 0);
+			free_char_array(args, 0);
 			return ;
 		}
 		i = 1;
-		while (export_args[i])
+		while (args[i])
 		{
-			ret = ft_split(export_args[i], '=');
+			ret = ft_split(args[i], '=');
 			if (!ret)
 				return ;
 			if (!ret[0] || (!ft_isalpha(ret[0][0]) && ret[0][0] != '_'))
-				ft_printf("export: '%s': not a valid identifier\n", export_args[i]);
+				ft_printf("export: '%s': not a valid identifier\n", args[i]);
 			else
 			{
-				if (!key_exist(ret[0], shell->envp))
-					ft_setenv(ret[0], ret[1], shell);
+				if (!key_exist(ret[0], *envp))
+					*envp = ft_setenv(ret[0], ret[1], envp);
 				else
-					ft_override_env(ret[0], ret[1], shell);
+					ft_override_env(ret[0], ret[1], envp);
 			}
 			free_char_array(ret, 0);
 			i++;
