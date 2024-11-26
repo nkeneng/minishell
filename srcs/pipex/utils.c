@@ -41,3 +41,13 @@ int	count_char_array(char **charray)
 		i++;
 	return (i);
 }
+
+int ft_env_size(t_env *envp)
+{
+	int i;
+
+	i = 0;
+	while (envp[i].key)
+		i++;
+	return (i);
+}
