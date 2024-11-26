@@ -111,7 +111,6 @@ int	exec_to_stdout(char **envp, t_command *cmd)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(cpid, &status, 0);
-	close(STDOUT_FILENO);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (-1);

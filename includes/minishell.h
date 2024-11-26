@@ -55,11 +55,11 @@ int					here_doc(char *delim);
 char				*get_commpath(char *envp[], const char *command);
 char				**get_paths(char *envp[]);
 int					make_exec(t_command *command, char *envp[]);
-int					pipex(char **envp, t_list **cmd_list);
 
 // command.c
 int					exec_command(t_command *command, char *envp[], int *fd);
 int					exec_to_stdout(char **envp, t_command *command);
+int					pipex(char **envp, t_list **cmd_list);
 
 // init_envp.c
 void				init_envp(char **env, t_shell *shell);

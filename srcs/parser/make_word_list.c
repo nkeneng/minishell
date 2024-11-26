@@ -18,6 +18,8 @@ t_word_list	*make_word_list(char *line, t_shell *shell)
 	t_word_list	*word_list;
 
 	word_list_head = wl_init(line);
+	if (!word_list_head)
+		return (NULL);
 	word_list = (split_around(word_list_head->word));
 	free_word_list(&word_list_head);
 	if (!word_list || !word_list->word)
