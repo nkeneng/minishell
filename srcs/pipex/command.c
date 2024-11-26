@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:34:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/26 13:14:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /**
  * TODO handle cd error code
  */
+//TODO: this is not exiting the child process properly. It needs to get one more argument, pid, that when 0 exits instead of returning, to behave like execve calls
+//either this, or i somehow kill all children in the parent process
 void handle_builtin(t_command *command, char *envp[])
 {
 	if (ft_strncmp(command->cmd[0], "cd", ft_strlen("cd")) == 0)
@@ -93,6 +95,13 @@ int	pipex(char **envp, t_list **cmd_list)
 	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
 }
 
+// TODO: When handle_builtins is called, the child process should exit properly, instead of perroring.
+//
+// FIX: change needed in main: waiting for all children to make cat | cat | ls work
+// while (tmp_list->next)
+// 	waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
+// this will wait for all children to finish before the parent process finishes
+// all children will terminate as they write to a pipe that has already been closed, they get the SIGPIPE signal and terminate
 int	exec_to_stdout(char **envp, t_command *cmd)
 {
 	pid_t	cpid;

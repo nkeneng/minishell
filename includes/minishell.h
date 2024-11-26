@@ -72,4 +72,7 @@ t_shell				*init_shell(char **env);
 void				ft_free_shell(t_shell **shell);
 void				ft_free_envp(t_env *envp, int nb_env);
 
+// SIGNALS
+// signal.c
+int					signals(struct sigaction *sa);
 #endif
