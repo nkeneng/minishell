@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/27 13:31:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:41:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ int	pipex(t_env *envp, t_list **cmd_list)
 	int		pipefd[2];
 	pid_t	cpid;
 	t_list	*tmp_list;
+	int		i;
 
 	tmp_list = *cmd_list;
+	i = 0;
 	while (tmp_list->next)
 	{
 		if (pipe(pipefd) == -1)
@@ -112,12 +114,13 @@ int	pipex(t_env *envp, t_list **cmd_list)
 			return (rperror("dup2"));
 		close(pipefd[0]);
 		tmp_list = tmp_list->next;
+		i++;
 	}
 	close(pipefd[0]);
-	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
+	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, i));
 }
 
-int	exec_to_stdout(t_env *envp, t_command *cmd)
+int	exec_to_stdout(t_env *envp, t_command *cmd, int chld_nb)
 {
 	pid_t	cpid;
 	int		status;
@@ -139,6 +142,8 @@ int	exec_to_stdout(t_env *envp, t_command *cmd)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(cpid, &status, 0);
+	while (chld_nb--)
+		waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (-1);
