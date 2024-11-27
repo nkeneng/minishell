@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/19 14:45:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:19:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@
 // TODO: macro values for fileindicator: < for input, > for output,
 	// >> for append
 // TODO: make pipex use linked list instead of double array
-int	start_pipex(t_list **cmd_list, char *envp[])
+int	start_pipex(t_list **cmd_list, t_env *envp)
 {
 	int	exit_code;
-	// dummy_cmd_list(cmd_list, 3, "ls -la", 0, "grep .c", 0, "wc -l", 0);
 	if (!cmd_list)
 		return (rperror("command list empty"));
 	exit_code = pipex(envp, cmd_list);
@@ -35,6 +34,11 @@ int	start_pipex(t_list **cmd_list, char *envp[])
 			perror("Failed to reopen stdin");
 			exit(EXIT_FAILURE);
 		}
+	}
+	while ((*cmd_list)->next)
+	{
+		waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
+		*cmd_list = (*cmd_list)->next;
 	}
 	return (exit_code);
 }

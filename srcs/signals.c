@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/26 13:56:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/27 13:54:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	signals(struct sigaction *sa)
 	{
 		perror("Error: cannot handle SIGINT");
 	}
-	if (sigaction(SIGQUIT, sa, NULL) == -1)
+	if (sigaction(SIGQUIT, SIG_IGN, NULL) == -1)
 	{
 		perror("Error: cannot handle SIGQUIT");
 	}

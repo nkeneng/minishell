@@ -35,4 +35,6 @@ typedef struct t_command {
 	int	flags;		/* Flags associated with this command. */
 } t_command;
 
+char **env_to_array(t_env *envp);
+
 #endif // !COMMAND_H
