@@ -17,6 +17,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -72,4 +73,7 @@ t_shell				*init_shell(char **env);
 void				ft_free_shell(t_shell **shell);
 void				ft_free_envp(t_env *envp, int nb_env);
 
+// SIGNALS
+// signal.c
+int					signals(struct sigaction *sa);
 #endif
