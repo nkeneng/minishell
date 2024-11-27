@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char	*buf;
 
@@ -20,9 +20,9 @@ void	ft_pwd(void)
 	if (!buf)
 	{
 		perror("getcwd");
-		return ;
+		return (EXIT_FAILURE);
 	}
-	// ft_putendl_fd("hello", STDOUT_FILENO);
 	ft_putendl_fd(buf, STDOUT_FILENO);
 	free(buf);
+	return (EXIT_SUCCESS);
 }

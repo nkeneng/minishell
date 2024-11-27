@@ -90,14 +90,12 @@ t_env	*ft_setenv(char *key, char *value, t_env **envp)
 /**
  * ft_export - Adds or updates an environment variable in the shell.
  *
-*
  * @args: A string containing the environment variable
  * and its value in the format "VAR=VALUE".
-
-	* @shell: A pointer to the shell structure containing the environment variables.
+ * @shell: A pointer to the shell structure containing the environment variables.
  * TODO : Handle the case where the key or value are invalid
  */
-void	ft_export(char **args, t_env **envp)
+int	ft_export(char **args, t_env **envp)
 {
 	char	**ret;
 	int		i;
@@ -105,19 +103,18 @@ void	ft_export(char **args, t_env **envp)
 	if (args)
 	{
 		if (count_char_array(args) == 1)
-		{
-			ft_printf("export: not enough arguments\n");
-			free_char_array(args, 0);
-			return ;
-		}
+			return (ft_env(env_to_array(*envp)));
 		i = 1;
 		while (args[i])
 		{
 			ret = ft_split(args[i], '=');
 			if (!ret)
-				return ;
+				return (EXIT_FAILURE);
 			if (!ret[0] || (!ft_isalpha(ret[0][0]) && ret[0][0] != '_'))
+			{
 				ft_printf("export: '%s': not a valid identifier\n", args[i]);
+				return (EXIT_FAILURE);
+			}
 			else
 			{
 				if (!key_exist(ret[0], *envp))
@@ -128,5 +125,6 @@ void	ft_export(char **args, t_env **envp)
 			free_char_array(ret, 0);
 			i++;
 		}
+		return (EXIT_SUCCESS);
 	}
 }

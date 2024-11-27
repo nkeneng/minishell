@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_unset(char **args, t_env **envp)
+int	ft_unset(char **args, t_env **envp)
 {
 	int	i;
 	int	j;
@@ -20,11 +20,7 @@ void	ft_unset(char **args, t_env **envp)
 	if (args)
 	{
 		if (count_char_array(args) == 1)
-		{
-			ft_printf("export: not enough arguments\n");
-			free_char_array(args, 0);
-			return ;
-		}
+			return (EXIT_SUCCESS);
 		i = 1;
 		while (args[i])
 		{
@@ -46,5 +42,6 @@ void	ft_unset(char **args, t_env **envp)
 			}
 			i++;
 		}
+		return (EXIT_SUCCESS);
 	}
 }

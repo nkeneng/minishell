@@ -14,6 +14,7 @@
 
 // TODO: update the PWD environment variable
 // TODO: update the OLDPWD environment variable before changing cwd
+// TODO: handle previous directory ( - )
 int	ft_cd(char *path)
 {
 	char	*home;
@@ -24,14 +25,14 @@ int	ft_cd(char *path)
 		if (!home)
 		{
 			perror("HOME not set");
-			return (-1);
+			return (EXIT_FAILURE);
 		}
 		chdir(getenv("HOME"));
 	}
 	else if (chdir(path) == -1)
 	{
 		perror("chdir");
-		return (-1);
+		return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
