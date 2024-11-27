@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 int		ft_cd(char *path);
-void	ft_unset(char **envp, char *key);
+void	ft_unset(char **args, t_env **envp);
 void	ft_echo(char **args, int n);
 void	ft_exit(void);
 void	ft_pwd(void);

@@ -12,25 +12,39 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_unset(char **envp, char *key)
+void	ft_unset(char **args, t_env **envp)
 {
 	int	i;
 	int	j;
 
-	i = 0;
-	while (envp[i])
+	if (args)
 	{
-		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
+		if (count_char_array(args) == 1)
 		{
-			j = i;
-			while (envp[j])
+			ft_printf("export: not enough arguments\n");
+			free_char_array(args, 0);
+			return ;
+		}
+		i = 1;
+		while (args[i])
+		{
+			j = 0;
+			while ((*envp)[j].key)
 			{
-				envp[j] = envp[j + 1];
+				if (ft_strncmp((*envp)[j].key, args[i], ft_strlen(args[i])) == 0)
+				{
+					free((*envp)[j].key);
+					free((*envp)[j].value);
+					while ((*envp)[j].key)
+					{
+						(*envp)[j] = (*envp)[j + 1];
+						j++;
+					}
+					break ;
+				}
 				j++;
 			}
-			// TODO if we look for only one key; we can break here
-			// break ;
+			i++;
 		}
-		i++;
 	}
 }

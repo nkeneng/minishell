@@ -39,7 +39,7 @@ void handle_builtin(t_command *command, t_env **envp)
 {
 	if (ft_strncmp(command->cmd[0], "cd", ft_strlen("cd")) == 0)
 		ft_cd(command->cmd[1]);
-	else if (ft_strncmp(command->cmd[0], "echo", ft_strlen("echo")) == 0)
+ 	else if (ft_strncmp(command->cmd[0], "echo", ft_strlen("echo")) == 0)
 	{
 		if (ft_strncmp(command->cmd[1], "-n", ft_strlen("-n")) == 0)
 			ft_echo(command->cmd, 1);
@@ -50,11 +50,11 @@ void handle_builtin(t_command *command, t_env **envp)
 		ft_pwd();
 	else if (ft_strncmp(command->cmd[0], "export", ft_strlen("export")) == 0)
 		ft_export(command->cmd, envp);
-	// else if (ft_strncmp(command->cmd[0], "unset", ft_strlen("unset")) == 0)
-	// {
-	// 	ft_unset(command->cmd);
-	// 	return ;
-	// }
+	else if (ft_strncmp(command->cmd[0], "unset", ft_strlen("unset")) == 0)
+	{
+		ft_unset(command->cmd, envp);
+		return ;
+	}
 	else if (ft_strncmp(command->cmd[0], "env", ft_strlen("env")) == 0)
 		ft_env(env_to_array(*envp));
 	else if (ft_strncmp(command->cmd[0], "exit", ft_strlen("exit")) == 0)
@@ -95,10 +95,12 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	int		pipefd[2];
 	pid_t	cpid;
 	t_list	*tmp_list;
+	int nb_cmds = 1;
 
 	tmp_list = *cmd_list;
 	while (tmp_list->next)
 	{
+		nb_cmds++;
 		if (pipe(pipefd) == -1)
 			return (rperror("pipe"));
 		cpid = exec_command(tmp_list->content, envp, pipefd);
@@ -111,21 +113,26 @@ int	pipex(t_env **envp, t_list **cmd_list)
 		tmp_list = tmp_list->next;
 	}
 	close(pipefd[0]);
-	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content));
+	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, nb_cmds));
 }
 
-int	exec_to_stdout(t_env **envp, t_command *cmd)
+int	exec_to_stdout(t_env **envp, t_command *cmd, int nb_cmds)
 {
 	pid_t	cpid;
 	int		status;
 	char **envp_array;
-
+	
+	if (!(cmd->flags & C_BUILTIN) && nb_cmds == 1)
+	{
+		handle_builtin(cmd,envp);
+		return (0);
+	}
 	cpid = fork();
 	if (cpid == -1)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		if ((cmd->flags & C_BUILTIN))
+		if (!(cmd->flags & C_BUILTIN))
 			handle_builtin(cmd,envp);
 		else
 		{
