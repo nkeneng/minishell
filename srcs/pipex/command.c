@@ -96,7 +96,6 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	i = 0;
 	while (tmp_list->next)
 	{
-		nb_cmds++;
 		if (pipe(pipefd) == -1)
 			return (rperror("pipe"));
 		cpid = exec_command(tmp_list->content, envp, pipefd);
@@ -113,14 +112,14 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, i));
 }
 
-int	exec_to_stdout(t_env *envp, t_command *cmd, int chld_nb)
+int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 {
 	pid_t	cpid;
 	int		status;
 	char **envp_array;
 	int rt_code = 0;
 	
-	if (!(cmd->flags & C_BUILTIN) && chld_nb == 1)
+	if (!(cmd->flags & C_BUILTIN) && chld_nb == 0)
 		return (handle_builtin(cmd,envp));
 	cpid = fork();
 	if (cpid == -1)

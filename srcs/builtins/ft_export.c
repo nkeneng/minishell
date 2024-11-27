@@ -127,4 +127,5 @@ int	ft_export(char **args, t_env **envp)
 		}
 		return (EXIT_SUCCESS);
 	}
+	return (EXIT_FAILURE);
 }
