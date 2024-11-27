@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/16 16:34:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:41:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,10 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	int		pipefd[2];
 	pid_t	cpid;
 	t_list	*tmp_list;
-	int nb_cmds = 1;
+	int		i;
 
 	tmp_list = *cmd_list;
+	i = 0;
 	while (tmp_list->next)
 	{
 		nb_cmds++;
@@ -106,19 +107,20 @@ int	pipex(t_env **envp, t_list **cmd_list)
 			return (rperror("dup2"));
 		close(pipefd[0]);
 		tmp_list = tmp_list->next;
+		i++;
 	}
 	close(pipefd[0]);
-	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, nb_cmds));
+	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, i));
 }
 
-int	exec_to_stdout(t_env **envp, t_command *cmd, int nb_cmds)
+int	exec_to_stdout(t_env *envp, t_command *cmd, int chld_nb)
 {
 	pid_t	cpid;
 	int		status;
 	char **envp_array;
 	int rt_code = 0;
 	
-	if (!(cmd->flags & C_BUILTIN) && nb_cmds == 1)
+	if (!(cmd->flags & C_BUILTIN) && chld_nb == 1)
 		return (handle_builtin(cmd,envp));
 	cpid = fork();
 	if (cpid == -1)
@@ -136,6 +138,8 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int nb_cmds)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(cpid, &status, 0);
+	while (chld_nb--)
+		waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (rt_code);

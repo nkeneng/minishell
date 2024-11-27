@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/19 14:45:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:37:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 			exit(EXIT_FAILURE);
 		}
 	}
+	// while ((*cmd_list)->next)
+	// {
+	// 	waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
+	// 	*cmd_list = (*cmd_list)->next;
+	// }
 	return (exit_code);
 }
 
