@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/27 13:25:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/27 13:43:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list		*lst;
-	char	*line;
-	t_shell	shell;
-	struct sigaction sa;
+	t_list				*lst;
+	char				*line;
+	t_shell				shell;
+	struct sigaction	sa;
 
 	(void)argc;
 	(void)argv;
@@ -32,9 +32,8 @@ int	main(int argc, char **argv, char **envp)
 		lst = parse_input(line, &shell);
 		if (!lst)
 			continue ;
-		shell.exit_status = start_pipex(&lst, envp);
+		shell.exit_status = start_pipex(&lst, shell.envp);
 		ft_lstclear(&lst, ft_free_command);
 	}
-	return (0);
-	// return (shell.exit_status);
+	return (shell.exit_status);
 }
