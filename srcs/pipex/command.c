@@ -119,7 +119,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 	char **envp_array;
 	int rt_code = 0;
 	
-	if (!(cmd->flags & C_BUILTIN) && chld_nb == 0)
+	if (cmd->flags & C_BUILTIN & W_ONLY)
 		return (handle_builtin(cmd,envp));
 	cpid = fork();
 	if (cpid == -1)
