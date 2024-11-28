@@ -10,6 +10,7 @@
 # include "parsing.h"
 # include "pipex.h"
 # include "list.h"
+//# include "globals.h"
 # include "word_flags.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -25,6 +26,9 @@
 
 // just for test cases
 # include "dummy.h"
+
+//GLOBALS
+extern int	g_signal;
 
 // dlist
 t_dlist				*ft_dlstnew(void *content);
@@ -75,5 +79,5 @@ void				ft_free_envp(t_env *envp, int nb_env);
 
 // SIGNALS
 // signal.c
-int					signals(struct sigaction *sa);
+void				sigint_handler(int sig);
 #endif
