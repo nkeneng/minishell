@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/23 14:50:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:55:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # define C_OPEN_OUT_APP		128 // 1 << 7  open output file for appending
 # define C_VAR				256 // 1 << 8  variable asignment
 # define C_LAST_PIPE		512 // 1 << 9  execute command output to stdout
-# define C_BUILTIN			1024 // 1 << 10  builtin shell function
+# define C_ONLY			1024 // 1 << 10  first command in a pipeline
+# define C_BUILTIN			2048 // 1 << 11  builtin shell function
 
 # define PIPE_OR_REDIR_MASK (C_PIPE | C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP)
 /* A structure which represents a command. */
