@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:13:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/28 16:57:16 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:16:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,33 @@ void	assign_operator_till_end(t_word_list *list, int flag)
 			break ;
 		end = is_pipe_or_redirect(list->word->word);
 	}
+}
+
+int	is_builtin(char *command)
+{
+	if (command[0] == 'e')
+	{
+		if (command[1] == 'x')
+		{
+			if (ft_strncmp(&command[3], "it", 2) == 0)
+				return (EXIT_BUILTIN);
+			if (ft_strncmp(&command[3], "port", 4) == 0)
+				return (EXPORT_BUILTIN);
+		}
+		else if (command[1] == 'n')
+		{
+			if (ft_strncmp(&command[2], "v", 1) == 0)
+				return (ENV_BUILTIN);
+		}
+		else if (command[1] == 'c')
+			if (ft_strncmp(&command[2], "ho", 2) == 0)
+				return (ECHO_BUILTIN);
+	}
+	else if (ft_strncmp(command, "cd", 2) == 0)
+		return (CD_BUILTIN);
+	else if (ft_strncmp(command, "pwd", 3) == 0)
+		return (PWD_BUILTIN);
+	else if (ft_strncmp(command, "unset", 5) == 0)
+		return (UNSET_BUILTIN);
+	return (0);
 }
