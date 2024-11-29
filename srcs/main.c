@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/28 19:35:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:05:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-int	g_signal = 0;
+volatile sig_atomic_t	g_signal = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -26,8 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell.envp = NULL;
 	init_envp(envp, &shell);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sigint_handler);
+	init_signals();
 	while (1)
 	{
 		line = rl_gets();

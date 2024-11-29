@@ -28,7 +28,7 @@
 # include "dummy.h"
 
 //GLOBALS
-extern int	g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 // dlist
 t_dlist				*ft_dlstnew(void *content);
@@ -80,4 +80,5 @@ void				ft_free_envp(t_env *envp, int nb_env);
 // SIGNALS
 // signal.c
 void				sigint_handler(int sig);
+void	init_signals(void);
 #endif
