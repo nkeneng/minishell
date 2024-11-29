@@ -44,7 +44,7 @@ t_dlist				*ft_createaddback(t_dlist **lst, void *content);
 // PIPEX
 // pipex.c
 int					do_list(t_list **cmd_list, char **envp);
-int					start_pipex(t_list **cmd_list, t_env *envp);
+int					start_pipex(t_list **cmd_list, t_env **envp);
 int					input_checker(int argc, char *arg);
 int					pipheredoc(char *arg);
 int					open_doc(char *file, int filekind);
@@ -63,9 +63,9 @@ char				**get_paths(char *envp[]);
 int					make_exec(t_command *command, char *envp[]);
 
 // command.c
-int					exec_command(t_command *command, t_env *envp, int *fd);
-int					exec_to_stdout(t_env *envp, t_command *command, int i);
-int					pipex(t_env *envp, t_list **cmd_list);
+int					exec_command(t_command *command, t_env **envp, int *fd);
+int					exec_to_stdout(t_env **envp, t_command *command, int child_nb);
+int					pipex(t_env **envp, t_list **cmd_list);
 
 // init_envp.c
 void				init_envp(char **env, t_shell *shell);

@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		free(line);
 		if (!lst)
 			continue ;
-		shell.exit_status = start_pipex(&lst, shell.envp);
+		shell.exit_status = start_pipex(&lst, &(shell.envp));
 		ft_lstclear(&lst, ft_free_command);
 	}
 	return (shell.exit_status);

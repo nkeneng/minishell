@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_env(char **envp)
+int	ft_env(char **envp)
 {
 	int	i;
 
@@ -22,4 +22,5 @@ void	ft_env(char **envp)
 		ft_putendl_fd(envp[i], STDOUT_FILENO);
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }

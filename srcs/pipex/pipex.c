@@ -20,7 +20,7 @@
 // TODO: macro values for fileindicator: < for input, > for output,
 	// >> for append
 // TODO: make pipex use linked list instead of double array
-int	start_pipex(t_list **cmd_list, t_env *envp)
+int	start_pipex(t_list **cmd_list, t_env **envp)
 {
 	int	exit_code;
 	if (!cmd_list)

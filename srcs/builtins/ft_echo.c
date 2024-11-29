@@ -25,7 +25,7 @@
  * If n is 0, a newline character is printed.
  *
  */
-void	ft_echo(char **args, int n)
+int	ft_echo(char **args, int n)
 {
 	int	i;
 
@@ -42,4 +42,5 @@ void	ft_echo(char **args, int n)
 	}
 	if (!n)
 		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (EXIT_SUCCESS);
 }

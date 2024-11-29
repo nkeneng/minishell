@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/16 17:56:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:55:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define W_AND		256	/* && operator */
 # define W_OR		512	/* || operator */
 								//
-# define W_HASDOLLAR	1024	/* Dollar sign present. */
+# define W_ONLY	1024	/* First command in a pipeline. */
 # define W_SQUOTED	2048	/* Some single quote character is present. */
 # define W_DQUOTED	4096	/* Some double quote character is present. */
 # define W_ASSIGNMENT	8192	/* This word is a variable assignment. */
@@ -38,6 +38,7 @@
 # define W_WORD_AND 268435456  /* word is not the operator but a word that needs to be anded */
 # define W_WORD_OR 536870912  /* word is not the operator but a word that needs to be ored */
 # define W_DONE		1073741824 /* nothing else to do here */
+# define W_HASDOLLAR	2147483648	/* Dollar sign present. */
 
 # define WM_REDIR_MASK (W_HERE_DOC | W_OPEN_INFILE | W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP)
 # define WM_OPERATOR_MASK (W_PIPE | W_AND | W_OR)
