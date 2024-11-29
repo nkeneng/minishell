@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:47:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 13:47:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:12:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*rl_gets(void)
 		free(line);
 		line = NULL;
 	}
-	line = readline("minishell$ ");
+	line = readline("〘🐚〙: ");
 	if (!line)
 	{
 		ft_printf("exiting");
