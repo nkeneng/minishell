@@ -38,7 +38,7 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix tests/, prints.c) \
 		$(addprefix word_list/, word_list_methods.c word_list_methods2.c word_list_methods3.c word_desc.c) \
 		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
-		init_envp.c init_shell.c ft_free_shell.c \
+		init_envp.c init_shell.c ft_free_shell.c signals.c\
 		)
 
 

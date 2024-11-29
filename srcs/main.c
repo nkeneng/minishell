@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/27 15:39:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:44:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+volatile sig_atomic_t	g_signal = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_list				*lst;
 	char				*line;
 	t_shell				shell;
-	// struct sigaction	sa;
 
 	(void)argc;
 	(void)argv;
 	shell.envp = NULL;
 	init_envp(envp, &shell);
-	// signals(&sa);
+	init_signals();
 	while (1)
 	{
 		line = rl_gets();
+		if (!line)
+			continue ;
 		lst = parse_input(line, &shell);
+		free(line);
 		if (!lst)
 			continue ;
 		shell.exit_status = start_pipex(&lst, &(shell.envp));

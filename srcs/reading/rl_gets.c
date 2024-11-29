@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:47:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/08 13:47:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:35:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,18 @@ char	*rl_gets(void)
 {
 	static char	*line;
 
-	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
-	line = readline("minishell$ ");
+	rl_catch_signals = 1;
+	line = readline("〘🐚〙: ");
 	if (!line)
-	{
-		ft_printf("exiting");
 		exit (0);
-	}
+	// if (g_signal)
+	// {
+	// 	g_signal = 0;
+	// 	return (line);
+	// }
 	if (ft_strncmp("exit", line, 4) == 0)
-	{
-		ft_printf("exiting strncmp");
 		exit (0);
-	}
-	if (line && *line) // seeing if line is not is unnecessary because auf previous check, leaving it in for later
+	if (*line) // seeing if line is not is unnecessary because auf previous check, leaving it in for later
 		add_history(line);
 	return (line);
 }
