@@ -81,4 +81,5 @@ void				ft_free_envp(t_env *envp, int nb_env);
 // signal.c
 void				sigint_handler(int sig);
 void	init_signals(void);
+void	signal_handler(int signum);
 #endif

@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/29 10:05:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:48:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,13 @@ int	main(int argc, char **argv, char **envp)
 	shell.envp = NULL;
 	init_envp(envp, &shell);
 	init_signals();
+	// signal(SIGINT, signal_handler);
+	// signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		line = rl_gets();
+		if (!line)
+			continue ;
 		lst = parse_input(line, &shell);
 		if (!lst)
 			continue ;
