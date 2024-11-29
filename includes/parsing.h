@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/24 13:14:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:59:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	is_quote(char *sign);
 //flags_setting.c
 void	assign_flag(t_word_list *list);
 void	assign_operator_till_end(t_word_list *list, int flag);
+int	is_builtin(char *command);
 
 //missing_close.c
 int	missing_close_sign(char *line, char sign);

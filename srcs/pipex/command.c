@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/27 15:41:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:07:08 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,30 @@ int handle_builtin(t_command *command, t_env **envp)
 	else if (ft_strncmp(command->cmd[0], "exit", ft_strlen("exit")) == 0)
 		ft_exit();
 	return (EXIT_SUCCESS);
+}
+
+int	exec_builtin(int builtin, t_command *command, t_env **envp)
+{
+	if (builtin == CD_BUILTIN)
+		return(ft_cd(command->cmd[1]));
+	else if (builtin == ECHO_BUILTIN)
+	{
+		if (ft_strncmp(command->cmd[1], "-n", ft_strlen("-n")) == 0)
+			return(ft_echo(command->cmd, 1));
+		else
+			return(ft_echo(command->cmd, 0));
+	}
+	else if (builtin == PWD_BUILTIN)
+		return(ft_pwd());
+	else if (builtin == EXPORT_BUILTIN)
+		return(ft_export(command->cmd, envp));
+	else if (builtin == UNSET_BUILTIN)
+		return (ft_unset(command->cmd, envp));
+	else if (builtin == ENV_BUILTIN)
+		return (ft_env(env_to_array(*envp)));
+	else if (builtin == EXIT_BUILTIN)
+		ft_exit();
+	return (0);
 }
 
 int	exec_command(t_command *command, t_env **envp, int *fd)
@@ -126,11 +150,14 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		if (!(cmd->flags & C_BUILTIN))
-			rt_code = (handle_builtin(cmd,envp));
-		else
+		rt_code = is_builtin(cmd->cmd[0]);
+		printf("rt_code: %i\n", rt_code);
+		rt_code = (exec_builtin(rt_code, cmd,envp));
+		if (!rt_code)
 		{
 			envp_array = env_to_array(*envp);
+				if (!envp_array)
+					exit(EXIT_FAILURE); // protect all allocations!
 			rt_code = make_exec(cmd, envp_array);
 		}
 		perror("execve");
