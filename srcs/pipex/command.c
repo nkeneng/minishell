@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 09:23:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 10:26:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	exec_command(t_command *command, t_env **envp, int *fd)
 			close(fd[1]);
 		}
 		if (command->flags & C_BUILTIN)
-			handle_builtin(command, envp);
+			exit(exec_builtin(is_builtin(command->cmd[0]), command, envp)); //i believe you are returning the exit status the buitlins should have here?? so i just exited with this return
 		else
 		{
 			envp_array = env_to_array(*envp);
@@ -144,24 +144,21 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 	int builtin_nb;
 
 	builtin_nb = is_builtin(cmd->cmd[0]);
-	ft_fprintf(2, "rt_code_in_parent: %i\n", builtin_nb);
-	if (chld_nb == 0 && !(cmd->flags & C_BUILTIN))
+	if (chld_nb == 0 && builtin_nb)
 		return (exec_builtin(builtin_nb, cmd, envp));
 	cpid = fork();
 	if (cpid == -1)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		if (!builtin_nb)
-		{
-			envp_array = env_to_array(*envp);
-			if (!envp_array)
-				exit(EXIT_FAILURE); // protect all allocations!
-			builtin_nb = make_exec(cmd, envp_array);
-			perror("execve");
-		}
-		builtin_nb = (exec_builtin(builtin_nb, cmd, envp));
-		exit(EXIT_FAILURE);
+		if (builtin_nb)
+			exit(exec_builtin(builtin_nb, cmd, envp)); // using the return value of exec_builtin as return because i don't know how you are handling the returns of the builtins.
+		envp_array = env_to_array(*envp);
+		if (!envp_array)
+			exit(EXIT_FAILURE); // protect all allocations!
+		make_exec(cmd, envp_array); // this shouldn't return, if it does, it's an error.
+		perror("execve");
+		exit(errno);
 	}
 	waitpid(cpid, &status, 0);
 	while (chld_nb--)
