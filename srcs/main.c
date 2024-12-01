@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/29 12:44:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:56:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char **argv, char **envp)
 	init_signals();
 	while (1)
 	{
+		if (g_signal)
+			shell.exit_status = (128 + g_signal);
 		line = rl_gets();
 		if (!line)
 			continue ;
