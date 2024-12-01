@@ -53,6 +53,12 @@ test_cases = [
     ("operators seperated by spaces", "echo hello > out | cat < out"),
     ("operators not seperated by spaces", "echo hello>out|cat<out"),
     ("quotes in instructuion", "p\"w\"d"),
+    ("Tilde expansion", "echo ~"),
+    ("Tilde expansion with variable", "echo ~$USER"),
+    ("Tilde expansion with variable and quotes", 'echo "~$USER"'),
+    ("~- expansion", "echo ~-"),
+    ("~- expansion with non-builtin", "ls ~-"),
+    ("~+ expansion", "echo ~+"),
 ]
 
 print("Starting tests...")  # Debug print
