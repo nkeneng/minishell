@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 14:52:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:54:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	open_doc(char *file, int filekind)
 {
 	int	fd;
 
-	if (filekind == C_OPEN_INFILE)
+	if (filekind & C_OPEN_INFILE)
 	{
 		fd = open(file, O_RDONLY, 0444);
 		if (fd == -1)
@@ -58,9 +58,9 @@ int	open_doc(char *file, int filekind)
 		close(fd);
 		return (0);
 	}
-	else if (filekind == C_HERE_DOC)
+	else if (filekind & C_HERE_DOC)
 		return (here_doc(file));
-	else if (filekind == C_OPEN_OUT_TRUNC)
+	else if (filekind & C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else
 		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
