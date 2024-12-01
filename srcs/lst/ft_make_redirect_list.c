@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_redirect_list.c                               :+:      :+:    :+:   */
+/*   ft_make_redirect_list.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:25:08 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/10 12:02:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:18:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_list	*make_redirect_list(t_word_list **list)
 			ft_lstclear(&redir_head, free);
 			return (NULL);
 		}
+		curr->next->word->flags |= curr->word->flags;
 		redir_item = wl_to_redirect(list, curr->next);
 		wd_remove_whitespace(redir_item->filename);
 		ft_lstadd_back(&redir_head, ft_lstnew(redir_item));

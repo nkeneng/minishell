@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/27 15:37:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:54:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 	return (exit_code);
 }
 
-// opens file, dup2s over correct std fd, filekind 0:inf, 1:outf, 2:outf(append)
+// opens file, dup2s over correct std fd or executes heredoc
 int	open_doc(char *file, int filekind)
 {
 	int	fd;
 
-	if (filekind == 0)
+	if (filekind & C_OPEN_INFILE)
 	{
 		fd = open(file, O_RDONLY, 0444);
 		if (fd == -1)
@@ -58,7 +58,9 @@ int	open_doc(char *file, int filekind)
 		close(fd);
 		return (0);
 	}
-	if (filekind == 1)
+	else if (filekind & C_HERE_DOC)
+		return (here_doc(file));
+	else if (filekind & C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else
 		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
@@ -67,7 +69,7 @@ int	open_doc(char *file, int filekind)
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (rperror("dup2"));
 	close(fd);
-	return (0);
+	return (1);
 }
 
 int	pipheredoc(char *arg)
