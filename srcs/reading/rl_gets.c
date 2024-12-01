@@ -26,8 +26,8 @@ char	*rl_gets(void)
 	// 	g_signal = 0;
 	// 	return (line);
 	// }
-	if (ft_strncmp("exit", line, 5) == 0)
-		exit (0);
+	// if (ft_strncmp("exit", line, 5) == 0)
+	// 	exit (0);
 	if (*line) // seeing if line is not is unnecessary because auf previous check, leaving it in for later
 		add_history(line);
 	return (line);
