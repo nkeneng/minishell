@@ -35,11 +35,6 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 			exit(EXIT_FAILURE);
 		}
 	}
-	// while ((*cmd_list)->next)
-	// {
-	// 	waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
-	// 	*cmd_list = (*cmd_list)->next;
-	// }
 	return (exit_code);
 }
 
