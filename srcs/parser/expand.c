@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/24 13:32:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 13:04:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,47 +54,54 @@ t_word_desc	*exch_vars_from_env(t_word_desc **item, t_shell *shell, char *start)
 	return ((*item));
 }
 
+// takes a word_desc element and exchanges the ~ with the home directory
+// ~- with OLDPWD
+// ~+ with PWD
+t_word_desc	*exchange_tile(t_word_desc **item, t_shell *shell)
+{
+	char	*value;
+	char	*new_string;
+	int		len;
+
+	len = 2;
+	if ((*item)->word[1] == '-')
+		value = envp_keytovalue("OLDPWD", shell, 6);
+	else if ((*item)->word[1] == '+')
+		value = envp_keytovalue("PWD", shell, 3);
+	else
+	{
+		value = envp_keytovalue("HOME", shell, 4);
+		len = 1;
+	}
+	new_string = ft_exchange_within((*item)->word, 0, len, value);
+	(*item)->flags |= W_EXPANDED;
+	free((*item)->word);
+	(*item)->word = new_string;
+	return (*item);
+}
+
+// gets called by expand_and_split returns a wl element that had its cariables replaced
 t_word_desc	*wd_expand_var(t_word_desc *(*item), t_shell *shell)
 {
 	char	*value;
 	char	*var_start;
 
 	var_start = ft_strchr((*item)->word, '$');
+	if (!var_start)
+		if ((*item)->word[0] == '~')
+			var_start = (*item)->word;
 	if ((*item)->flags & (WM_OPERATOR_MASK | W_SQUOTED) || !var_start)
 		return ((*item));
+	if (*(var_start) == '~')
+		return (exchange_tile(item, shell));
 	if (*(var_start + 1) != '?')
-	{
 		return (exch_vars_from_env(item, shell, var_start));
-	}
 	value = ft_itoa(shell->exit_status);
 	if (!value)
 		return (free_word_desc(item));
 	exchange_in_word(item, value, "?", (*item)->flags | W_EXPANDED);
 	free(value);
 	return ((*item));
-}
-
-//UNUSED !!!!11
-// returns a valid variable name in an allocated string
-// return "\0" empty string (local var), if no $ or var ended with length 0
-// return NULL if allocation failed
-char	*get_varname(char *varname)
-{
-	int		end;
-
-	ft_printf("varname: %s\n", varname);
-	if (!varname)
-		return ("\0");
-	if ((*varname))
-	{
-		end = ft_is_var_till(varname);
-		if (end == 0)
-			return ("\0");
-		varname = ft_substr(varname, 0, end);
-		if (!varname)
-			return (NULL);
-	}
-	return (varname);
 }
 
 char	*envp_keytovalue(char *key, t_shell *shell, int keylen)

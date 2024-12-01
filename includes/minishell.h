@@ -82,4 +82,8 @@ void				ft_free_envp(t_env *envp, int nb_env);
 void				sigint_handler(int sig);
 void	init_signals(void);
 void	signal_handler(int signum);
+
+// new utility and library functions
+// ft_strexchange_within.c
+char	*ft_exchange_within(char *original, int from, int to, char *exch_with);
 #endif

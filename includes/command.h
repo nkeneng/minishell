@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/28 16:55:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:07:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@
 # define C_BUILTIN			2048 // 1 << 11  builtin shell function
 
 # define PIPE_OR_REDIR_MASK (C_PIPE | C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP)
+
+// enum used in is_builtin for a return value
+enum	e_builtin{
+	EXIT_BUILTIN,
+	EXPORT_BUILTIN,
+	ENV_BUILTIN,
+	ECHO_BUILTIN,
+	CD_BUILTIN,
+	PWD_BUILTIN,
+	UNSET_BUILTIN,
+};
+
 /* A structure which represents a command. */
 typedef struct t_command {
 	char	**cmd;		/* NULL terminated array */
