@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/29 14:07:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 09:23:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,26 +141,26 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 	pid_t	cpid;
 	int		status;
 	char **envp_array;
-	int rt_code = 0;
-	
-	if (!(cmd->flags & C_BUILTIN) && chld_nb == 0)
-		return (handle_builtin(cmd,envp));
+	int builtin_nb;
+
+	builtin_nb = is_builtin(cmd->cmd[0]);
+	ft_fprintf(2, "rt_code_in_parent: %i\n", builtin_nb);
+	if (chld_nb == 0 && !(cmd->flags & C_BUILTIN))
+		return (exec_builtin(builtin_nb, cmd, envp));
 	cpid = fork();
 	if (cpid == -1)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		rt_code = is_builtin(cmd->cmd[0]);
-		printf("rt_code: %i\n", rt_code);
-		rt_code = (exec_builtin(rt_code, cmd,envp));
-		if (!rt_code)
+		if (!builtin_nb)
 		{
 			envp_array = env_to_array(*envp);
-				if (!envp_array)
-					exit(EXIT_FAILURE); // protect all allocations!
-			rt_code = make_exec(cmd, envp_array);
+			if (!envp_array)
+				exit(EXIT_FAILURE); // protect all allocations!
+			builtin_nb = make_exec(cmd, envp_array);
+			perror("execve");
 		}
-		perror("execve");
+		builtin_nb = (exec_builtin(builtin_nb, cmd, envp));
 		exit(EXIT_FAILURE);
 	}
 	waitpid(cpid, &status, 0);
@@ -168,5 +168,5 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	return (rt_code);
+	return (status);
 }

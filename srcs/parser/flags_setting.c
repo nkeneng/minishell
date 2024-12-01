@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:13:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/29 13:16:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 09:03:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	assign_flag(t_word_list *list)
 			curr->next->word->flags |= flag;
 		curr = curr->next;
 		++pipenumber;
-		printf("pipenumber: %i\n", pipenumber);
 	}
 	if (pipenumber == 1)
 		assign_operator_till_end(list, W_ONLY);
