@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/29 12:19:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 14:04:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ void	signal_handler(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_signal = 1;
+		g_signal = SIGINT;
 	}
 	return ;
 }
+
+//if i implement signal handling for interactive and noniteractive parts, this would be needed:
+//write(STDOUT_FILENO, Quit: (core dumped)"\n", 1);
 
 void	init_signals(void)
 {
