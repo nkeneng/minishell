@@ -37,6 +37,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (joined_str);
 }
 
+void	ft_assign_flag_builtin(t_command *command)
+{
+	if (is_builtin(command->cmd[0]))
+		command->flags |= C_BUILTIN;
+}
+
 t_command	*make_command_list(t_word_list **word_list)
 {
 	t_command	*command;
@@ -74,5 +80,6 @@ t_command	*make_command_list(t_word_list **word_list)
 	}
 	wl_delone(word_list, tmp); // remove the pipe
 	command->cmd[i] = NULL;
+	ft_assign_flag_builtin(command);
 	return (command);
 }
