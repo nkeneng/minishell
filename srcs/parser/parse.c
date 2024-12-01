@@ -41,8 +41,8 @@ t_list	*parse_input(char *line, t_shell *shell)
 	word_list_head = make_word_list(line, shell);
 	if (!word_list_head)
 		return (NULL);
-	printf("\nWORD LIST in PARSE:\n");
-	ft_printf_word_list(word_list_head);
+	// printf("\nWORD LIST in PARSE:\n");
+	// ft_printf_word_list(word_list_head);
 	lst = convert_word_list_to_list(word_list_head);
 	ft_printf("\n----------completed list:--------------\n");
 	ft_printf_lst(lst, ft_printf_command);

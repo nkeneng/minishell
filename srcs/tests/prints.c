@@ -16,8 +16,8 @@ void	print_flag_name(int flag)
 {
 	if (flag & W_EXECUTE)
 		ft_printf("W_EXECUTE\n");
-	if (flag & W_COMMAND_BUILTIN)
-		ft_printf("W_COMMAND_BUILTIN\n");
+	if (flag & W_BUILTIN)
+		ft_printf("W_BUILTIN\n");
 	if (flag & W_PIPE)
 		ft_printf("W_PIPE\n");
 	if (flag & W_HERE_DOC)
@@ -42,8 +42,6 @@ void	print_flag_name(int flag)
 		ft_printf("W_ASSIGNMENT\n");
 	if (flag & W_SPLITSPACE)
 		ft_printf("W_SPLITSPACE\n");
-	if (flag & W_NOSPLIT)
-		ft_printf("W_NOSPLIT\n");
 	if (flag & W_EXPANDRHS)
 		ft_printf("W_EXPANDRHS\n");
 	if (flag & W_VAR)
