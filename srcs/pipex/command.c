@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 10:26:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:14:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 
 	tmp_list = *cmd_list;
 	i = 0;
+	init_signals_when_children();
 	while (tmp_list->next)
 	{
 		if (pipe(pipefd) == -1)
@@ -111,6 +112,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 			return (rperror("fork"));
 		else if (cpid == 0)
 		{
+			init_signals_noninteractive();
 			cmd = (t_command *)tmp_list->content;
 			handle_redirections(cmd);
 			if (!has_output_redirection(cmd->redirects))
@@ -156,6 +158,7 @@ int exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
         return (rperror("fork"));
     else if (cpid == 0)
     {
+		init_signals_noninteractive();
         handle_redirections(cmd);  // Handle redirections for child process
         if (builtin_nb)
             exit(exec_builtin(builtin_nb, cmd, envp));

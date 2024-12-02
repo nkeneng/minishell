@@ -64,25 +64,25 @@ int	is_builtin(char *command)
 	{
 		if (command[1] == 'x')
 		{
-			if (ft_memcmp(&command[3], "it", 3) == 0)
+			if (ft_strncmp(&command[2], "it", 2) == 0 && !command[4])
 				return (EXIT_BUILTIN);
-			if (ft_memcmp(&command[3], "port", 5) == 0)
+			if (ft_strncmp(&command[2], "port", 4) == 0 && !command[6])
 				return (EXPORT_BUILTIN);
 		}
 		else if (command[1] == 'n')
 		{
-			if (ft_memcmp(&command[2], "v", 2) == 0)
+			if (ft_strncmp(&command[2], "v", 1) == 0 && !command[3])
 				return (ENV_BUILTIN);
 		}
 		else if (command[1] == 'c')
-			if (ft_memcmp(&command[2], "ho", 3) == 0)
+			if (ft_strncmp(&command[2], "ho", 2) == 0 && !command[4])
 				return (ECHO_BUILTIN);
 	}
-	else if (ft_memcmp(command, "cd", 3) == 0)
+	else if (ft_strncmp(command, "cd", 2) == 0 && !command[3])
 		return (CD_BUILTIN);
-	else if (ft_memcmp(command, "pwd", 4) == 0)
+	else if (ft_strncmp(command, "pwd", 3) == 0 && !command[4])
 		return (PWD_BUILTIN);
-	else if (ft_memcmp(command, "unset", 6) == 0)
+	else if (ft_strncmp(command, "unset", 5) == 0 && !command[6])
 		return (UNSET_BUILTIN);
 	return (0);
 }
