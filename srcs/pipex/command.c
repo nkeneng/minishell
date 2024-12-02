@@ -31,7 +31,6 @@ char **env_to_array(t_env *envp)
 	envp_array[i] = NULL;
 	return (envp_array);
 }
-// Add this helper function
 static int has_output_redirection(t_list *redirects)
 {
 	while (redirects && redirects->content)
