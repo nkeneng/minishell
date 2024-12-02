@@ -83,6 +83,8 @@ void	init_signals(void);
 void	signal_handler(int signum);
 void	init_signals_noninteractive(void);
 void	signal_handler_noninteractive(int signum);
+void	signal_handler_when_children(int signum);
+void	init_signals_when_children(void);
 
 // new utility and library functions
 // ft_strexchange_within.c
