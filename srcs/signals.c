@@ -6,23 +6,54 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/29 12:19:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:12:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
 
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", 1);
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_signal = 1;
+		g_signal = SIGINT;
 	}
 	return ;
+}
+
+void	signal_handler_when_children(int signum)
+{
+	if (signum == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		g_signal = SIGINT;
+	}
+	if (signum == SIGQUIT)
+	{
+		write(STDERR_FILENO, "Quit (core dumped)\n", 20);
+		g_signal = SIGQUIT;
+	}
+	return ;
+}
+
+void	init_signals_when_children(void)
+{
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = signal_handler_when_children;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGINT");
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGQUIT");
 }
 
 void	init_signals(void)
@@ -40,10 +71,25 @@ void	init_signals(void)
 		perror("Error: cannot handle SIGQUIT");
 }
 
-void	sigint_handler(int sig)
+void	signal_handler_noninteractive(int signum)
 {
-	(void)sig;
-	signal(SIGINT, sigint_handler);
-	g_signal = 1;
+	if (signum == SIGINT)
+		g_signal = SIGINT;
+	if (signum == SIGQUIT)
+		g_signal = SIGQUIT;
 	return ;
+}
+
+void	init_signals_noninteractive(void)
+{
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sa.sa_handler = signal_handler_noninteractive;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGINT");
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGQUIT");
 }

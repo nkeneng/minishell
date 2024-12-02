@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:13:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 09:03:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:47:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void	assign_flag(t_word_list *list)
 	{
 		flag = sign_to_flag(curr->word->word);
 		if (flag & WM_OPERATOR_MASK)
+		{
 			list = curr->next;
-		else if (flag & WM_REDIR_MASK && curr->next)
-			curr->next->word->flags |= flag;
+			pipenumber++;
+		}
+		// else if (flag & WM_REDIR_MASK && curr->next) // this should not be done before having split at whitespaces
+		// 	curr->next->word->flags |= flag;
 		curr = curr->next;
-		++pipenumber;
 	}
 	if (pipenumber == 1)
 		assign_operator_till_end(list, W_ONLY);
@@ -62,25 +64,25 @@ int	is_builtin(char *command)
 	{
 		if (command[1] == 'x')
 		{
-			if (ft_strncmp(&command[3], "it", 2) == 0)
+			if (ft_strncmp(&command[2], "it", 2) == 0 && !command[4])
 				return (EXIT_BUILTIN);
-			if (ft_strncmp(&command[3], "port", 4) == 0)
+			if (ft_strncmp(&command[2], "port", 4) == 0 && !command[6])
 				return (EXPORT_BUILTIN);
 		}
 		else if (command[1] == 'n')
 		{
-			if (ft_strncmp(&command[2], "v", 1) == 0)
+			if (ft_strncmp(&command[2], "v", 1) == 0 && !command[3])
 				return (ENV_BUILTIN);
 		}
 		else if (command[1] == 'c')
-			if (ft_strncmp(&command[2], "ho", 2) == 0)
+			if (ft_strncmp(&command[2], "ho", 2) == 0 && !command[4])
 				return (ECHO_BUILTIN);
 	}
-	else if (ft_strncmp(command, "cd", 2) == 0)
+	else if (ft_strncmp(command, "cd", 2) == 0 && !command[3])
 		return (CD_BUILTIN);
-	else if (ft_strncmp(command, "pwd", 3) == 0)
+	else if (ft_strncmp(command, "pwd", 3) == 0 && !command[4])
 		return (PWD_BUILTIN);
-	else if (ft_strncmp(command, "unset", 5) == 0)
+	else if (ft_strncmp(command, "unset", 5) == 0 && !command[6])
 		return (UNSET_BUILTIN);
 	return (0);
 }
