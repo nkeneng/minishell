@@ -25,9 +25,6 @@ void	signal_handler(int signum)
 	return ;
 }
 
-//if i implement signal handling for interactive and noniteractive parts, this would be needed:
-//write(STDOUT_FILENO, Quit: (core dumped)"\n", 1);
-
 void	init_signals(void)
 {
 	struct sigaction	sa;
@@ -43,10 +40,34 @@ void	init_signals(void)
 		perror("Error: cannot handle SIGQUIT");
 }
 
-void	sigint_handler(int sig)
+void	signal_handler_noninteractive(int signum)
 {
-	(void)sig;
-	signal(SIGINT, sigint_handler);
-	g_signal = 1;
+	if (signum == SIGINT)
+	{
+		g_signal = SIGINT;
+		printf("\n");
+	}
+	if (signum == SIGQUIT)
+	{
+		g_signal = SIGQUIT;
+		printf("Quit (core dumped)\n");
+	}
 	return ;
 }
+
+void	init_signals_noninteractive(void)
+{
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sa.sa_handler = signal_handler_noninteractive;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGINT");
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGQUIT");
+}
+
+//if i implement signal handling for interactive and noniteractive parts, this would be needed:
+//write(STDOUT_FILENO, Quit: (core dumped)"\n", 1);

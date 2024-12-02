@@ -90,15 +90,13 @@ int	exec_command(t_command *command, t_env **envp, int *fd)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
+		init_signals_noninteractive();
 		close(fd[0]);
-		if (fd[1] != STDOUT_FILENO)
-		{
-			if (dup2(fd[1], STDOUT_FILENO) == -1)
-				return (rperror("dup2"));
-			close(fd[1]);
-		}
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			return (rperror("dup2"));
+		close(fd[1]);
 		if (command->flags & C_BUILTIN)
-			exit(exec_builtin(is_builtin(command->cmd[0]), command, envp)); //i believe you are returning the exit status the buitlins should have here?? so i just exited with this return
+			exit(exec_builtin(is_builtin(command->cmd[0]), command, envp));
 		else
 		{
 			envp_array = env_to_array(*envp);
@@ -151,6 +149,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
+		init_signals_noninteractive();
 		if (builtin_nb)
 			exit(exec_builtin(builtin_nb, cmd, envp)); // using the return value of exec_builtin as return because i don't know how you are handling the returns of the builtins.
 		envp_array = env_to_array(*envp);
