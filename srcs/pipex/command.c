@@ -83,7 +83,7 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 int	exec_command(t_command *command, t_env **envp, int *fd)
 {
 	pid_t	cpid;
-	char **envp_array;
+	char	**envp_array;
 
 	cpid = fork();
 	if (cpid == -1)
@@ -91,14 +91,19 @@ int	exec_command(t_command *command, t_env **envp, int *fd)
 	else if (cpid == 0)
 	{
 		close(fd[0]);
-		if (fd[1] != STDOUT_FILENO)
+		if (command->redirects && command->redirects->content)
+		{
+			open_doc(((t_redirect *)command->redirects->content)->filename->word,
+				((t_redirect *)command->redirects->content)->filename->flags);
+		}
+		else if (fd[1] != STDOUT_FILENO)
 		{
 			if (dup2(fd[1], STDOUT_FILENO) == -1)
 				return (rperror("dup2"));
-			close(fd[1]);
 		}
+		close(fd[1]);
 		if (command->flags & C_BUILTIN)
-			exit(exec_builtin(is_builtin(command->cmd[0]), command, envp)); //i believe you are returning the exit status the buitlins should have here?? so i just exited with this return
+			exit(exec_builtin(is_builtin(command->cmd[0]), command, envp));
 		else
 		{
 			envp_array = env_to_array(*envp);
