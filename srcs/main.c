@@ -30,7 +30,10 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		if (g_signal)
+		{
 			shell.exit_status = (128 + g_signal);
+			g_signal = 0;
+		}
 		line = rl_gets();
 		if (!line)
 			continue ;
@@ -39,8 +42,12 @@ int	main(int argc, char **argv, char **envp)
 		if (!lst)
 			continue ;
 		shell.exit_status = start_pipex(&lst, &(shell.envp));
+		if (g_signal)
+		{
+			shell.exit_status = (128 + g_signal);
+			g_signal = 0;
+		}
 		ft_lstclear(&lst, ft_free_command);
-		ft_fprintf(STDERR_FILENO, "exit status: %d\n", shell.exit_status); // debug print
 	}
 	return (shell.exit_status);
 }

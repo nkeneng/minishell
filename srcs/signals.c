@@ -6,17 +6,18 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 18:42:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:27:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
 
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", 1);
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -44,13 +45,14 @@ void	signal_handler_noninteractive(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_signal = SIGINT;
 		printf("\n");
+		g_signal = SIGINT;
 	}
 	if (signum == SIGQUIT)
 	{
+		// printf("Quit (core dumped)\n");
+		write(STDERR_FILENO, "Quit: (core dumped)\n", 20);
 		g_signal = SIGQUIT;
-		printf("Quit (core dumped)\n");
 	}
 	return ;
 }
