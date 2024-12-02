@@ -17,7 +17,7 @@ char	*rl_gets(void)
 {
 	static char	*line;
 
-	rl_catch_signals = 1;
+	// rl_catch_signals = 1;
 	line = readline("〘🐚〙: ");
 	if (!line)
 		exit (0);

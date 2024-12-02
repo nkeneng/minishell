@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 10:26:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:14:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,20 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 int	exec_command(t_command *command, t_env **envp, int *fd)
 {
 	pid_t	cpid;
-	char **envp_array;
+	char	**envp_array;
 
 	cpid = fork();
 	if (cpid == -1)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
+		init_signals_noninteractive();
 		close(fd[0]);
-		if (fd[1] != STDOUT_FILENO)
-		{
-			if (dup2(fd[1], STDOUT_FILENO) == -1)
-				return (rperror("dup2"));
-			close(fd[1]);
-		}
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			return (rperror("dup2"));
+		close(fd[1]);
 		if (command->flags & C_BUILTIN)
-			exit(exec_builtin(is_builtin(command->cmd[0]), command, envp)); //i believe you are returning the exit status the buitlins should have here?? so i just exited with this return
+			exit(exec_builtin(is_builtin(command->cmd[0]), command, envp));
 		else
 		{
 			envp_array = env_to_array(*envp);
@@ -118,6 +116,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 
 	tmp_list = *cmd_list;
 	i = 0;
+	init_signals_when_children();
 	while (tmp_list->next)
 	{
 		if (pipe(pipefd) == -1)
@@ -140,8 +139,8 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 {
 	pid_t	cpid;
 	int		status;
-	char **envp_array;
-	int builtin_nb;
+	char	**envp_array;
+	int		builtin_nb;
 
 	builtin_nb = is_builtin(cmd->cmd[0]);
 	if (chld_nb == 0 && builtin_nb)
@@ -151,14 +150,14 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
+		init_signals_noninteractive();
 		if (builtin_nb)
 			exit(exec_builtin(builtin_nb, cmd, envp)); // using the return value of exec_builtin as return because i don't know how you are handling the returns of the builtins.
 		envp_array = env_to_array(*envp);
 		if (!envp_array)
 			exit(EXIT_FAILURE); // protect all allocations!
 		make_exec(cmd, envp_array); // this shouldn't return, if it does, it's an error.
-		perror("execve");
-		exit(errno);
+		exit(rperror("execve"));
 	}
 	waitpid(cpid, &status, 0);
 	while (chld_nb--)

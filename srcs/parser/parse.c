@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 16:03:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:25:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_list	*parse_input(char *line, t_shell *shell)
 	// printf("\nWORD LIST in PARSE:\n");
 	// ft_printf_word_list(word_list_head);
 	lst = convert_word_list_to_list(word_list_head);
-	ft_printf("\n----------completed list:--------------\n");
-	ft_printf_lst(lst, ft_printf_command);
+	// ft_printf("\n----------completed list:--------------\n");
+	// ft_printf_lst(lst, ft_printf_command);
 	return (lst);
 }
