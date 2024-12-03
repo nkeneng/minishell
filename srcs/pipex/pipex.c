@@ -26,20 +26,18 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 	if (!cmd_list)
 		return (rperror("command list empty"));
 	exit_code = pipex(envp, cmd_list);
-	if (!isatty(STDIN_FILENO))
+	close(STDIN_FILENO);
+	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
 	{
-		close(STDIN_FILENO);
-		if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-		{
-			perror("Failed to reopen stdin");
-			exit(EXIT_FAILURE);
-		}
+		perror("Failed to reopen stdin");
+		exit(EXIT_FAILURE);
 	}
-	// while ((*cmd_list)->next)
-	// {
-	// 	waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
-	// 	*cmd_list = (*cmd_list)->next;
-	// }
+	close(STDOUT_FILENO);
+	if (open("/dev/tty", O_WRONLY) != STDOUT_FILENO)
+	{
+		perror("Failed to reopen stdout");
+		exit(EXIT_FAILURE);
+	}
 	return (exit_code);
 }
 

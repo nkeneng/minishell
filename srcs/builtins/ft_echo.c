@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:58:38 by stevennke         #+#    #+#             */
-/*   Updated: 2024/12/03 13:51:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:22:16 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,5 @@ int	ft_echo(char **args, int n)
 	}
 	if (!n)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	close (STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }

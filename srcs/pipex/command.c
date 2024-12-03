@@ -32,18 +32,6 @@ char **env_to_array(t_env *envp)
 	return (envp_array);
 }
 
-static	int	has_output_redirection(t_list *redirects)
-{
-	while (redirects && redirects->content)
-	{
-		t_redirect *redir = redirects->content;
-		if (redir->filename->flags & (W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP))
-			return (1);
-		redirects = redirects->next;
-	}
-	return (0);
-}
-
 static	void	handle_redirections(t_command *cmd)
 {
 	handle_redirect_in(cmd);
@@ -122,12 +110,8 @@ int	pipex(t_env **envp, t_list **cmd_list)
 		{
 			init_signals_noninteractive();
 			cmd = (t_command *)tmp_list->content;
-			// handle_redirections(cmd);
-			// if (!has_output_redirection(cmd->redirects))
-			// {
 			if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 				exit(rperror("dup2"));
-			// }
 			close(pipefd[1]);
 			handle_redirect_out(cmd);
 			if (cmd->flags & C_BUILTIN)
