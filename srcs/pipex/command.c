@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/02 16:14:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:48:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char **env_to_array(t_env *envp)
 	envp_array[i] = NULL;
 	return (envp_array);
 }
-static int has_output_redirection(t_list *redirects)
+
+static	int	has_output_redirection(t_list *redirects)
 {
 	while (redirects && redirects->content)
 	{
@@ -43,27 +44,33 @@ static int has_output_redirection(t_list *redirects)
 	return (0);
 }
 
-static void handle_redirections(t_command *cmd)
-{
-    t_list *redir_list;
-    t_redirect *redir;
+// static	void	handle_redirections(t_command *cmd)
+// {
+// 	handle_redirect_in(cmd);
+// 	handle_redirect_out(cmd);
+// }
 
-    redir_list = cmd->redirects;
-    while (redir_list && redir_list->content)
-    {
-        redir = redir_list->content;
-        if (redir->filename->flags & (C_OPEN_INFILE))
-        {
-            ft_printf("opening input file %s\n", redir->filename->word);
-            open_doc(redir->filename->word, redir->filename->flags);
-        }
-        else if (redir->filename->flags & (W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP))
-        {
-            ft_printf("opening output file %s\n", redir->filename->word);
-            open_doc(redir->filename->word, redir->filename->flags);
-        }
-        redir_list = redir_list->next;
-    }
+static	void	handle_redirections(t_command *cmd)
+{
+	t_list		*redir_list;
+	t_redirect	*redir;
+
+	redir_list = cmd->redirects;
+	while (redir_list && redir_list->content)
+	{
+		redir = redir_list->content;
+		if (redir->filename->flags & (C_OPEN_INFILE))
+		{
+			printf("opening input file %s\n", redir->filename->word);
+			open_doc(redir->filename->word, redir->filename->flags);
+		}
+		else if (redir->filename->flags & (W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP))
+		{
+			printf("opening output file %s\n", redir->filename->word);
+			open_doc(redir->filename->word, redir->filename->flags);
+		}
+		redir_list = redir_list->next;
+	}
 }
 
 int	exec_builtin(int builtin, t_command *command, t_env **envp)
@@ -140,39 +147,39 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, i));
 }
 
-int exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
+int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 {
-    pid_t   cpid;
-    int     status;
-    char    **envp_array;
-    int     builtin_nb;
+	pid_t	cpid;
+	int		status;
+	char	**envp_array;
+	int		builtin_nb;
 
-    builtin_nb = is_builtin(cmd->cmd[0]);
-    if (chld_nb == 0 && builtin_nb)
-    {
-        handle_redirections(cmd);  // Handle redirections for builtin
-        return (exec_builtin(builtin_nb, cmd, envp));
-    }
-    cpid = fork();
-    if (cpid == -1)
-        return (rperror("fork"));
-    else if (cpid == 0)
-    {
+	builtin_nb = is_builtin(cmd->cmd[0]);
+	if (chld_nb == 0 && builtin_nb)
+	{
+		handle_redirections(cmd);  // Handle redirections for builtin
+		return (exec_builtin(builtin_nb, cmd, envp));
+	}
+	cpid = fork();
+	if (cpid == -1)
+		return (rperror("fork"));
+	else if (cpid == 0)
+	{
 		init_signals_noninteractive();
-        handle_redirections(cmd);  // Handle redirections for child process
-        if (builtin_nb)
-            exit(exec_builtin(builtin_nb, cmd, envp));
-        envp_array = env_to_array(*envp);
-        if (!envp_array)
-            exit(EXIT_FAILURE);
-        make_exec(cmd, envp_array);
-        perror("execve");
-        exit(errno);
-    }
-    waitpid(cpid, &status, 0);
-    while (chld_nb--)
-        waitpid(-1, NULL, 0);
-    if (WIFEXITED(status))
-        return (WEXITSTATUS(status));
-    return (status);
+		handle_redirections(cmd);  // Handle redirections for child process
+		if (builtin_nb)
+			exit(exec_builtin(builtin_nb, cmd, envp));
+		envp_array = env_to_array(*envp);
+		if (!envp_array)
+			exit(EXIT_FAILURE);
+		make_exec(cmd, envp_array);
+		perror("execve");
+		exit(errno);
+	}
+	waitpid(cpid, &status, 0);
+	while (chld_nb--)
+		waitpid(-1, NULL, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (status);
 }

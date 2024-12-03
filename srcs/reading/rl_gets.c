@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:47:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 16:46:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:35:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*rl_gets(void)
 	static char	*line;
 
 	// rl_catch_signals = 1;
-	line = readline("〘🐚〙: ");
+	line = readline(PROMPT);
 	if (!line)
 		exit (0);
 	// if (g_signal)
