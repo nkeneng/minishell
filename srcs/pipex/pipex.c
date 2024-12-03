@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 17:54:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:10:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	open_doc(char *file, int filekind)
 	{
 		fd = open(file, O_RDONLY, 0444);
 		if (fd == -1)
-			exit(rperror("open"));
+			return (rperror("open"));
 		if (dup2(fd, STDIN_FILENO) == -1)
-			exit(rperror("dup2"));
+			return (rperror("dup2"));
 		close(fd);
 		return (0);
 	}
@@ -65,11 +65,11 @@ int	open_doc(char *file, int filekind)
 	else
 		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
-		exit(rperror("open"));
+		return (rperror("open"));
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (rperror("dup2"));
 	close(fd);
-	return (1);
+	return (0);
 }
 
 int	pipheredoc(char *arg)
