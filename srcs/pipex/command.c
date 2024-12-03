@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 13:53:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/03 14:47:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,35 +31,6 @@ char **env_to_array(t_env *envp)
 	envp_array[i] = NULL;
 	return (envp_array);
 }
-
-static	void	handle_redirections(t_command *cmd)
-{
-	handle_redirect_in(cmd);
-	handle_redirect_out(cmd);
-}
-
-// static	void	handle_redirections(t_command *cmd)
-// {
-// 	t_list		*redir_list;
-// 	t_redirect	*redir;
-//
-// 	redir_list = cmd->redirects;
-// 	while (redir_list && redir_list->content)
-// 	{
-// 		redir = redir_list->content;
-// 		if (redir->filename->flags & (C_OPEN_INFILE))
-// 		{
-// 			printf("opening input file %s\n", redir->filename->word);
-// 			open_doc(redir->filename->word, redir->filename->flags);
-// 		}
-// 		else if (redir->filename->flags & (W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP))
-// 		{
-// 			printf("opening output file %s\n", redir->filename->word);
-// 			open_doc(redir->filename->word, redir->filename->flags);
-// 		}
-// 		redir_list = redir_list->next;
-// 	}
-// }
 
 int	exec_builtin(int builtin, t_command *command, t_env **envp)
 {
@@ -98,7 +69,6 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	tmp_list = *cmd_list;
 	i = 0;
 	init_signals_when_children();
-	handle_redirect_in((t_command *) tmp_list->content);
 	while (tmp_list->next)
 	{
 		if (pipe(pipefd) == -1)
@@ -113,7 +83,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 			if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 				exit(rperror("dup2"));
 			close(pipefd[1]);
-			handle_redirect_out(cmd);
+			handle_redirections(cmd);
 			if (cmd->flags & C_BUILTIN)
 				exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp));
 			else
@@ -127,7 +97,6 @@ int	pipex(t_env **envp, t_list **cmd_list)
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 			return (rperror("dup2"));
 		close(pipefd[0]);
-		handle_redirect_in((t_command *) tmp_list->next->content);
 		tmp_list = tmp_list->next;
 		i++;
 	}
@@ -144,8 +113,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 	builtin_nb = is_builtin(cmd->cmd[0]);
 	if (chld_nb == 0 && builtin_nb)
 	{
-		// handle_redirections(cmd);  // Handle redirections for builtin
-		handle_redirect_out(cmd);
+		handle_redirections(cmd);  // Handle redirections for builtin
 		return (exec_builtin(builtin_nb, cmd, envp));
 	}
 	cpid = fork();
@@ -154,8 +122,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 	else if (cpid == 0)
 	{
 		init_signals_noninteractive();
-		// handle_redirections(cmd);  // Handle redirections for child process
-		handle_redirect_out(cmd);
+		handle_redirections(cmd);  // Handle redirections for child process
 		if (builtin_nb)
 			exit(exec_builtin(builtin_nb, cmd, envp));
 		envp_array = env_to_array(*envp);

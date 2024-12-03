@@ -6,11 +6,17 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:06:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 13:39:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/03 14:47:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	handle_redirections(t_command *cmd)
+{
+	handle_redirect_in(cmd);
+	handle_redirect_out(cmd);
+}
 
 void	handle_redirect_in(t_command *command)
 {
@@ -25,9 +31,8 @@ void	handle_redirect_in(t_command *command)
 		redir = redir_list->content;
 		if (redir->filename->flags & C_OPEN_INFILE || redir->filename->flags & C_HERE_DOC)
 		{
-			printf("opening input file %s\n", redir->filename->word);
 			open_doc(redir->filename->word, redir->filename->flags);
-		// ft_lstfreeone(&command->redirects, (void *) tmp, ft_free_redirect);
+			// ft_lstfreeone(&command->redirects, (void *) tmp, ft_free_redirect);
 		}
 		redir_list = redir_list->next;
 	}
@@ -46,9 +51,8 @@ void	handle_redirect_out(t_command *command)
 		redir = redir_list->content;
 		if (redir->filename->flags & W_OPEN_OUT_TRUNC || redir->filename->flags & W_OPEN_OUT_APP)
 		{
-			printf("opening output file %s\n", redir->filename->word);
 			open_doc(redir->filename->word, redir->filename->flags);
-		// ft_lstfreeone(&command->redirects, (void *) tmp, ft_free_redirect);
+			// ft_lstfreeone(&command->redirects, (void *) tmp, ft_free_redirect);
 		}
 		redir_list = redir_list->next;
 	}
