@@ -27,6 +27,9 @@
 // just for test cases
 # include "dummy.h"
 
+//DEFINITIONS
+# define PROMPT "〘🐚〙: "
+
 //GLOBALS
 extern volatile sig_atomic_t	g_signal;
 
@@ -56,6 +59,11 @@ int					count_char_array(char **charray);
 
 //here_doc.c
 int					here_doc(char *delim);
+
+// file_redirection.c
+void	handle_redirect_in(t_command *command);
+void	handle_redirect_out(t_command *command);
+void	handle_redirections(t_command *cmd);
 
 // path.c
 char				*get_commpath(char *envp[], const char *command);

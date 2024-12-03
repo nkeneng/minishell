@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 17:54:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:10:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,18 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 	if (!cmd_list)
 		return (rperror("command list empty"));
 	exit_code = pipex(envp, cmd_list);
-	if (!isatty(STDIN_FILENO))
+	close(STDIN_FILENO);
+	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
 	{
-		close(STDIN_FILENO);
-		if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-		{
-			perror("Failed to reopen stdin");
-			exit(EXIT_FAILURE);
-		}
+		perror("Failed to reopen stdin");
+		exit(EXIT_FAILURE);
 	}
-	// while ((*cmd_list)->next)
-	// {
-	// 	waitpid(-1, NULL, 0);  //this is equal to wait(NULL);
-	// 	*cmd_list = (*cmd_list)->next;
-	// }
+	close(STDOUT_FILENO);
+	if (open("/dev/tty", O_WRONLY) != STDOUT_FILENO)
+	{
+		perror("Failed to reopen stdout");
+		exit(EXIT_FAILURE);
+	}
 	return (exit_code);
 }
 
@@ -52,9 +50,9 @@ int	open_doc(char *file, int filekind)
 	{
 		fd = open(file, O_RDONLY, 0444);
 		if (fd == -1)
-			exit(rperror("open"));
+			return (rperror("open"));
 		if (dup2(fd, STDIN_FILENO) == -1)
-			exit(rperror("dup2"));
+			return (rperror("dup2"));
 		close(fd);
 		return (0);
 	}
@@ -65,11 +63,11 @@ int	open_doc(char *file, int filekind)
 	else
 		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
-		exit(rperror("open"));
+		return (rperror("open"));
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (rperror("dup2"));
 	close(fd);
-	return (1);
+	return (0);
 }
 
 int	pipheredoc(char *arg)

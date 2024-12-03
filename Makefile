@@ -27,10 +27,10 @@ MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c) \
-		$(addprefix pipex/, pipex.c path.c command.c utils.c) \
+		$(addprefix pipex/, pipex.c path.c command.c utils.c file_redirection.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
 		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c \
-		ft_free_command_list.c) \
+		ft_free_redirects.c ft_free_command_list.c) \
 		$(addprefix reading/, here_doc.c rl_gets.c) \
 		$(addprefix parser/, parse.c missing_close.c \
 		splitting.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c \

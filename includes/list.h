@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:07:39 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/14 14:48:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:00:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ t_list	*make_redirect_list(t_word_list **list);
 t_word_list	*find_redir(t_word_list *list);
 t_command	*make_command_list(t_word_list **word_list);
 int	ft_printf_redirect(void *redirect);
+
+//free_redirects.c
+void	ft_lstfreeone(t_list **lst, t_list *deletee, void (*free_cont)(void *));
+void	ft_free_redirect(void *redir);
 
 void	ft_free_command_list(t_list **lst);
 #endif //!LIST_H
