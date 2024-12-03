@@ -41,6 +41,41 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 	return (exit_code);
 }
 
+pid_t container(char *dlm)
+{
+	int		pipefd[2];
+	pid_t	cpid;
+
+	init_signals_when_children();
+	if (pipe(pipefd) == -1)
+		return (rperror("pipe"));
+	cpid = fork();
+	if (cpid == -1)
+		return (rperror("fork"));
+	else if (cpid == 0)
+	{
+		if (!isatty(STDIN_FILENO))
+		{
+			close(STDIN_FILENO);
+			if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
+			{
+				perror("Failed to reopen stdin");
+				exit(EXIT_FAILURE);
+			}
+		}
+		init_signals_noninteractive();
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			exit(rperror("dup2"));
+		close(pipefd[1]);
+		exit(here_doc(dlm));
+	}
+	close(pipefd[1]);
+	if (dup2(pipefd[0], STDIN_FILENO) == -1)
+		return (rperror("dup2"));
+	close(pipefd[0]);
+	return (cpid);
+}
+
 // opens file, dup2s over correct std fd or executes heredoc
 int	open_doc(char *file, int filekind)
 {
@@ -57,7 +92,13 @@ int	open_doc(char *file, int filekind)
 		return (0);
 	}
 	else if (filekind & C_HERE_DOC)
-		return (here_doc(file));
+	{
+		pid_t pid = container(file);
+		if (pid == -1)
+			return (rperror("fork"));
+		waitpid(pid, NULL, 0);
+		return (0);
+	}
 	else if (filekind & C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else

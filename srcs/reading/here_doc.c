@@ -25,16 +25,16 @@ int	here_doc(char *delim)
 	delim_len = ft_strlen(delim);
 	while (1)
 	{
-		// line = get_next_line(STDIN_FILENO);
-		line = readline("> ");
+		line = get_next_line(STDIN_FILENO);
+		// line = readline("> ");
 		if (!line)
 			break ;
 		if (!ft_strncmp(delim, line, delim_len) && \
 			(line[delim_len] == '\n' || line[delim_len] == '\0'))
 		{
 			free(line);
-			// line = get_next_line(-1);
-			line = readline("> ");
+			line = get_next_line(-1);
+			// line = readline("> ");
 			break ;
 		}
 		ft_fprintf(STDOUT_FILENO, "%s", line);

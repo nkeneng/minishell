@@ -103,6 +103,9 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, i));
 }
 
+
+
+
 int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 {
 	pid_t	cpid;
