@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 14:47:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:32:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	{
 		if (pipe(pipefd) == -1)
 			return (rperror("pipe"));
+		handle_redirects_all(tmp_list->content, C_HERE_DOC);
 		cpid = fork();
 		if (cpid == -1)
 			return (rperror("fork"));
@@ -140,5 +141,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		waitpid(-1, NULL, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
 	return (status);
 }
