@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/02 16:12:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:13:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@ void	init_signals(void)
 	sa.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGQUIT");
+}
+
+void	signal_handler_heredoc(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_signal = SIGINT;
+		raise(SIGINT);
+	}
+	return ;
 }
 
 void	init_signals_heredoc(void)
