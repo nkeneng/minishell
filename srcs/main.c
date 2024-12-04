@@ -52,6 +52,7 @@ int	main(int argc, char **argv, char **envp)
 				ft_printf("\n", 1);
 			g_signal = 0;
 		}
+		init_signals();
 		ft_lstclear(&lst, ft_free_command);
 	}
 	return (shell.exit_status);

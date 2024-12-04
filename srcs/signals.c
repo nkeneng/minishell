@@ -26,6 +26,36 @@ void	signal_handler(int signum)
 	return ;
 }
 
+void	init_signals(void)
+{
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = signal_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGINT");
+	sa.sa_handler = SIG_IGN;
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGQUIT");
+}
+
+void	init_signals_heredoc(void)
+{
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sa.sa_handler = SIG_IGN;
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGQUIT");
+	sa.sa_handler = signal_handler_noninteractive;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		perror("Error: cannot handle SIGINT");
+}
+
 void	signal_handler_when_children(int signum)
 {
 	if (signum == SIGINT)
@@ -52,21 +82,6 @@ void	init_signals_when_children(void)
 	sa.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGINT");
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-		perror("Error: cannot handle SIGQUIT");
-}
-
-void	init_signals(void)
-{
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = signal_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		perror("Error: cannot handle SIGINT");
-	sa.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGQUIT");
 }

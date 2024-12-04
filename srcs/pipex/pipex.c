@@ -46,7 +46,8 @@ pid_t container(char *dlm)
 	int		pipefd[2];
 	pid_t	cpid;
 
-	init_signals_when_children();
+	// init_signals_when_children();
+	init_signals_noninteractive();
 	if (pipe(pipefd) == -1)
 		return (rperror("pipe"));
 	cpid = fork();
@@ -54,16 +55,16 @@ pid_t container(char *dlm)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
+		init_signals_heredoc();
 		if (!isatty(STDIN_FILENO))
 		{
 			close(STDIN_FILENO);
 			if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
 			{
 				perror("Failed to reopen stdin");
-				exit(EXIT_FAILURE);
+				exit(EXIT_FAILURE); //exit with somethig negative else to diff from cpid
 			}
 		}
-		init_signals_noninteractive();
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			exit(rperror("dup2"));
 		close(pipefd[1]);
