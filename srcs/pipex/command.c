@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/04 17:32:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:11:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 	return (0);
 }
 
-//@TODO: handle redirection not working with builtins ( because of how it outputs ? )
-//@TODO: handle heredoc not working yet
+//@TODO: handle heredoc signals not working yet
 int	pipex(t_env **envp, t_list **cmd_list)
 {
 	int		pipefd[2];
@@ -71,20 +70,20 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	init_signals_when_children();
 	while (tmp_list->next)
 	{
+		handle_redirects(tmp_list->content, C_HERE_DOC | C_OPEN_INFILE);
 		if (pipe(pipefd) == -1)
 			return (rperror("pipe"));
-		handle_redirects_all(tmp_list->content, C_HERE_DOC);
 		cpid = fork();
 		if (cpid == -1)
 			return (rperror("fork"));
-		else if (cpid == 0)
+		else if (cpid == 0 && g_signal == 0)
 		{
 			init_signals_noninteractive();
 			cmd = (t_command *)tmp_list->content;
 			if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 				exit(rperror("dup2"));
 			close(pipefd[1]);
-			handle_redirections(cmd);
+			handle_redirects(cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP);
 			if (cmd->flags & C_BUILTIN)
 				exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp));
 			else
@@ -94,6 +93,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 			}
 			exit(errno);
 		}
+		init_signals_when_children();
 		close(pipefd[1]);
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 			return (rperror("dup2"));
@@ -103,9 +103,6 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	}
 	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, i));
 }
-
-
-
 
 int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 {
@@ -121,12 +118,13 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		return (exec_builtin(builtin_nb, cmd, envp));
 	}
 	cpid = fork();
+	handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE);
 	if (cpid == -1)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
 		init_signals_noninteractive();
-		handle_redirections(cmd);  // Handle redirections for child process
+		handle_redirects(cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP);
 		if (builtin_nb)
 			exit(exec_builtin(builtin_nb, cmd, envp));
 		envp_array = env_to_array(*envp);
@@ -141,7 +139,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		waitpid(-1, NULL, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
+	if (WIFSIGNALED(status)) //probably remove this, cause i am doing this in main. exit with status in heredoc
+		return (128 + WTERMSIG(status)); // we might not even need the global now that i think about it, cause we do all the exit signal operations ins main
 	return (status);
 }

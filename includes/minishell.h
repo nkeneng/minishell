@@ -61,7 +61,7 @@ int					count_char_array(char **charray);
 int					here_doc(char *delim);
 
 // file_redirection.c
-void	handle_redirects_all(t_command *command, int wordmask_in_or_out);
+void	handle_redirects(t_command *command, int wordmask_in_or_out);
 void	handle_redirect_in(t_command *command);
 void	handle_redirect_out(t_command *command);
 void	handle_redirections(t_command *cmd);

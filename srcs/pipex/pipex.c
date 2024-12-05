@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/04 17:29:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:13:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ pid_t container(char *dlm)
 	pid_t	cpid;
 
 	// init_signals_when_children();
-	// init_signals_noninteractive();
+	init_signals_noninteractive();
 	if (pipe(pipefd) == -1)
 		return (rperror("pipe"));
 	cpid = fork();

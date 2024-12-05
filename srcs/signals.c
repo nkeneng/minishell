@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/04 17:13:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:15:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,19 @@ void	init_signals(void)
 	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = signal_handler;
 	sigemptyset(&sa.sa_mask);
+	// sa.sa_flags = SA_RESTART;
+	// if (sigaction(SIGINT, &sa, NULL) == -1)
+	// 	perror("Error: cannot handle SIGINT");
+	// sa.sa_handler = SIG_IGN;
+	// if (sigaction(SIGQUIT, &sa, NULL) == -1)
+	// 	perror("Error: cannot handle SIGQUIT");
+	sigaddset(&sa.sa_mask, SIGINT);
 	sa.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGINT");
 	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGQUIT);
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGQUIT");
 }
