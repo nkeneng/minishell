@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/05 17:11:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:54:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		handle_redirections(cmd);  // Handle redirections for builtin
 		return (exec_builtin(builtin_nb, cmd, envp));
 	}
-	cpid = fork();
 	handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE);
+	cpid = fork();
 	if (cpid == -1)
 		return (rperror("fork"));
 	else if (cpid == 0)

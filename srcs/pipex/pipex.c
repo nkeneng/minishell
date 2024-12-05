@@ -6,11 +6,12 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/05 17:13:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:10:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <readline/readline.h>
 
 // TODO: Katze: command not found \n execve: No such file or directory <to>
 // minishell: command not found: Katze
@@ -70,6 +71,8 @@ pid_t container(char *dlm)
 		close(pipefd[1]);
 		exit(here_doc(dlm));
 	}
+	init_signals_noninteractive();
+	// init_signals_when_children();
 	close(pipefd[1]);
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		return (rperror("dup2"));
