@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/05 17:15:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:16:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	signal_handler_heredoc(int signum)
 	if (signum == SIGINT)
 	{
 		g_signal = SIGINT;
-		raise(SIGINT);
+		// raise(SIGINT);
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/12/05 17:19:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:13:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 				ft_printf("\n", 1);
 			g_signal = 0;
 		}
-		init_signals_noninteractive();
+		// init_signals_noninteractive();
 		ft_lstclear(&lst, ft_free_command);
 	}
 	return (shell.exit_status);

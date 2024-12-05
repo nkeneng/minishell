@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 12:44:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:17:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ int	here_doc(char *delim)
 		ft_fprintf(STDOUT_FILENO, "%s", line);
 		free(line);
 	}
-	close (STDIN_FILENO);
+	// close (STDIN_FILENO);
 	return (1);
 }
