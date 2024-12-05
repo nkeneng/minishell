@@ -14,11 +14,8 @@
 
 void	ft_lstfreeone(t_list **lst, t_list *deletee, void (*free_cont)(void *))
 {
-	t_list	*next;
-
 	if (!lst || !deletee)
 		return ;
-	next = deletee->next;
 	if (*lst == deletee)
 		*lst = deletee->next;
 	if (deletee->content)
