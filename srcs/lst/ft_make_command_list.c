@@ -7,6 +7,8 @@ int	get_number_of_words_before_pipe(t_word_list *word_list)
 
 	number_of_words_before_pipe = 0;
 	tmp = word_list;
+	if (!tmp)
+		return (0);
 	while (tmp->next)
 	{
 		if (tmp->word->flags & WM_OPERATOR_MASK)
@@ -58,6 +60,11 @@ t_command	*make_command_list(t_word_list **word_list)
 	if (!command)
 		return (NULL);
 	wordcount_till_pipe = get_number_of_words_before_pipe(*word_list);
+	if (!wordcount_till_pipe)
+	{
+		free(command);
+		return (NULL);
+	}
 	command->cmd = (char **)ft_calloc(sizeof(char *), (wordcount_till_pipe + 1));
 	if (!command->cmd)
 	{
