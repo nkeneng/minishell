@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:44:12 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 12:01:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:38:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void	ft_lstfreeone(t_list **lst, t_list *deletee, void (*free_cont)(void *))
 {
-	t_list	*next;
-
 	if (!lst || !deletee)
 		return ;
-	next = deletee->next;
 	if (*lst == deletee)
 		*lst = deletee->next;
 	if (deletee->content)

@@ -61,6 +61,7 @@ int					count_char_array(char **charray);
 int					here_doc(char *delim);
 
 // file_redirection.c
+void	handle_redirects(t_command *command, int wordmask_in_or_out);
 void	handle_redirect_in(t_command *command);
 void	handle_redirect_out(t_command *command);
 void	handle_redirections(t_command *cmd);
@@ -87,6 +88,7 @@ void				ft_free_envp(t_env *envp, int nb_env);
 
 // SIGNALS
 // signal.c
+void	init_signals_heredoc(void);
 void	init_signals(void);
 void	signal_handler(int signum);
 void	init_signals_noninteractive(void);
@@ -94,6 +96,9 @@ void	signal_handler_noninteractive(int signum);
 void	signal_handler_when_children(int signum);
 void	init_signals_when_children(void);
 
+//reading
+// reading.c
+char	*rl_gets(char *prompt);
 // new utility and library functions
 // ft_strexchange_within.c
 char	*ft_exchange_within(char *original, int from, int to, char *exch_with);

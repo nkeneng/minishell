@@ -6,20 +6,18 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 13:10:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:26:38 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <readline/readline.h>
 
-// TODO: Katze: command not found \n execve: No such file or directory <to>
-// minishell: command not found: Katze
 // TODO: return exit code 130 from here_doc on cntl
 	// + D (by child process or by manually returning)
 // TODO: string expansion in here_doc
 // TODO: macro values for fileindicator: < for input, > for output,
 	// >> for append
-// TODO: make pipex use linked list instead of double array
 int	start_pipex(t_list **cmd_list, t_env **envp)
 {
 	int	exit_code;
@@ -45,8 +43,11 @@ pid_t container(char *dlm)
 {
 	int		pipefd[2];
 	pid_t	cpid;
+	int		status;
 
-	init_signals_when_children();
+	// init_signals_when_children();
+	// init_signals_noninteractive();
+	init_signals_heredoc();
 	if (pipe(pipefd) == -1)
 		return (rperror("pipe"));
 	cpid = fork();
@@ -54,32 +55,39 @@ pid_t container(char *dlm)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
+		// init_signals_heredoc();
 		if (!isatty(STDIN_FILENO))
 		{
 			close(STDIN_FILENO);
 			if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
 			{
 				perror("Failed to reopen stdin");
-				exit(EXIT_FAILURE);
+				exit(EXIT_FAILURE); //exit with somethig negative else to diff from cpid
 			}
 		}
-		init_signals_noninteractive();
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			exit(rperror("dup2"));
 		close(pipefd[1]);
 		exit(here_doc(dlm));
 	}
+	// init_signals_when_children();
+	// init_signals_noninteractive();
+	// init_signals();
 	close(pipefd[1]);
-	if (dup2(pipefd[0], STDIN_FILENO) == -1)
-		return (rperror("dup2"));
+	if (g_signal != SIGINT)
+		if (dup2(pipefd[0], STDIN_FILENO) == -1)
+			return (rperror("dup2"));
+	g_signal = 0;
 	close(pipefd[0]);
-	return (cpid);
+	waitpid(cpid, &status, 0);
+	return (status);
 }
 
 // opens file, dup2s over correct std fd or executes heredoc
 int	open_doc(char *file, int filekind)
 {
 	int	fd;
+	pid_t pid;
 
 	if (filekind & C_OPEN_INFILE)
 	{
@@ -93,10 +101,7 @@ int	open_doc(char *file, int filekind)
 	}
 	else if (filekind & C_HERE_DOC)
 	{
-		pid_t pid = container(file);
-		if (pid == -1)
-			return (rperror("fork"));
-		waitpid(pid, NULL, 0);
+		pid = container(file);
 		return (0);
 	}
 	else if (filekind & C_OPEN_OUT_TRUNC)

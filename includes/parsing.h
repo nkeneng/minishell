@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 11:36:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:28:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ t_list	**convert_line_to_dlist(char *line);
 // syntax_error.c
 int	syntax_error(t_word_list **word_list, char *str);
 int	syntax_error_unexpected_eof(t_word_list **word_list);
-
-// reading.c
-char	*rl_gets(void);
 
 //cleanup
 void	clean_line_whitespace(t_word_desc *obj);
