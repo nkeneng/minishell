@@ -130,8 +130,8 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		envp_array = env_to_array(*envp);
 		if (!envp_array)
 			exit(EXIT_FAILURE);
-		make_exec(cmd, envp_array);
-		perror("execve");
+		errno = make_exec(cmd, envp_array);
+		// perror("execve");
 		exit(errno);
 	}
 	waitpid(cpid, &status, 0);

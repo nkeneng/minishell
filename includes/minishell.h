@@ -96,6 +96,9 @@ void	signal_handler_noninteractive(int signum);
 void	signal_handler_when_children(int signum);
 void	init_signals_when_children(void);
 
+//reading
+// reading.c
+char	*rl_gets(char *prompt);
 // new utility and library functions
 // ft_strexchange_within.c
 char	*ft_exchange_within(char *original, int from, int to, char *exch_with);

@@ -50,9 +50,6 @@ t_list	**convert_line_to_dlist(char *line);
 int	syntax_error(t_word_list **word_list, char *str);
 int	syntax_error_unexpected_eof(t_word_list **word_list);
 
-// reading.c
-char	*rl_gets(void);
-
 //cleanup
 void	clean_line_whitespace(t_word_desc *obj);
 void	wl_clean_whitespace(t_word_list *lst);

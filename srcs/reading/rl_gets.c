@@ -6,19 +6,29 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:47:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/03 11:35:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:33:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 // input promt for shell
-char	*rl_gets(void)
+char	*rl_gets(char *prompt)
 {
 	static char	*line;
 
 	// rl_catch_signals = 1;
-	line = readline(PROMPT);
+	if (!isatty(STDIN_FILENO))
+	{
+		close(STDIN_FILENO);
+		if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
+		{
+			perror("Failed to reopen stdin");
+			exit (EXIT_FAILURE);
+		}
+	}
+	line = readline(prompt);
 	if (!line)
 		exit (0);
 	// if (g_signal)

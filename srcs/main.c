@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 			shell.exit_status = (128 + g_signal);
 			g_signal = 0;
 		}
-		line = rl_gets();
+		line = rl_gets(PROMPT);
 		if (!line)
 			continue ;
 		lst = parse_input(line, &shell);

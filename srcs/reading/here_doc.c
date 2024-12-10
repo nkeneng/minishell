@@ -27,15 +27,15 @@ int	here_doc(char *delim)
 	{
 		if (g_signal == SIGINT)
 			return (130);
-		line = get_next_line(STDIN_FILENO);
-		// line = readline("> ");
+		// line = get_next_line(STDIN_FILENO);
+		line = rl_gets("> ");
 		if (!line)
 			return (130);
 		if (!ft_strncmp(delim, line, delim_len) && \
 			(line[delim_len] == '\n' || line[delim_len] == '\0'))
 		{
 			free(line);
-			line = get_next_line(-1);
+			// line = get_next_line(-1);
 			// line = readline("> ");
 			break ;
 		}
