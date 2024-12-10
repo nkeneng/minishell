@@ -38,7 +38,7 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 		return(ft_cd(command->cmd[1]));
 	else if (builtin == ECHO_BUILTIN)
 	{
-		if (ft_strncmp(command->cmd[1], "-n", ft_strlen("-n")) == 0)
+		if (command->cmd[1] && ft_strncmp(command->cmd[1], "-n", ft_strlen("-n")) == 0)
 			return(ft_echo(command->cmd, 1));
 		else
 			return(ft_echo(command->cmd, 0));
