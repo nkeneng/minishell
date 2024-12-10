@@ -25,10 +25,12 @@ int	here_doc(char *delim)
 	delim_len = ft_strlen(delim);
 	while (1)
 	{
+		if (g_signal == SIGINT)
+			return (130);
 		line = get_next_line(STDIN_FILENO);
 		// line = readline("> ");
 		if (!line)
-			break ;
+			return (130);
 		if (!ft_strncmp(delim, line, delim_len) && \
 			(line[delim_len] == '\n' || line[delim_len] == '\0'))
 		{
@@ -39,7 +41,9 @@ int	here_doc(char *delim)
 		}
 		ft_fprintf(STDOUT_FILENO, "%s", line);
 		free(line);
+		if (g_signal == SIGINT)
+			return (130);
 	}
-	close (STDIN_FILENO);
-	return (1);
+	// close (STDIN_FILENO);
+	return (0);
 }
