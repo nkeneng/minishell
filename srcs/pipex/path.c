@@ -57,17 +57,29 @@ int	make_exec(t_command *cmd, char *envp[])
 	char	**command;
 	int		err;
 
-	paths = get_paths(envp);
 	command = cmd->cmd;
-	if (!paths)
+	if (ft_strchr(command[0], '/') != NULL)
 	{
-		free_char_array(paths, 1);
-		return (rperror("malloc"));
+		if (access(command[0], X_OK) == 0)
+			commpath = ft_strdup(command[0]);
+		else
+		{
+			ft_fprintf(2, "%s: command not found\n", command[0]);
+			return (free_char_array(command, 127));
+		}
 	}
-	commpath = get_commpath(paths, command[0]);
-	free_char_array(paths, 1);
-	if (!commpath)
-		return (free_char_array(command, 127));
+	else {
+		paths = get_paths(envp);
+		if (!paths)
+		{
+			free_char_array(paths, 1);
+			return (rperror("malloc"));
+		}
+		commpath = get_commpath(paths, command[0]);
+		free_char_array(paths, 1);
+		if (!commpath)
+			return (free_char_array(command, 127));
+	}
 	execve(commpath, command, envp);
 	err = errno;
 	ft_fprintf(2, "%s: %s\n", command[0], strerror(err));
