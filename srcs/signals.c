@@ -67,7 +67,7 @@ void	init_signals_heredoc(void)
 	ft_memset(&sa, 0, sizeof(sa));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = SIG_DFL;
+	sa.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGQUIT");
 	sa.sa_handler = signal_handler_noninteractive;

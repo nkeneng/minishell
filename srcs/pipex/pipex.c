@@ -45,8 +45,9 @@ pid_t container(char *dlm)
 	pid_t	cpid;
 	int		status;
 
-	init_signals_when_children();
+	// init_signals_when_children();
 	// init_signals_noninteractive();
+	init_signals_heredoc();
 	if (pipe(pipefd) == -1)
 		return (rperror("pipe"));
 	cpid = fork();
@@ -54,7 +55,7 @@ pid_t container(char *dlm)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		init_signals_heredoc();
+		// init_signals_heredoc();
 		if (!isatty(STDIN_FILENO))
 		{
 			close(STDIN_FILENO);
@@ -70,7 +71,8 @@ pid_t container(char *dlm)
 		exit(here_doc(dlm));
 	}
 	// init_signals_when_children();
-	init_signals_noninteractive();
+	// init_signals_noninteractive();
+	// init_signals();
 	close(pipefd[1]);
 	if (g_signal != SIGINT)
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
