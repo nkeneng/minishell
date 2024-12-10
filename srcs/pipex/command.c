@@ -62,11 +62,15 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	int		pipefd[2];
 	pid_t	cpid;
 	t_list	*tmp_list;
-	int		i;
 	t_command *cmd;
+	int	size;
+	int	*pid_array;
 
+	size = ft_lstsize(*cmd_list);
+	pid_array = malloc(sizeof(int) * size);
+	pid_array[0] = size;
+	size = 1;
 	tmp_list = *cmd_list;
-	i = 0;
 	init_signals_when_children();
 	while (tmp_list->next)
 	{
@@ -99,12 +103,27 @@ int	pipex(t_env **envp, t_list **cmd_list)
 			return (rperror("dup2"));
 		close(pipefd[0]);
 		tmp_list = tmp_list->next;
-		i++;
+		pid_array[size++] = cpid;
 	}
-	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, i));
+	return (exec_to_stdout(envp, ft_lstlast(*cmd_list)->content, pid_array));
 }
 
-int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
+int	wait_for_children(int *chld_pids)
+{
+	int status;
+	int i;
+
+	i = 1;
+	while (i < chld_pids[0])
+	{
+		waitpid(chld_pids[i], &status, 0);
+		i++;
+	}
+	free(chld_pids);
+	return (status);
+}
+
+int	exec_to_stdout(t_env **envp, t_command *cmd, int *chld_pids)
 {
 	pid_t	cpid;
 	int		status;
@@ -112,15 +131,18 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 	int		builtin_nb;
 
 	builtin_nb = is_builtin(cmd->cmd[0]);
-	if (chld_nb == 0 && builtin_nb)
+	if (chld_pids[0] == 1 && builtin_nb)
 	{
-		handle_redirections(cmd);  // Handle redirections for builtin
+		handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP);
 		return (exec_builtin(builtin_nb, cmd, envp));
 	}
 	handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE);
 	cpid = fork();
 	if (cpid == -1)
+	{
+		free(chld_pids);
 		return (rperror("fork"));
+	}
 	else if (cpid == 0)
 	{
 		init_signals_noninteractive();
@@ -135,8 +157,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int chld_nb)
 		exit(errno);
 	}
 	waitpid(cpid, &status, 0);
-	while (chld_nb--)
-		waitpid(-1, NULL, 0);
+	wait_for_children(chld_pids);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status)) //probably remove this, cause i am doing this in main. exit with status in heredoc

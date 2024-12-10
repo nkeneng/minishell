@@ -56,15 +56,7 @@ pid_t container(char *dlm)
 	else if (cpid == 0)
 	{
 		// init_signals_heredoc();
-		if (!isatty(STDIN_FILENO))
-		{
-			close(STDIN_FILENO);
-			if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-			{
-				perror("Failed to reopen stdin");
-				exit(EXIT_FAILURE); //exit with somethig negative else to diff from cpid
-			}
-		}
+		close(pipefd[0]);
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			exit(rperror("dup2"));
 		close(pipefd[1]);
@@ -87,7 +79,6 @@ pid_t container(char *dlm)
 int	open_doc(char *file, int filekind)
 {
 	int	fd;
-	pid_t pid;
 
 	if (filekind & C_OPEN_INFILE)
 	{
@@ -100,10 +91,7 @@ int	open_doc(char *file, int filekind)
 		return (0);
 	}
 	else if (filekind & C_HERE_DOC)
-	{
-		pid = container(file);
-		return (0);
-	}
+		return (container(file));
 	else if (filekind & C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else
