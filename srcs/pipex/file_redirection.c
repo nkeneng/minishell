@@ -21,10 +21,11 @@ void	handle_redirections(t_command *cmd)
 // calls open_doc over redirect list
 // when given C_OPEN_INFILE | C_HERE_DOC dups over STDIN_FILENO
 // when given C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP dups over STDOUT_FILENO
-void	handle_redirects(t_command *command, int wordmask_in_or_out)
+int	handle_redirects(t_command *command, int wordmask_in_or_out)
 {
 	t_list		*redir_list;
 	t_redirect	*redir;
+	int			status;
 
 	redir_list = command->redirects;
 	while (redir_list && redir_list->content && !g_signal)
@@ -32,11 +33,13 @@ void	handle_redirects(t_command *command, int wordmask_in_or_out)
 		redir = redir_list->content;
 		if (redir->filename->flags & wordmask_in_or_out)
 		{
-			if (open_doc(redir->filename->word, redir->filename->flags))
-				return ;
+			status = open_doc(redir->filename->word, redir->filename->flags);
+			if (status || g_signal)
+				return (status);
 		}
 		redir_list = redir_list->next;
 	}
+	return (0);
 }
 
 void	handle_redirect_in(t_command *command)
