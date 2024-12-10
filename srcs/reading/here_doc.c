@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/05 20:01:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:42:13 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ int	here_doc(char *delim)
 	{
 		if (g_signal == SIGINT)
 			return (130);
-		// line = get_next_line(STDIN_FILENO);
-		line = rl_gets("> ");
+		line = get_next_line(STDIN_FILENO);
+		// line = rl_gets("> ");
 		if (!line)
 			return (130);
 		if (!ft_strncmp(delim, line, delim_len) && \
 			(line[delim_len] == '\n' || line[delim_len] == '\0'))
 		{
 			free(line);
-			// line = get_next_line(-1);
+			line = get_next_line(-1);
 			// line = readline("> ");
 			break ;
 		}
