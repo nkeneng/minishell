@@ -33,8 +33,8 @@ int	here_doc(char *delim)
 		// 	perror("Failed to reopen stdout");
 		// 	exit(EXIT_FAILURE);
 		// }
-		line = get_next_line(STDIN_FILENO);
 		// line = rl_gets("> ");
+		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
 		if (g_signal == SIGINT)
@@ -47,7 +47,7 @@ int	here_doc(char *delim)
 			// line = readline("> ");
 			break ;
 		}
-		printf(STDOUT_FILENO, "%s", line);
+		printf("%s", line);
 		// ft_fprintf(STDOUT_FILENO, "%s", line);
 		free(line);
 		if (g_signal == SIGINT)
