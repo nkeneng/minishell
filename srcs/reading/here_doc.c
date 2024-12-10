@@ -28,7 +28,7 @@ int	here_doc(char *delim)
 		line = get_next_line(STDIN_FILENO);
 		// line = readline("> ");
 		if (!line)
-			break ;
+			return (130);
 		if (!ft_strncmp(delim, line, delim_len) && \
 			(line[delim_len] == '\n' || line[delim_len] == '\0'))
 		{

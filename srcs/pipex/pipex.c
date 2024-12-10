@@ -6,20 +6,15 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/05 18:19:04 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/10 10:04:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// TODO: Katze: command not found \n execve: No such file or directory <to>
-// minishell: command not found: Katze
 // TODO: return exit code 130 from here_doc on cntl
 	// + D (by child process or by manually returning)
 // TODO: string expansion in here_doc
-// TODO: macro values for fileindicator: < for input, > for output,
-	// >> for append
-// TODO: make pipex use linked list instead of double array
 int	start_pipex(t_list **cmd_list, t_env **envp)
 {
 	int	exit_code;
