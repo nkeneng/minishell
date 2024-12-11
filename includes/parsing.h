@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/10 12:28:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:41:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_word_desc	*remove_quotes(t_word_desc *word);
 char	*free_str(char **str);
 
 //vars.c
+int	contains_more_vars(t_word_desc *item);
 int	ft_is_var_till(char *line);
 int	ft_is_special(char c);
 void	ft_is_var_name(t_word_desc *word);

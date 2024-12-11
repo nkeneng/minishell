@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 13:04:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:40:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_word_desc	*exchange_tile(t_word_desc **item, t_shell *shell)
 	return (*item);
 }
 
-// gets called by expand_and_split returns a wl element that had its cariables replaced
+// gets called by expand_and_split returns a wl element that had its variables replaced
 t_word_desc	*wd_expand_var(t_word_desc *(*item), t_shell *shell)
 {
 	char	*value;
@@ -88,8 +88,7 @@ t_word_desc	*wd_expand_var(t_word_desc *(*item), t_shell *shell)
 
 	var_start = ft_strchr((*item)->word, '$');
 	if (!var_start)
-		if ((*item)->word[0] == '~')
-			var_start = (*item)->word;
+		var_start = ft_strchr((*item)->word, '~');
 	if ((*item)->flags & (WM_OPERATOR_MASK | W_SQUOTED) || !var_start)
 		return ((*item));
 	if (*(var_start) == '~')

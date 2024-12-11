@@ -6,11 +6,36 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:14:14 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/22 11:35:28 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:42:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+// checks if there are any ~ or $ with valid variable names 
+// if there are ~ or to be expanded $: unsets W_EXPANDED flag, returns 1
+// returns 0 if there are no ~ or $ with valid var names
+int	contains_more_vars(t_word_desc *item)
+{
+	char	*var_start;
+
+	if (ft_strchr(item->word, '~'))
+	{
+		item->flags &= ~W_EXPANDED;
+		return (1);
+	}
+	var_start = ft_strchr(item->word, '$');
+	while (var_start && *var_start && *(var_start + 1))
+	{
+		if (ft_is_var_till(var_start + 1))
+		{
+			item->flags &= ~W_EXPANDED;
+			return (1);
+		}
+		var_start = ft_strchr(var_start + 1, '$');
+	}
+	return (0);
+}
 
 //checks if line is valid var name and sets flag if it is.
 //write different check for word after assignment
