@@ -6,13 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/10 17:12:31 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:13:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char **env_to_array(t_env *envp)
+char	**env_to_array(t_env *envp)
 {
 	char	**envp_array;
 	int		i;
@@ -57,7 +57,7 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 }
 
 //@TODO: handle heredoc signals not working yet
-int	pipex(t_env **envp, t_list **cmd_list)
+int	pipex(t_shell *shell, t_list **cmd_list)
 {
 	int		pipefd[2];
 	pid_t	cpid;
@@ -65,7 +65,9 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	t_command *cmd;
 	int	size;
 	int	*pid_array;
-
+	t_env	*envp;
+	
+	envp = shell->envp;
 	size = ft_lstsize(*cmd_list);
 	pid_array = malloc(sizeof(int) * size);
 	pid_array[0] = size;
@@ -74,7 +76,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 	init_signals_when_children();
 	while (tmp_list->next)
 	{
-		if (handle_redirects(tmp_list->content, C_HERE_DOC | C_OPEN_INFILE))
+		if (handle_redirects(tmp_list->content, C_HERE_DOC | C_OPEN_INFILE, shell))
 			return (EXIT_FAILURE);
 		if (pipe(pipefd) == -1)
 			return (rperror("pipe"));
@@ -125,21 +127,23 @@ int	wait_for_children(int *chld_pids)
 	return (status);
 }
 
-int	exec_to_stdout(t_env **envp, t_command *cmd, int *chld_pids)
+int	exec_to_stdout(t_command *cmd, int *chld_pids, t_shell *shell)
 {
 	pid_t	cpid;
 	int		status;
 	char	**envp_array;
 	int		builtin_nb;
+	t_env	**envp;
 
+	envp = &shell->envp;
 	builtin_nb = is_builtin(cmd->cmd[0]);
 	if (chld_pids[0] == 1 && builtin_nb)
 	{
-		if (handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
+		if (handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP, shell))
 			return(EXIT_FAILURE);
 		return (exec_builtin(builtin_nb, cmd, envp));
 	}
-	if (handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE))
+	if (handle_redirects(cmd, C_HERE_DOC | C_OPEN_INFILE, shell))
 		return (EXIT_FAILURE);
 	cpid = fork();
 	if (cpid == -1)
@@ -150,7 +154,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int *chld_pids)
 	else if (cpid == 0)
 	{
 		init_signals_noninteractive();
-		if (handle_redirects(cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
+		if (handle_redirects(cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP, NULL))
 			return (EXIT_FAILURE);
 		if (builtin_nb)
 			exit(exec_builtin(builtin_nb, cmd, envp));

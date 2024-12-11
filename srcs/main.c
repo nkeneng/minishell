@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2024/12/10 12:29:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:03:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!lst)
 			continue ;
 		// signal(SIGINT, SIG_IGN);
-		shell.exit_status = start_pipex(&lst, &(shell.envp));
+		shell.exit_status = start_pipex(&lst, &shell);
 		if (g_signal)
 		{
 			shell.exit_status = (128 + g_signal);

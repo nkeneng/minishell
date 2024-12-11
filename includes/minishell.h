@@ -47,10 +47,10 @@ t_dlist				*ft_createaddback(t_dlist **lst, void *content);
 // PIPEX
 // pipex.c
 int					do_list(t_list **cmd_list, char **envp);
-int					start_pipex(t_list **cmd_list, t_env **envp);
+int	start_pipex(t_list **cmd_list, t_shell *shell);
 int					input_checker(int argc, char *arg);
 int					pipheredoc(char *arg);
-int					open_doc(char *file, int filekind);
+int					open_doc(char *file, int filekind, t_shell *shell);
 
 // utils.c
 int					free_char_array(char **array, int ret);
@@ -58,10 +58,10 @@ int					rperror(char *str);
 int					count_char_array(char **charray);
 
 //here_doc.c
-int	here_doc(char *delim, int expand);
+int	here_doc(char *delim, int expand, t_shell *shell);
 
 // file_redirection.c
-int	handle_redirects(t_command *command, int wordmask_in_or_out);
+int	handle_redirects(t_command *command, int wordmask_in_or_out, t_shell *shell);
 void	handle_redirect_in(t_command *command);
 void	handle_redirect_out(t_command *command);
 void	handle_redirections(t_command *cmd);
@@ -73,8 +73,8 @@ int					make_exec(t_command *command, char *envp[]);
 
 // command.c
 int					exec_command(t_command *command, t_env **envp, int *fd);
-int					exec_to_stdout(t_env **envp, t_command *cmd, int *chld_pids);
-int					pipex(t_env **envp, t_list **cmd_list);
+int					exec_to_stdout(t_command *cmd, int *chld_pids, t_shell *shell);
+int					pipex(t_shell *shell, t_list **cmd_list);
 
 // init_envp.c
 void				init_envp(char **env, t_shell *shell);
