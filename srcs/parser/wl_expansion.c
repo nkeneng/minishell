@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:06:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 11:43:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:55:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	wl_expand_list(t_word_list **word_list, t_shell *shell)
 	curr = *word_list;
 	while (curr)
 	{
-		ft_printf_word_desc(curr->word);
 		while (contains_more_vars(curr->word))
 		{
 			if (!(curr->word->flags & W_EXPANDED))
