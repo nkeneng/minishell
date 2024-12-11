@@ -58,7 +58,7 @@ int					rperror(char *str);
 int					count_char_array(char **charray);
 
 //here_doc.c
-int					here_doc(char *delim);
+int	here_doc(char *delim, int expand);
 
 // file_redirection.c
 int	handle_redirects(t_command *command, int wordmask_in_or_out);

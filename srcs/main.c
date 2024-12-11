@@ -26,8 +26,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell.envp = NULL;
 	init_envp(envp, &shell);
-	// signal(SIGINT, signal_handler);
-	// signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		init_signals();
@@ -43,7 +41,6 @@ int	main(int argc, char **argv, char **envp)
 		free(line);
 		if (!lst)
 			continue ;
-		// signal(SIGINT, SIG_IGN);
 		shell.exit_status = start_pipex(&lst, &(shell.envp));
 		if (g_signal)
 		{
@@ -54,6 +51,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		init_signals_noninteractive();
 		ft_lstclear(&lst, ft_free_command);
+		if (g_signal == SIGINT)
+			g_signal = 0;
 	}
 	return (shell.exit_status);
 }

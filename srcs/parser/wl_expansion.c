@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:06:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 12:41:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:55:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,18 @@ int	wl_expand_list(t_word_list **word_list, t_shell *shell)
 	curr = *word_list;
 	while (curr)
 	{
-		if (!(curr->word->flags & W_EXPANDED))
-			curr = expand_and_split(word_list, curr, shell);
-		if (!curr)
-			return (2);
-		curr = wl_remove_whitespace_element(word_list, curr);
-		if (!curr)
+		while (contains_more_vars(curr->word))
 		{
-			free_word_list(word_list);
-			return (1);
+			if (!(curr->word->flags & W_EXPANDED))
+				curr = expand_and_split(word_list, curr, shell);
+			if (!curr)
+				return (2);
+			curr = wl_remove_whitespace_element(word_list, curr);
+			if (!curr)
+			{
+				free_word_list(word_list);
+				return (1);
+			}
 		}
 		curr = curr->next;
 	}

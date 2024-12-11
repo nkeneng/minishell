@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/28 16:55:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:08:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define W_LAST				262144 // 1 << 18  execute command output to stdout
 # define W_SUBSHELL	524288	// 1 << 19  ( ... ) subshell
 # define W_NEEDCLOSBRC	1048576	// 1 << 20  need close brace
-# define W_EXPANDED 8388608  // 1 << 23  word is not the operator but a word that needs to be piped
+# define W_EXPANDED 8388608  // 1 << 23  word has been variable or tilde expanded
 # define W_WORD_AND 268435456  // 1 << 28  word is not the operator but a word that needs to be anded
 # define W_WORD_OR 536870912  // 1 << 29  word is not the operator but a word that needs to be ored
 # define W_DONE		1073741824 // 1 << 30  nothing else to do here
@@ -41,6 +41,7 @@
 
 # define WM_REDIR_MASK (W_HERE_DOC | W_OPEN_INFILE | W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP)
 # define WM_OPERATOR_MASK (W_PIPE | W_AND | W_OR)
+# define WM_OP_RE (WM_REDIR_MASK | WM_OPERATOR_MASK)
 # define WM_SPLIT_AT_SPACES (W_SQUOTED | W_DQUOTED | WM_OPERATOR_MASK | WM_REDIR_MASK)
 
 # define WM_DOUBLE_SIGN (W_HERE_DOC | W_AND | W_OR | W_OPEN_OUT_APP)

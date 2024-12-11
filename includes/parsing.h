@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/10 12:28:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:57:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_word_desc	*remove_quotes(t_word_desc *word);
 char	*free_str(char **str);
 
 //vars.c
+int	contains_more_vars(t_word_desc *item);
 int	ft_is_var_till(char *line);
 int	ft_is_special(char c);
 void	ft_is_var_name(t_word_desc *word);
@@ -92,7 +93,7 @@ int	missing_close_bracket(char *line);
 // make_word_list.c
 t_word_list	*make_word_list(char *line, t_shell *shell);
 int	wl_identify_words(t_word_list **word_list);
-int	wl_split_on_whitesp(t_word_list **word_list, t_shell *shell);
+int	wl_split_on_whitesp(t_word_list **word_list);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
 t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item);
 
@@ -120,4 +121,5 @@ void	ft_free_word_desc(void *word_desc);
 int		ft_printf_word_desc(void *word_desc);
 void	*free_word_desc(t_word_desc **word_desc);
 t_word_desc	*wd_make_word(const char *line, const int end, const int flag);
+t_word_desc	*wd_fuse_words(t_word_desc *first, t_word_desc *second);
 #endif // !PARSING_H

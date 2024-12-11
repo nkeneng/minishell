@@ -6,11 +6,12 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/20 11:16:31 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:00:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdio.h>
 
 t_word_list	*make_word_list(char *line, t_shell *shell)
 {
@@ -27,7 +28,7 @@ t_word_list	*make_word_list(char *line, t_shell *shell)
 	if (wl_identify_words(&word_list))
 		return (NULL);
 	assign_flag(word_list);
-	if (wl_split_on_whitesp(&word_list, shell))
+	if (wl_split_on_whitesp(&word_list))
 		return (NULL);
 	if (1 == wl_expand_list(&word_list, shell))
 		return (NULL);
@@ -56,16 +57,35 @@ t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
 }
 
 //splits at whitespaces
-int	wl_split_on_whitesp(t_word_list **word_list, t_shell *shell)
+//fuses words back together if they are not split by whitespaces
+int	wl_split_on_whitesp(t_word_list **word_list)
 {
 	t_word_list	*curr;
+	t_word_desc	*new_word;
 
-	(void)shell;
 	curr = *word_list;
 	while (curr)
 	{
 		curr = split_element_at_wh(word_list, curr);
 		if (!curr)
+		{
+			free_word_list(word_list);
+			return (1);
+		}
+		if (curr->prev && !(curr->prev->word->flags & WM_OP_RE) && !(!curr || \
+	curr->prev->word->flags & W_SPLITSPACE || curr->word->flags & WM_OP_RE))
+		{
+			new_word = wd_fuse_words(curr->prev->word, curr->word);
+			if (!new_word)
+			{
+				free_word_list(word_list);
+				return (1);
+			}
+			free_word_desc(&curr->word);
+			curr->word = new_word;
+			wl_delone(word_list, curr->prev);
+		}
+		if (!curr->word)
 		{
 			free_word_list(word_list);
 			return (1);

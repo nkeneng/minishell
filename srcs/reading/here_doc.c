@@ -6,18 +6,16 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/10 14:43:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:32:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 //TODO: string expansion in here_doc
-//TODO: run in child process
-//TODO: return exit code 130 on cntl + D
 
 //does heredoc
-int	here_doc(char *delim)
+int	here_doc(char *delim, int expand)
 {
 	char	*line;
 	int		delim_len;

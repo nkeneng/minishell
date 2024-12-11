@@ -65,11 +65,15 @@ void	init_signals_heredoc(void)
 	struct sigaction	sa;
 
 	ft_memset(&sa, 0, sizeof(sa));
+
+	// Ignore SIGQUIT
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGQUIT");
+
+	// Set SIGINT to default handler
 	sa.sa_handler = signal_handler_noninteractive;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		perror("Error: cannot handle SIGINT");
