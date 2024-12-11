@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 13:18:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:00:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,12 @@ t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
 	return (item);
 }
 
-t_word_desc	*wd_fuse_words(t_word_desc *first, t_word_desc *second)
-{
-	t_word_desc	*new_word;
-	char		*new_string;
-	int			len1;
-	int			len2;
-
-	len1 = ft_strlen(first->word);
-	len2 = ft_strlen(second->word);
-	new_string = ft_calloc(len1 + len2 + 1, sizeof(char));
-	if (!new_string)
-		return (NULL);
-	ft_strlcpy(new_string, first->word, len1 + 1);
-	ft_strlcpy(new_string + len1, second->word, len2 + 1);
-	new_word = wd_make_word(new_string, len1 + len2, first->flags | second->flags);
-	free(new_string);
-	return (new_word);
-}
-
 //splits at whitespaces
 //fuses words back together if they are not split by whitespaces
 int	wl_split_on_whitesp(t_word_list **word_list)
 {
 	t_word_list	*curr;
+	t_word_desc	*new_word;
 
 	curr = *word_list;
 	while (curr)
@@ -93,7 +75,14 @@ int	wl_split_on_whitesp(t_word_list **word_list)
 		if (curr->prev && !(curr->prev->word->flags & WM_OP_RE) && !(!curr || \
 	curr->prev->word->flags & W_SPLITSPACE || curr->word->flags & WM_OP_RE))
 		{
-			curr->word = wd_fuse_words(curr->prev->word, curr->word);
+			new_word = wd_fuse_words(curr->prev->word, curr->word);
+			if (!new_word)
+			{
+				free_word_list(word_list);
+				return (1);
+			}
+			free_word_desc(&curr->word);
+			curr->word = new_word;
 			wl_delone(word_list, curr->prev);
 		}
 		if (!curr->word)

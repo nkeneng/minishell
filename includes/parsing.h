@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 13:03:28 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:57:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,5 @@ void	ft_free_word_desc(void *word_desc);
 int		ft_printf_word_desc(void *word_desc);
 void	*free_word_desc(t_word_desc **word_desc);
 t_word_desc	*wd_make_word(const char *line, const int end, const int flag);
+t_word_desc	*wd_fuse_words(t_word_desc *first, t_word_desc *second);
 #endif // !PARSING_H
