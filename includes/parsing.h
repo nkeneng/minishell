@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 11:41:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:03:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	missing_close_bracket(char *line);
 // make_word_list.c
 t_word_list	*make_word_list(char *line, t_shell *shell);
 int	wl_identify_words(t_word_list **word_list);
-int	wl_split_on_whitesp(t_word_list **word_list, t_shell *shell);
+int	wl_split_on_whitesp(t_word_list **word_list);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
 t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item);
 
