@@ -39,15 +39,24 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 	return (exit_code);
 }
 
+/**
+ * 
+ * sa[4] = {sa_ignore, sa_old_int, sa_old_quit, sa_default};
+ */
 pid_t	container(char *dlm, int expand)
 {
 	int		pipefd[2];
 	pid_t	cpid;
 	int		status;
+	struct sigaction	sa[4];
 
-	// init_signals_when_children();
-	// init_signals_noninteractive();
-	init_signals_heredoc();
+	// struct sigaction	sa_ignore, sa_old_int, sa_old_quit;
+	sa[0].sa_handler = SIG_IGN;
+	sigemptyset(&sa[0].sa_mask);
+	sa[0].sa_flags = 0;
+	sigaction(SIGINT, &sa[0], &sa[1]);
+	sigaction(SIGQUIT, &sa[0], &sa[2]);
+
 	if (pipe(pipefd) == -1)
 		return (rperror("pipe"));
 	cpid = fork();
@@ -55,24 +64,38 @@ pid_t	container(char *dlm, int expand)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		// init_signals_heredoc();
+		 // In child process: Set SIGINT to default behavior
+		sa[3].sa_handler = SIG_DFL;
+		sigemptyset(&sa[3].sa_mask);
+		sa[3].sa_flags = 0;
+		sigaction(SIGINT, &sa[3], NULL);
 		close(pipefd[0]);
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			exit(rperror("dup2"));
 		close(pipefd[1]);
 		exit(here_doc(dlm, expand));
 	}
-	// init_signals_when_children();
-	// init_signals_noninteractive();
-	// init_signals();
 	close(pipefd[1]);
-	if (g_signal != SIGINT)
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-			return (rperror("dup2"));
-	g_signal = 0;
+	if (dup2(pipefd[0], STDIN_FILENO) == -1)
+		return (rperror("dup2"));
 	close(pipefd[0]);
 	waitpid(cpid, &status, 0);
-	return (status);
+	// Restore original SIGINT and SIGQUIT handlers
+	sigaction(SIGINT, &sa[1], NULL);
+	sigaction(SIGQUIT, &sa[2], NULL);
+
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		g_signal = SIGINT;
+		return (EXIT_FAILURE);
+	}
+	if (WIFEXITED(status))
+	{
+		int exit_status = WEXITSTATUS(status);
+		if (exit_status != 0)
+			return (exit_status);
+	}
+	return (EXIT_SUCCESS);
 }
 
 // opens file, dup2s over correct std fd or executes heredoc
