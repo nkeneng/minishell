@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 17:08:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:47:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ pid_t	container(char *dlm, int expand, t_shell *shell)
 	pid_t	cpid;
 	int		status;
 
-	// init_signals_when_children();
-	// init_signals_noninteractive();
 	init_signals_heredoc();
 	if (pipe(pipefd) == -1)
 		return (rperror("pipe"));
@@ -55,24 +53,31 @@ pid_t	container(char *dlm, int expand, t_shell *shell)
 		return (rperror("fork"));
 	else if (cpid == 0)
 	{
-		// init_signals_heredoc();
+		signal_dfl(SIGINT);
 		close(pipefd[0]);
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 			exit(rperror("dup2"));
 		close(pipefd[1]);
 		exit(here_doc(dlm, expand, shell));
 	}
-	// init_signals_when_children();
-	// init_signals_noninteractive();
-	// init_signals();
 	close(pipefd[1]);
-	if (g_signal != SIGINT)
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-			return (rperror("dup2"));
-	g_signal = 0;
+	if (dup2(pipefd[0], STDIN_FILENO) == -1)
+		return (rperror("dup2"));
 	close(pipefd[0]);
 	waitpid(cpid, &status, 0);
-	return (status);
+	init_signals_when_children();
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		g_signal = SIGINT;
+		return (EXIT_FAILURE);
+	}
+	if (WIFEXITED(status))
+	{
+		int exit_status = WEXITSTATUS(status);
+		if (exit_status != 0)
+			return (exit_status);
+	}
+	return (EXIT_SUCCESS);
 }
 
 // opens file, dup2s over correct std fd or executes heredoc

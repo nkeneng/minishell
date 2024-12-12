@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 17:08:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:47:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,6 @@ int	here_doc(char *delim, int expand, t_shell *shell)
 	{
 		if (g_signal == SIGINT)
 			return (130);
-		// close(STDOUT_FILENO);
-		// if (open("/dev/tty", O_WRONLY) != STDOUT_FILENO)
-		// {
-		// 	perror("Failed to reopen stdout");
-		// 	exit(EXIT_FAILURE);
-		// }
-		// line = rl_gets("> ");
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;

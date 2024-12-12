@@ -208,3 +208,6 @@ This segfaults for us as well. it shouldnt
 isntead bash: error output from cat:
 "<out cat >>out"
 cat: -: input file is output file
+
+testing signals and interrupts
+sleep 10 <<eof
