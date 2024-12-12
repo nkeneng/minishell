@@ -80,20 +80,14 @@ int	ft_is_var_till(char *line)
 {
 	int	i;
 
-	if (!(ft_isalpha(line[0]) || line[0] == '_'))
+	if (!(ft_isalpha(line[0]) || line[0] == '_' || line[0] == '?'))
 		return (0);
 	i = 1;
 	while (line[i])
 	{
-		if (!(ft_isalnum(line[i]) || line[i] == '_'))
+		if (!(ft_isalnum(line[i]) || line[i] == '_' || line[i] == '?'))
 			return (i);
 		i++;
 	}
-	// while (line[i] && line[i] != '=')
-	// {
-	// 	if (!(ft_isalnum(line[i]) || line[i] == '_'))
-	// 		return (0);
-	// 	i++;
-	// }
 	return (i);
 }
