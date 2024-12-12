@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	shell.envp = NULL;
+	shell.exit_status = 0;
 	init_envp(envp, &shell);
 	while (1)
 	{

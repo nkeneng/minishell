@@ -11,3 +11,4 @@
 /* ************************************************************************** */
 
 void	dummy_cmd_list(t_list **cmd_list, int num_cmds, ...);
+void debug_log(const char *format, ...);

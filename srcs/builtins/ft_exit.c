@@ -12,7 +12,26 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_exit(void)
+int	ft_exit(char **cmd)
 {
-	exit(0);
+	int		exit_code = 0;
+	char	*endptr;
+
+	if (cmd && cmd[1])
+	{
+		if (cmd[2])
+		{
+			ft_printf("minishell: exit: too many arguments\n");
+			return (1);
+		}
+		errno = 0;
+		exit_code = ft_strtoimax(cmd[1], &endptr, 10);
+		if (errno != 0 || *endptr != '\0')
+		{
+			ft_printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
+			exit_code = 2;
+			exit(exit_code);
+		}
+	}
+	exit(exit_code);
 }

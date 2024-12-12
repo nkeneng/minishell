@@ -52,7 +52,7 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 	else if (builtin == ENV_BUILTIN)
 		return (ft_env(env_to_array(*envp)));
 	else if (builtin == EXIT_BUILTIN)
-		ft_exit();
+		ft_exit(command->cmd);
 	return (0);
 }
 
