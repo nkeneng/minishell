@@ -65,7 +65,7 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 	return (exit_code);
 }
 
-pid_t	container(char *dlm, int expand)
+pid_t	container(char *dlm)
 {
 	int		pipefd[2];
 	pid_t	cpid;
@@ -91,7 +91,7 @@ pid_t	container(char *dlm, int expand)
 			exit(rperror("dup2"));
 		}
 		close(pipefd[1]);
-		exit(here_doc(dlm, expand));
+		exit(here_doc(dlm));
 	}
 	close(pipefd[1]);
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
@@ -133,7 +133,7 @@ int	open_doc(char *file, int filekind)
 		return (0);
 	}
 	else if (filekind & C_HERE_DOC)
-		return (container(file, !(filekind & (W_SQUOTED | W_DQUOTED))));
+		return (container(file));
 	else if (filekind & C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else

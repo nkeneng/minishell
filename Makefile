@@ -6,7 +6,7 @@ NAME = minishell
 
 CC := cc
 #-fPIE: Used during compilation to generate position-independent code
-CFLAGS := -Wall -Wextra -Wextra -g -fPIE
+CFLAGS := -Werror -Wall -Wextra -Wextra -g -fPIE
 LIBS := -lreadline
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
