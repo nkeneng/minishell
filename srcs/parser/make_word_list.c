@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 14:00:46 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:37:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,12 @@ t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
 {
 	t_word_list	*tmp;
 
-	item = wl_remove_whitespace_element(word_list, item);
+	// item = wl_remove_whitespace_element(word_list, item);
 	if (!(item->word->flags & WM_SPLIT_AT_SPACES))
 	{
 		tmp = word_list_ft_split(item->word->word, item->word->flags);
-		if (!tmp)
+		if (item->word->word[0] != 0 && !tmp)
 			return (free_word_list(word_list));
-		// tmp = wl_insert_instead(tmp, item);
 		tmp = wl_insert_word_list(tmp, item);
 		wl_delone(word_list, item);
 		item = tmp;
