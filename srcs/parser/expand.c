@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 11:40:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:22:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,9 @@ t_word_desc	*exch_vars_from_env(t_word_desc **item, t_shell *shell, char *start)
 		return ((*item));
 	value = envp_keytovalue(start, shell, var_till);
 	if (!value)
-	{
-		free_str(&((*item)->word));
-		return (*item);
-	}
-	exchange_in_word(item, value, start, (*item)->flags | W_EXPANDED);
+		exchange_in_word(item, "", start, (*item)->flags | W_EXPANDED);
+	else
+		exchange_in_word(item, value, start, (*item)->flags | W_EXPANDED);
 	return ((*item));
 }
 
