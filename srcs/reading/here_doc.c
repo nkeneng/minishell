@@ -15,7 +15,7 @@
 //TODO: string expansion in here_doc
 
 //does heredoc
-int	here_doc(char *delim, int expand)
+int	here_doc(char *delim)
 {
 	char	*line;
 	int		delim_len;
