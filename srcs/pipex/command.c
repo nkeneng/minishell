@@ -35,7 +35,7 @@ char **env_to_array(t_env *envp)
 int	exec_builtin(int builtin, t_command *command, t_env **envp)
 {
 	if (builtin == CD_BUILTIN)
-		return(ft_cd(command->cmd[1]));
+		return(ft_cd(command->cmd));
 	else if (builtin == ECHO_BUILTIN)
 	{
 		if (command->cmd[1] && ft_strncmp(command->cmd[1], "-n", ft_strlen("-n")) == 0)
