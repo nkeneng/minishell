@@ -19,6 +19,8 @@ int	contains_more_vars(t_word_desc *item)
 {
 	char	*var_start;
 
+	if (item->flags & (W_SQUOTED))
+		return (0);
 	if (ft_strchr(item->word, '~'))
 	{
 		item->flags &= ~W_EXPANDED;
@@ -27,7 +29,7 @@ int	contains_more_vars(t_word_desc *item)
 	var_start = ft_strchr(item->word, '$');
 	while (var_start && *var_start && *(var_start + 1))
 	{
-		if (ft_is_var_till(var_start + 1))
+		if (ft_is_var_till(var_start + 1) || *(var_start + 1) == '?')
 		{
 			item->flags &= ~W_EXPANDED;
 			return (1);
