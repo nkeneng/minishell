@@ -78,11 +78,11 @@ int	is_builtin(char *command)
 			if (ft_strncmp(&command[2], "ho", 2) == 0 && !command[4])
 				return (ECHO_BUILTIN);
 	}
-	else if (ft_strncmp(command, "cd", 2) == 0 && !command[3])
-		return (CD_BUILTIN);
 	else if (ft_strncmp(command, "pwd", 3) == 0 && !command[4])
 		return (PWD_BUILTIN);
 	else if (ft_strncmp(command, "unset", 5) == 0 && !command[6])
 		return (UNSET_BUILTIN);
+	else if (ft_strncmp(command, "cd", 2) == 0 && !command[2])
+		return (CD_BUILTIN);
 	return (0);
 }
