@@ -62,9 +62,8 @@ int	here_doc(char *delim);
 
 // file_redirection.c
 int	handle_redirects(t_command *command, int wordmask_in_or_out);
-void	handle_redirect_in(t_command *command);
-void	handle_redirect_out(t_command *command);
-void	handle_redirections(t_command *cmd);
+void	reopen_stdout(void);
+void	reopen_stdin(void);
 
 // path.c
 char				*get_commpath(char *envp[], const char *command);
