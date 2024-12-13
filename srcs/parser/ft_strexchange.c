@@ -15,7 +15,7 @@
 //function to exchange the string to_replace and its preceeding $ with new_string
 // in the original string and frees the original
 // returns a malloced string or NULL if allocation failed
-char	*ft_strexchange(char *original, char *old, int len_old, char *new_str)
+char	*ft_strexchange(char *original, int len_old, char *new_str)
 {
 	char	*result;
 	char	*start;
