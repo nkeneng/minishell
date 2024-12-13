@@ -45,17 +45,22 @@ void	free_old_env(t_env **envp)
 	free(*envp);
 }
 
-void ft_override_env(char *key, char *value, t_env **envp)
+void	ft_override_env(char *key, char *value, t_env **envp)
 {
 	int	i;
 
 	i = 0;
 	while ((*envp)[i].key)
 	{
-		if (ft_strncmp((*envp[i]).key, key, ft_strlen(key)) == 0)
+		if (ft_strncmp((*envp)[i].key, key, ft_strlen(key)) == 0)
 		{
-			free((*envp)[i].value);
-			(*envp)[i].value = ft_strdup(value);
+			if ((*envp)[i].value)
+			{
+				free((*envp)[i].value);
+				(*envp)[i].value = NULL;
+			}
+			if (value)
+				(*envp)[i].value = ft_strdup(value);
 			break ;
 		}
 		i++;
@@ -68,23 +73,45 @@ t_env	*ft_setenv(char *key, char *value, t_env **envp)
 	t_env	*new_env;
 	int		nb_env;
 
-	i = 0;
 	nb_env = ft_env_size(*envp);
 	new_env = malloc(sizeof(t_env) * (nb_env + 2));
 	if (!new_env)
 		return (NULL);
+	i = 0;
 	while (i < nb_env)
 	{
 		new_env[i].key = ft_strdup((*envp)[i].key);
-		new_env[i].value = ft_strdup((*envp)[i].value);
+		if ((*envp)[i].value)
+			new_env[i].value = ft_strdup((*envp)[i].value);
+		else
+			new_env[i].value = NULL;
 		i++;
 	}
 	new_env[i].key = ft_strdup(key);
-	new_env[i].value = ft_strdup(value);
+	if (value)
+		new_env[i].value = ft_strdup(value);
+	else
+		new_env[i].value = NULL;
 	new_env[i + 1].key = NULL;
 	new_env[i + 1].value = NULL;
 	free_old_env(envp);
 	return (new_env);
+}
+
+int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+		return (0);
+	i = 1;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 /**
@@ -100,32 +127,28 @@ int	ft_export(char **args, t_env **envp)
 	char	**ret;
 	int		i;
 
-	if (args)
+	if (!args)
+		return (EXIT_FAILURE);
+	if (count_char_array(args) == 1)
+		return (ft_env(env_to_array(*envp)));
+	i = 1;
+	while (args[i])
 	{
-		if (count_char_array(args) == 1)
-			return (ft_env(env_to_array(*envp)));
-		i = 1;
-		while (args[i])
+		ret = ft_split(args[i], '=');
+		if (!ret)
+			return (EXIT_FAILURE);
+		if (!is_valid_identifier(ret[0]))
 		{
-			ret = ft_split(args[i], '=');
-			if (!ret)
-				return (EXIT_FAILURE);
-			if (!ret[0] || (!ft_isalpha(ret[0][0]) && ret[0][0] != '_'))
-			{
-				ft_printf("export: '%s': not a valid identifier\n", args[i]);
-				return (EXIT_FAILURE);
-			}
-			else
-			{
-				if (!key_exist(ret[0], *envp))
-					*envp = ft_setenv(ret[0], ret[1], envp);
-				else
-					ft_override_env(ret[0], ret[1], envp);
-			}
+			ft_printf("export: '%s': not a valid identifier\n", args[i]);
 			free_char_array(ret, 0);
-			i++;
+			return (EXIT_FAILURE);
 		}
-		return (EXIT_SUCCESS);
+		if (!key_exist(ret[0], *envp))
+			*envp = ft_setenv(ret[0], ret[1], envp);
+		else
+			ft_override_env(ret[0], ret[1], envp);
+		free_char_array(ret, 0);
+		i++;
 	}
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

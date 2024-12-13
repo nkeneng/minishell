@@ -25,7 +25,7 @@ void	exchange_in_word(t_word_desc **item, char *new, char *old, int flags)
 		if (var_till == 0)
 			return ;
 	}
-	new_word = ft_strexchange((*item)->word, old, var_till, new);
+	new_word = ft_strexchange((*item)->word, var_till, new);
 	if (!new_word)
 	{
 		free_word_desc(item);

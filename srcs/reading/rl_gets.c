@@ -19,15 +19,15 @@ char	*rl_gets(char *prompt)
 	static char	*line;
 
 	// rl_catch_signals = 1;
-	if (!isatty(STDIN_FILENO))
-	{
-		close(STDIN_FILENO);
-		if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-		{
-			perror("Failed to reopen stdin");
-			exit (EXIT_FAILURE);
-		}
-	}
+	// if (!isatty(STDIN_FILENO))
+	// {
+	// 	close(STDIN_FILENO);
+	// 	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
+	// 	{
+	// 		perror("Failed to reopen stdin");
+	// 		exit (EXIT_FAILURE);
+	// 	}
+	// }
 	line = readline(prompt);
 	if (!line)
 		exit (0);

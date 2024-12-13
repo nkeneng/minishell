@@ -15,11 +15,16 @@
 // TODO: update the PWD environment variable
 // TODO: update the OLDPWD environment variable before changing cwd
 // TODO: handle previous directory ( - )
-int	ft_cd(char *path)
+int	ft_cd(char **cmd)
 {
 	char	*home;
 
-	if (!path)
+	if (cmd && cmd[1] && cmd[2])
+	{
+		ft_printf("cd: too many arguments\n");
+		return (EXIT_FAILURE);
+	}
+	if (cmd && !cmd[1])
 	{
 		home = getenv("HOME");
 		if (!home)
@@ -29,7 +34,7 @@ int	ft_cd(char *path)
 		}
 		chdir(getenv("HOME"));
 	}
-	else if (chdir(path) == -1)
+	else if (chdir(cmd[1]) == -1)
 	{
 		perror("chdir");
 		return (EXIT_FAILURE);
