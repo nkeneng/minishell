@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:06:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/13 10:05:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:11:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,28 @@ int	handle_redirects(t_command *command, int wordmask_in_or_out)
 		redir_list = redir_list->next;
 	}
 	return (0);
+}
+
+void	reopen_stdin(void)
+{
+	if (isatty(STDIN_FILENO))
+		return ;
+	close(STDIN_FILENO);
+	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
+	{
+		perror("Failed to reopen stdin");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	reopen_stdout(void)
+{
+	if (isatty(STDOUT_FILENO))
+		return ;
+	close(STDOUT_FILENO);
+	if (open("/dev/tty", O_WRONLY) != STDOUT_FILENO)
+	{
+		perror("Failed to reopen stdout");
+		exit(EXIT_FAILURE);
+	}
 }

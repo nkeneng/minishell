@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/12 13:21:03 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:12:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,8 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 	if (!cmd_list)
 		return (rperror("command list empty"));
 	exit_code = pipex(envp, cmd_list);
-	close(STDIN_FILENO);
-	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-	{
-		perror("Failed to reopen stdin");
-		exit(EXIT_FAILURE);
-	}
-	close(STDOUT_FILENO);
-	if (open("/dev/tty", O_WRONLY) != STDOUT_FILENO)
-	{
-		perror("Failed to reopen stdout");
-		exit(EXIT_FAILURE);
-	}
+	reopen_stdin();
+	reopen_stdout();
 	return (exit_code);
 }
 

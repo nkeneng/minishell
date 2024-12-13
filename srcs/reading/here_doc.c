@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/12 12:34:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:12:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ int	here_doc(char *delim)
 	int		delim_len;
 
 	delim_len = ft_strlen(delim);
-	close(STDIN_FILENO);
-	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-	{
-		perror("Failed to reopen stdin");
-		exit(EXIT_FAILURE);
-	}
+	reopen_stdin();
 	while (1)
 	{
 		if (g_signal == SIGINT)
