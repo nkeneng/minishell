@@ -21,6 +21,12 @@ int	here_doc(char *delim)
 	int		delim_len;
 
 	delim_len = ft_strlen(delim);
+	close(STDIN_FILENO);
+	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
+	{
+		perror("Failed to reopen stdin");
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
 		if (g_signal == SIGINT)

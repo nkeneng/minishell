@@ -19,51 +19,51 @@
 // TODO: macro values for fileindicator: < for input, > for output,
 	// >> for append
 // TODO: make pipex use linked list instead of double array
-// int	start_pipex(t_list **cmd_list, t_env **envp)
-// {
-// 	int	exit_code;
-// 	if (!cmd_list)
-// 		return (rperror("command list empty"));
-// 	exit_code = pipex(envp, cmd_list);
-// 	close(STDIN_FILENO);
-// 	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-// 	{
-// 		perror("Failed to reopen stdin");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	close(STDOUT_FILENO);
-// 	if (open("/dev/tty", O_WRONLY) != STDOUT_FILENO)
-// 	{
-// 		perror("Failed to reopen stdout");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	return (exit_code);
-// }
-
 int	start_pipex(t_list **cmd_list, t_env **envp)
 {
 	int	exit_code;
-	int original_stdin;
-	int original_stdout;
-
 	if (!cmd_list)
 		return (rperror("command list empty"));
-	original_stdin = dup(STDIN_FILENO);
-	if (original_stdin == -1)
-		return (rperror("dup"));
-	original_stdout = dup(STDOUT_FILENO);
-	if (original_stdout == -1)
-	{
-		close(original_stdin);
-		return (rperror("dup"));
-	}
 	exit_code = pipex(envp, cmd_list);
-	dup2(original_stdin, STDIN_FILENO);
-	dup2(original_stdout, STDOUT_FILENO);
-	close(original_stdin);
-	close(original_stdout);
+	close(STDIN_FILENO);
+	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
+	{
+		perror("Failed to reopen stdin");
+		exit(EXIT_FAILURE);
+	}
+	close(STDOUT_FILENO);
+	if (open("/dev/tty", O_WRONLY) != STDOUT_FILENO)
+	{
+		perror("Failed to reopen stdout");
+		exit(EXIT_FAILURE);
+	}
 	return (exit_code);
 }
+
+// int	start_pipex(t_list **cmd_list, t_env **envp)
+// {
+// 	int	exit_code;
+// 	int original_stdin;
+// 	int original_stdout;
+
+// 	if (!cmd_list)
+// 		return (rperror("command list empty"));
+// 	original_stdin = dup(STDIN_FILENO);
+// 	if (original_stdin == -1)
+// 		return (rperror("dup"));
+// 	original_stdout = dup(STDOUT_FILENO);
+// 	if (original_stdout == -1)
+// 	{
+// 		close(original_stdin);
+// 		return (rperror("dup"));
+// 	}
+// 	exit_code = pipex(envp, cmd_list);
+// 	dup2(original_stdin, STDIN_FILENO);
+// 	dup2(original_stdout, STDOUT_FILENO);
+// 	close(original_stdin);
+// 	close(original_stdout);
+// 	return (exit_code);
+// }
 
 pid_t	container(char *dlm)
 {
