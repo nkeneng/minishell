@@ -37,12 +37,7 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 	if (builtin == CD_BUILTIN)
 		return(ft_cd(command->cmd));
 	else if (builtin == ECHO_BUILTIN)
-	{
-		if (command->cmd[1] && ft_strncmp(command->cmd[1], "-n", ft_strlen("-n")) == 0)
-			return(ft_echo(command->cmd, 1));
-		else
-			return(ft_echo(command->cmd, 0));
-	}
+			return(ft_echo(command->cmd));
 	else if (builtin == PWD_BUILTIN)
 		return(ft_pwd());
 	else if (builtin == EXPORT_BUILTIN)
