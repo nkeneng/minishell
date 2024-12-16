@@ -20,19 +20,38 @@
  * @param args: A null-terminated array of strings 
  * where each string is an argument to the echo command.
  *
- * @param n: A flag to determine whether 
- * a newline character should be printed at the end. 
- * If n is 0, a newline character is printed.
+ * The function handles multiple `-n` arguments and treats them as one.
+ * If any character other than `n` is found after the initial `-`, 
+ * the argument is treated as a regular argument.
  *
+ * If no `-n` argument is found, a newline character is printed at the end.
+ *
+ * @return: Always returns EXIT_SUCCESS.
  */
-int	ft_echo(char **args, int n)
+int	ft_echo(char **args)
 {
 	int	i;
+	int j;
+	int to_print;
 
-	if (n)
-		i = 2;
-	else
-		i = 1; 
+	i = 1; 
+	to_print = 1;
+	while (args[i])
+	{
+		if (args[i][0] == '-')
+		{
+			j = 1;
+			while (args[i][j] == 'n')
+				j++;
+			if (args[i][j] == '\0')
+			{
+				to_print = 0;
+				i++;
+				continue;
+			}
+		}
+		break;
+	}
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
@@ -40,7 +59,7 @@ int	ft_echo(char **args, int n)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
-	if (!n)
+	if (to_print)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }

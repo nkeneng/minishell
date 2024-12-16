@@ -17,7 +17,7 @@
 
 int		ft_cd(char **cmd);
 int	ft_unset(char **args, t_env **envp);
-int     ft_echo(char **args, int n);
+int     ft_echo(char **args);
 int	ft_exit(char **cmd);
 int	ft_pwd(void);
 int	ft_env(char **envp);
