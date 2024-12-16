@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <sys/wait.h>
-#include <signal.h>
 
 int	key_exist(char *key, t_env *envp)
 {
@@ -76,7 +74,10 @@ t_env	*ft_setenv(char *key, char *value, t_env **envp)
 	nb_env = ft_env_size(*envp);
 	new_env = malloc(sizeof(t_env) * (nb_env + 2));
 	if (!new_env)
+	{
+		ft_fprintf(2, "minishell: export: %s\n", strerror(errno));
 		return (NULL);
+	}
 	i = 0;
 	while (i < nb_env)
 	{
@@ -124,31 +125,49 @@ int	is_valid_identifier(char *str)
  */
 int	ft_export(char **args, t_env **envp)
 {
-	char	**ret;
+	char	*key;
+	char	*value;
+	char	*equal_sign;
 	int		i;
+	int		status;
 
 	if (!args)
 		return (EXIT_FAILURE);
 	if (count_char_array(args) == 1)
 		return (ft_env(env_to_array(*envp)));
 	i = 1;
+	status = EXIT_SUCCESS;
 	while (args[i])
 	{
-		ret = ft_split(args[i], '=');
-		if (!ret)
-			return (EXIT_FAILURE);
-		if (!is_valid_identifier(ret[0]))
+		equal_sign = ft_strchr(args[i], '=');
+		if (equal_sign)
 		{
-			ft_printf("export: '%s': not a valid identifier\n", args[i]);
-			free_char_array(ret, 0);
-			return (EXIT_FAILURE);
+			*equal_sign = '\0';
+			key = args[i];
+			value = equal_sign + 1;
+			if (!is_valid_identifier(key))
+			{
+				ft_fprintf(2, "export: '%s': not a valid identifier\n", args[i]);
+				status = EXIT_FAILURE;
+				i++;
+				continue;
+			}
+			if (!key_exist(key, *envp))
+			{
+				*envp = ft_setenv(key, value, envp);
+			}
+			else
+				ft_override_env(key, value, envp);
 		}
-		if (!key_exist(ret[0], *envp))
-			*envp = ft_setenv(ret[0], ret[1], envp);
 		else
-			ft_override_env(ret[0], ret[1], envp);
-		free_char_array(ret, 0);
+		{
+			if (!is_valid_identifier(args[i]))
+			{
+				ft_fprintf(2, "export: '%s': not a valid identifier\n", args[i]);
+				status = EXIT_FAILURE;
+			}
+		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (status);
 }

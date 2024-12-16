@@ -21,14 +21,14 @@ int	ft_exit(char **cmd)
 	{
 		if (cmd[2])
 		{
-			ft_printf("minishell: exit: too many arguments\n");
+			ft_fprintf(2, "minishell: exit: too many arguments\n");
 			return (1);
 		}
 		errno = 0;
 		exit_code = ft_strtoimax(cmd[1], &endptr, 10);
 		if (errno != 0 || *endptr != '\0')
 		{
-			ft_printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
+			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", cmd[1]);
 			exit_code = 2;
 			exit(exit_code);
 		}

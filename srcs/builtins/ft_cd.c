@@ -21,7 +21,7 @@ int	ft_cd(char **cmd)
 
 	if (cmd && cmd[1] && cmd[2])
 	{
-		ft_printf("cd: too many arguments\n");
+		ft_fprintf(2, "cd: too many arguments\n");
 		return (EXIT_FAILURE);
 	}
 	if (cmd && !cmd[1])
