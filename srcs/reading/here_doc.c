@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/13 13:12:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:34:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	here_doc(char *delim)
 	{
 		if (g_signal == SIGINT)
 			return (130);
-		line = get_next_line(STDIN_FILENO);
+		line = ft_gnl(STDIN_FILENO, "> ");
 		if (!line)
 			break ;
 		if (g_signal == SIGINT)
