@@ -159,6 +159,14 @@ int	ft_export(char **args, t_env **envp)
 			else
 				ft_override_env(key, value, envp);
 		}
+		else
+		{
+			if (!is_valid_identifier(args[i]))
+			{
+				ft_fprintf(2, "export: '%s': not a valid identifier\n", args[i]);
+				status = EXIT_FAILURE;
+			}
+		}
 		i++;
 	}
 	return (status);
