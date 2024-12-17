@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/17 18:11:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:15:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,27 @@ t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
 	return (item);
 }
 
+int	fuse_words(t_word_list **word_list, t_word_list *curr)
+{
+	t_word_desc	*new_word;
+
+	new_word = wd_fuse_words(curr->prev->word, curr->word);
+	if (!new_word)
+	{
+		free_word_list(word_list);
+		return (1);
+	}
+	free_word_desc(&curr->word);
+	curr->word = new_word;
+	wl_delone(word_list, curr->prev);
+	return (0);
+}
+
 //splits at whitespaces
 //fuses words back together if they are not split by whitespaces
 int	wl_split_on_whitesp(t_word_list **word_list)
 {
 	t_word_list	*curr;
-	t_word_desc	*new_word;
 
 	curr = *word_list;
 	while (curr)
@@ -75,17 +90,8 @@ int	wl_split_on_whitesp(t_word_list **word_list)
 		}
 		if (curr->prev && !(curr->prev->word->flags & WM_OP_RE) && \
 !(curr->prev->word->flags & W_SPLITSPACE || curr->word->flags & WM_OP_RE))
-		{
-			new_word = wd_fuse_words(curr->prev->word, curr->word);
-			if (!new_word)
-			{
-				free_word_list(word_list);
+			if (fuse_words(word_list, curr))
 				return (1);
-			}
-			free_word_desc(&curr->word);
-			curr->word = new_word;
-			wl_delone(word_list, curr->prev);
-		}
 		if (!curr->word)
 		{
 			free_word_list(word_list);

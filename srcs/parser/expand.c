@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/12 17:22:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:06:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ t_word_desc	*exchange_tile(t_word_desc **item, t_shell *shell)
 	return (*item);
 }
 
-// gets called by expand_and_split returns a wl element that had its variables replaced
+// gets called by expand_and_split 
+// returns a wl element that had its variables replaced
 t_word_desc	*wd_expand_var(t_word_desc *(*item), t_shell *shell)
 {
 	char	*value;

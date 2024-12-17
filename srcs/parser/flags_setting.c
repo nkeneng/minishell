@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:13:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 16:47:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:07:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	assign_flag(t_word_list *list)
 			list = curr->next;
 			pipenumber++;
 		}
-		// else if (flag & WM_REDIR_MASK && curr->next) // this should not be done before having split at whitespaces
-		// 	curr->next->word->flags |= flag;
 		curr = curr->next;
 	}
 	if (pipenumber == 1)

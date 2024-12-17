@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 11:06:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 11:55:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:17:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,20 @@
 // }
 
 // expands all variables in the word_list
-t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell)
+t_word_list	*expand_and_split(t_word_list **wl, t_word_list *curr, t_shell *sh)
 {
-	if (!wd_expand_var(&curr->word, shell))
+	if (!wd_expand_var(&curr->word, sh))
 	{
-		free_word_list(word_list);
+		free_word_list(wl);
 		return (NULL);
 	}
 	if (!curr->word->word)
-		curr = wl_delone(word_list, curr);
+		curr = wl_delone(wl, curr);
 	else if (curr->word->flags & W_EXPANDED)
-		curr = split_element_at_wh(word_list, curr);
+		curr = split_element_at_wh(wl, curr);
 	if (!curr)
 		return (NULL);
 	return (curr);
-	
 }
 // expands all variables in the word_list
 // if a valiable is at the end at expanded to empty string it returns 2

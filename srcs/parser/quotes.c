@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:44:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/22 10:34:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:16:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_word_desc	*remove_quotes(t_word_desc *word)
 // or until the next one of that kind is hit
 int	fill_with_token(char *line, t_word_list *to_fill)
 {
-	int	i;
-	t_word_desc *desc;
+	int			i;
+	t_word_desc	*desc;
 
 	i = 0;
 	if (!sign_to_flag(line))
@@ -51,48 +51,4 @@ int	fill_with_token(char *line, t_word_list *to_fill)
 	desc = wd_make_word(line, i, sign_to_flag(line));
 	to_fill->word = desc;
 	return (i);
-}
-
-// FIXME: THIS FUNCTION IS NOT USED
-// returns a list of words
-// makes new word from everything before quotes, 
-// then new word from everything in quotes
-t_word_list	*split_at_quote(char *line)
-{
-	t_word_list	*head;
-	t_word_list	*item;
-	int			st;
-	int			i;
-	int			flag;
-
-	head = NULL;
-	i = 1;
-	st = 0;
-	while (line[st])
-	{
-		while (line[st] && (line[st] != '\'' || line[st] != '"'))
-			st++;
-		if (st)
-			item = wl_from_line(head, line, st, 0);
-		if (!item)
-			return (NULL);
-		while (line[st + i] != line[st])
-			i++;
-		if (!line[st + i])
-		{
-			syntax_error_unexpected_eof(&head);
-			return (NULL);
-		}
-		flag = sign_to_flag(&line[st]);
-		if (ft_whitespace_seperator(&line[st + i + 1]))
-		{
-			line[st + i++] = ' ';
-			flag |= W_SPLITSPACE;
-		}
-		item = wl_from_line(head, &line[st], i, flag);
-		if (!item)
-			return (NULL);
-		st = i + 1;
-	}
-	return (head);
 }
