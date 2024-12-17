@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/17 15:43:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:11:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,16 @@ int	wl_split_on_whitesp(t_word_list **word_list)
 	curr = *word_list;
 	while (curr)
 	{
+		if (curr->prev && ft_whitespace_seperator(curr->word->word))
+			curr->prev->word->flags |= W_SPLITSPACE;
 		curr = split_element_at_wh(word_list, curr);
 		if (!curr)
 		{
 			free_word_list(word_list);
 			return (1);
 		}
-		if (curr->prev && !(curr->prev->word->flags & WM_OP_RE) && !(!curr || \
-	curr->prev->word->flags & W_SPLITSPACE || curr->word->flags & WM_OP_RE))
+		if (curr->prev && !(curr->prev->word->flags & WM_OP_RE) && \
+!(curr->prev->word->flags & W_SPLITSPACE || curr->word->flags & WM_OP_RE))
 		{
 			new_word = wd_fuse_words(curr->prev->word, curr->word);
 			if (!new_word)

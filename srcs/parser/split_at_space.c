@@ -45,7 +45,7 @@ t_word_list	*split_at_spaces(t_word_list *item)
 
 // takes a line and splits the line at whitespaces and puts them 
 // into word_desc items and concats them into a word_list
-t_word_list	*word_list_ft_split(char *line, int	flags)
+t_word_list	*word_list_ft_split(char *line, int flags)
 {
 	int			i;
 	int			begin_word;
@@ -60,7 +60,8 @@ t_word_list	*word_list_ft_split(char *line, int	flags)
 		s = ft_whitespace_seperator(&line[i]);
 		if (s)
 		{
-			if (!wl_add_node(&head, &line[begin_word], i - begin_word, flags | W_SPLITSPACE))
+			if (!wl_add_node(&head, &line[begin_word], \
+					i - begin_word, flags | W_SPLITSPACE))
 				return (NULL);
 			i += s;
 			begin_word = i;
@@ -70,9 +71,7 @@ t_word_list	*word_list_ft_split(char *line, int	flags)
 			i++;
 	}
 	if (begin_word != i)
-	{
 		if (!wl_add_node(&head, &line[begin_word], i - begin_word, flags))
 			return (NULL);
-	}
 	return (head);
 }
