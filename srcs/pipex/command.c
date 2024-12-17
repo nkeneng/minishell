@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/10 17:12:31 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/17 20:47:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	pipex(t_env **envp, t_list **cmd_list)
 				exit(rperror("dup2"));
 			close(pipefd[1]);
 			if (handle_redirects(cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
-				return (EXIT_FAILURE);
+				exit (EXIT_FAILURE);
 			if (cmd->flags & C_BUILTIN)
 				exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp));
 			else
@@ -146,7 +146,7 @@ int	exec_to_stdout(t_env **envp, t_command *cmd, int *chld_pids)
 	{
 		init_signals_noninteractive();
 		if (handle_redirects(cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
-			return (EXIT_FAILURE);
+			exit (EXIT_FAILURE);
 		if (builtin_nb)
 			exit(exec_builtin(builtin_nb, cmd, envp));
 		envp_array = env_to_array(*envp);
