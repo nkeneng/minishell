@@ -26,8 +26,8 @@
 # define W_SQUOTED	2048	// 1 << 11  Some single quote character is present.
 # define W_DQUOTED	4096	// 1 << 12  Some double quote character is present.
 # define W_ASSIGNMENT	8192	// 1 << 13  This word is a variable assignment.
-# define W_SPLITSPACE	16384	// 1 << 14  Split this word on " "
-								//
+# define W_SPLITSPACE	16384	// 1 << 14  curr word should be split from next
+// because there had been a space at the end of the curr word or beginning of next
 # define W_EXPANDRHS	65536	// 1 << 16  Expanding word in ${paramOPword}
 # define W_VAR				131072 // 1 << 17  variable assignment
 # define W_LAST				262144 // 1 << 18  execute command output to stdout
