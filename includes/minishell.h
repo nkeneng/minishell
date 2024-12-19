@@ -72,7 +72,6 @@ int					make_exec(t_command *command, char *envp[]);
 
 // command.c
 int					exec_command(t_command *command, t_env **envp, int *fd);
-int					exec_to_stdout(t_env **envp, t_command *cmd, int *chld_pids);
 int					pipex(t_env **envp, t_list **cmd_list);
 
 // init_envp.c
