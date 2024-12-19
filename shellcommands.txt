@@ -211,3 +211,8 @@ cat: -: input file is output file
 
 testing signals and interrupts
 sleep 10 <<eof
+
+lmeubrin@c3a1c6:~/core/minishell$ ./libft
+bash: ./libft: Is a directory
+lmeubrin@c3a1c6:~/core/minishell$ echo $?
+126
