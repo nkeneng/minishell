@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/20 13:17:28 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:22:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 	builtin_nb = is_builtin(cmd->cmd[0]);
 	if (chld_pids[0] == 1 && builtin_nb)
 	{
-		if (handle_redirects(shell, t_shell shell, cmd, C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
+		if (handle_redirects(shell, cmd, C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 			return (EXIT_FAILURE);
 		return (exec_builtin(builtin_nb, cmd, envp));
 	}
