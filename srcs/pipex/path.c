@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:56:59 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/10 12:37:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/19 20:03:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ int	make_exec(t_command *cmd, char *envp[])
 	command = cmd->cmd;
 	if (ft_strchr(command[0], '/') != NULL)
 	{
+		err = checkdir(command[0]);
+		if (err)
+			return (err);
 		if (access(command[0], F_OK) != 0)
 		{
 			ft_fprintf(2, "%s: No such file or directory\n", command[0]);

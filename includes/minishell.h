@@ -23,6 +23,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include "functions_to_remove_later.h"
+# include <sys/stat.h>
+
 
 // just for test cases
 # include "dummy.h"
@@ -56,6 +58,9 @@ int					open_doc(char *file, int filekind);
 int					free_char_array(char **array, int ret);
 int					rperror(char *str);
 int					count_char_array(char **charray);
+
+// checkdir.c
+int	checkdir(char *path);
 
 //here_doc.c
 int	here_doc(char *delim);
