@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:24:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/13 13:12:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:19:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //TODO: string expansion in here_doc
 
 //does heredoc
-int	here_doc(char *delim)
+int	here_doc(t_shell *shell, char *delim, int flags)
 {
 	char	*line;
 	int		delim_len;

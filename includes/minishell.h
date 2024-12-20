@@ -49,10 +49,10 @@ t_dlist				*ft_createaddback(t_dlist **lst, void *content);
 // PIPEX
 // pipex.c
 int					do_list(t_list **cmd_list, char **envp);
-int					start_pipex(t_list **cmd_list, t_env **envp);
+int					start_pipex(t_list **cmd_list, t_shell *shell);
 int					input_checker(int argc, char *arg);
 int					pipheredoc(char *arg);
-int					open_doc(char *file, int filekind);
+int					open_doc(t_shell *shell, char *file, int filekind);
 
 // utils.c
 int					free_char_array(char **array, int ret);
@@ -63,10 +63,10 @@ int					count_char_array(char **charray);
 int	checkdir(char *path);
 
 //here_doc.c
-int	here_doc(char *delim);
+int	here_doc(t_shell *shell, char *delim, int flags);
 
 // file_redirection.c
-int	handle_redirects(t_command *command, int wordmask_in_or_out);
+int	handle_redirects(t_shell *shell, t_command *command, int wordmask_in_or_out);
 void	reopen_stdout(void);
 void	reopen_stdin(void);
 
@@ -77,7 +77,7 @@ int					make_exec(t_command *command, char *envp[]);
 
 // command.c
 int					exec_command(t_command *command, t_env **envp, int *fd);
-int					pipex(t_env **envp, t_list **cmd_list);
+int					pipex(t_shell *shell, t_list **cmd_list);
 
 // init_envp.c
 void				init_envp(char **env, t_shell *shell);

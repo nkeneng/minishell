@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/13 13:12:14 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:20:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 // TODO: macro values for fileindicator: < for input, > for output,
 	// >> for append
 // TODO: make pipex use linked list instead of double array
-int	start_pipex(t_list **cmd_list, t_env **envp)
+int	start_pipex(t_list **cmd_list, t_shell *shell)
 {
 	int	exit_code;
 	if (!cmd_list)
 		return (rperror("command list empty"));
-	exit_code = pipex(envp, cmd_list);
+	exit_code = pipex(shell, cmd_list);
 	reopen_stdin();
 	reopen_stdout();
 	return (exit_code);
@@ -55,7 +55,7 @@ int	start_pipex(t_list **cmd_list, t_env **envp)
 // 	return (exit_code);
 // }
 
-pid_t	container(char *dlm)
+pid_t	container(t_shell *shell, char *dlm, int filekind)
 {
 	int		pipefd[2];
 	pid_t	cpid;
@@ -81,7 +81,7 @@ pid_t	container(char *dlm)
 			exit(rperror("dup2"));
 		}
 		close(pipefd[1]);
-		exit(here_doc(dlm));
+		exit(here_doc(shell, dlm, filekind));
 	}
 	close(pipefd[1]);
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
@@ -108,7 +108,7 @@ pid_t	container(char *dlm)
 
 // opens file, dup2s over correct std fd or executes heredoc
 // heredoc gets opened with expand set to the oposite of quotation status
-int	open_doc(char *file, int filekind)
+int	open_doc(t_shell *shell, char *file, int filekind)
 {
 	int	fd;
 
@@ -123,7 +123,7 @@ int	open_doc(char *file, int filekind)
 		return (0);
 	}
 	else if (filekind & C_HERE_DOC)
-		return (container(file));
+		return (container(shell, file, filekind));
 	else if (filekind & C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else
