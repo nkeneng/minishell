@@ -89,11 +89,11 @@ submodules:
 	@mkdir -p $(LIBFT_DIR)
 	@if [ -d "$(LIBFT_DIR)/.git" ]; then \
 		echo "Initializing libft and its submodules..."; \
-		git submodule add -q -f git@github.com:Moat423/Libft_full.git $(LIBFT_DIR) || true; \
+		git submodule add -q -f -b minishell git@github.com:Moat423/Libft_full.git $(LIBFT_DIR) || true; \
 		git submodule update --init --recursive $(LIBFT_DIR); \
 	elif [ -z "$$(ls -A $(LIBFT_DIR))" ]; then \
 		echo "Updating libft and its submodules..."; \
-		git submodule update --init --recursive $(LIBFT_DIR); \
+		git submodule update --init --recursive --remote $(LIBFT_DIR); \
 	fi
 	@make -C $(LIBFT_DIR)
 # submodules:
