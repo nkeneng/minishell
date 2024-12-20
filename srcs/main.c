@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		free(line);
 		if (!lst)
 			continue ;
-		shell.exit_status = start_pipex(&lst, &(shell.envp));
+		shell.exit_status = start_pipex(&lst, &shell);
 		if (g_signal)
 		{
 			shell.exit_status = (128 + g_signal);
