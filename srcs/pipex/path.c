@@ -60,9 +60,6 @@ int	make_exec(t_command *cmd, char *envp[])
 	command = cmd->cmd;
 	if (ft_strchr(command[0], '/') != NULL)
 	{
-		err = checkdir(command[0]);
-		if (err)
-			return (err);
 		if (access(command[0], F_OK) != 0)
 		{
 			ft_fprintf(2, "%s: No such file or directory\n", command[0]);
@@ -70,11 +67,17 @@ int	make_exec(t_command *cmd, char *envp[])
 		}
 		if (access(command[0], X_OK) != 0 || access(command[0], R_OK) != 0)
 		{
-			ft_fprintf(2, "%s: Permission denied \n", command[0]);
+			ft_fprintf(2, "%s: Permission denied\n", command[0]);
 			return (free_char_array(command, 126));
-		}	
+		}
 		else
-			commpath = ft_strdup(command[0]);
+		{
+			err = checkdir(command[0]);
+			if (err)
+				return (err);
+			else
+				commpath = ft_strdup(command[0]);
+		}
 	}
 	else {
 		paths = get_paths(envp);
