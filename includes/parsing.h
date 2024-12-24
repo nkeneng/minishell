@@ -35,7 +35,7 @@ int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
 t_word_desc	*wd_expand_var(t_word_desc *(*item), t_shell *shell);
 char	*get_varname(char *str);
 void	exchange_in_word(t_word_desc **item, char *new_str, char *old_str, int flags);
-char	*envp_keytovalue(char *key, t_shell *shell, int keylen);
+char	*envp_keytovalue(char *key, t_env *envp, int keylen);
 
 //wl_expansion.c
 int	wl_expand_list(t_word_list **word_list, t_shell *shell);

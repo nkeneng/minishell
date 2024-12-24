@@ -13,7 +13,6 @@
 #include "../../includes/minishell.h"
 
 //TODO: string expansion in here_doc
-
 char	*expand_line(t_shell *shell, char *line)
 {
 	t_word_desc	*container;

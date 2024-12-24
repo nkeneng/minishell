@@ -120,8 +120,6 @@ int	is_valid_identifier(char *str)
  *
  * @args: A string containing the environment variable
  * and its value in the format "VAR=VALUE".
- * @shell: A pointer to the shell structure containing the environment variables.
- * TODO : Handle the case where the key or value are invalid
  */
 int	ft_export(char **args, t_env **envp)
 {
