@@ -24,7 +24,7 @@ int	checkdir(char *path)
 	}
 	if (S_ISDIR(buffer.st_mode))
 	{
-		ft_fprintf(2, "%s: is a directory\n", path);
+		ft_fprintf(2, "%s: Is a directory\n", path);
 		return (126);
 	}
 	return (0);

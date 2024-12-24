@@ -30,7 +30,7 @@ int	start_pipex(t_list **cmd_list, t_shell *shell)
 	return (exit_code);
 }
 
-// int	start_pipex(t_list **cmd_list, t_env **envp)
+// int	start_pipex(t_list **cmd_list, t_shell *shell)
 // {
 // 	int	exit_code;
 // 	int original_stdin;
@@ -47,7 +47,7 @@ int	start_pipex(t_list **cmd_list, t_shell *shell)
 // 		close(original_stdin);
 // 		return (rperror("dup"));
 // 	}
-// 	exit_code = pipex(envp, cmd_list);
+// 	exit_code = pipex(shell, cmd_list);
 // 	dup2(original_stdin, STDIN_FILENO);
 // 	dup2(original_stdout, STDOUT_FILENO);
 // 	close(original_stdin);
