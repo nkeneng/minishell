@@ -6,19 +6,18 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:45:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/22 13:47:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:21:50 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*rl_gets(void);
-int	append_opts(char **split_line);
-t_list	**convert_line_to_dlist(char *line);
-void clean_line_whitespace(char *line);
+int			append_opts(char **split_line);
+t_list		**convert_line_to_dlist(char *line);
+// void		clean_line_whitespace(char *line);
 t_command	*get_command(char *word, char **envp);
 
-//deprecated
+// deprecated
 /* t_list	**parse_input(char *line, char **envp) */
 /* { */
 /* 	t_list		**input; */
@@ -70,7 +69,7 @@ t_command	*get_command(char *word, char **envp);
 /* 	return (input); */
 /* } */
 
-//deletes an element containing just | and assigns C_PIPE to the previous one
+// deletes an element containing just | and assigns C_PIPE to the previous one
 void	convert_pipes_to_flags(t_list **list)
 {
 	t_list		*curr;
@@ -79,10 +78,10 @@ void	convert_pipes_to_flags(t_list **list)
 	curr = *list;
 	while (curr->next)
 	{
-		command = (t_command *) curr->next->content;
+		command = (t_command *)curr->next->content;
 		if (!ft_strncmp(command->cmd, "|", 2))
 		{
-			command = (t_command *) curr->content;
+			command = (t_command *)curr->content;
 			command->flags &= C_PIPE;
 			ft_lstdelone(curr->next, (void (*)(void *))ft_free_command);
 		}
@@ -99,7 +98,8 @@ int	append_opts(char **split_line)
 	i = 0;
 	k = i + 1;
 	did_append = 0;
-	while (split_line[k] && (split_line[k][0] == '-' || !ft_strchr("|<>&", split_line[k][0])))
+	while (split_line[k] && (split_line[k][0] == '-' || !ft_strchr("|<>&",
+				split_line[k][0])))
 	{
 		ft_strappend(split_line[i], split_line[k]);
 		did_append = 1;
@@ -110,7 +110,7 @@ int	append_opts(char **split_line)
 	return (k);
 }
 
-//function adds commandpath into a path fiel of the command struct
+// function adds commandpath into a path fiel of the command struct
 t_command	*get_command_flag(char *word, char **envp)
 {
 	t_command	*command;
@@ -129,7 +129,7 @@ t_command	*get_command_flag(char *word, char **envp)
 	return (command);
 }
 
-//splits line and puts it into a double linked list, returns head of dlist
+// splits line and puts it into a double linked list, returns head of dlist
 t_list	**convert_line_to_dlist(char *line)
 {
 	t_list	**start;

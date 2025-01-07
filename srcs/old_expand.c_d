@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   old_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:00:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 11:54:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:20:55 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	set_special_char_flags(char *word);
+int		set_special_char_flags(char *word);
 char	*clean_spaces(char *word);
-int	isspecial(char sign);
-char *split_on_special(char *word);
+int		isspecial(char sign);
+char	*split_on_special(char *word);
 t_list	handle_split_on_pipe(char *word);
 
 int	main(int argc, char **argv, char **envp)
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-//returns a malloced array containing all commands after splitting
+// returns a malloced array containing all commands after splitting
 t_list	**split_word(char *word)
 {
 	int		i;
@@ -62,7 +62,7 @@ t_list	**split_word(char *word)
 	return (start);
 }
 
-//returns string from one special char to the next
+// returns string from one special char to the next
 char	*split_on_special(char *word)
 {
 	int	i;
@@ -121,13 +121,12 @@ int	set_special_char_flags(char *word)
 	if (strchr(word, '|') != NULL)
 		handle_split_on_pipe(word);
 	if (strchr(word, '~') != NULL)
-	return (flags);
+		return (flags);
 }
 
 t_list	handle_split_on_pipe(char *word)
 {
-	char *pipe_pos;
+	char	*pipe_pos;
 
 	pipe_pos = strchr(word, '|');
-
 }

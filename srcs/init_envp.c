@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:51:05 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/10 16:18:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:18:27 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static int	get_env_size(char **env)
 	return (i);
 }
 
-static void copy_values(t_env *envp, char **env)
+static void	copy_values(t_env *envp, char **env)
 {
-	int i;
-	char **ret;
-	t_env tmp_env;
-	
+	int		i;
+	char	**ret;
+	t_env	tmp_env;
+
 	i = 0;
 	while (env[i])
 	{
@@ -49,7 +49,7 @@ static void copy_values(t_env *envp, char **env)
 
 void	init_envp(char **env, t_shell *shell)
 {
-	int		i;
+	int	i;
 
 	i = get_env_size(env);
 	shell->nb_env = i;
