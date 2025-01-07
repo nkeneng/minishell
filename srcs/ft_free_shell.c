@@ -6,14 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:07:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 10:30:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:18:09 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // TODO: make this work, it is leaking memory
-
 void	ft_free_shell(t_shell **shell)
 {
 	if (!shell || !*shell)

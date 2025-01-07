@@ -6,90 +6,12 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:19:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/12 12:28:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:29:41 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <unistd.h>
-
-void	signal_print_newline(int signum)
-{
-	if (signum == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_signal = SIGINT;
-	}
-	return ;
-}
-
-void	init_signals(void)
-{
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = signal_print_newline;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	sa.sa_flags = SA_RESTART;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		perror("Error: cannot handle SIGINT");
-	signal_ign(SIGQUIT);
-}
-
-void	signal_handler_heredoc(int signum)
-{
-	if (signum == SIGINT)
-	{
-		g_signal = SIGINT;
-		raise(SIGINT);
-	}
-	return ;
-}
-
-//ignore SIGQUIT and SIGINT
-void	init_signals_heredoc(void)
-{
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(sa));
-
-	// Ignore SIGQUIT
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-		perror("Error: cannot handle SIGQUIT");
-	// Set SIGINT to default handler
-	// sa.sa_handler = signal_handler_noninteractive;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		perror("Error: cannot handle SIGINT");
-}
-
-// uses sigaction with SIG_DFL as handler on signum
-void	signal_dfl(int signum)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = SIG_DFL;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	if (sigaction(signum, &sa, NULL) == -1)
-		perror("Error: cannot handle signal");
-}
-
-void	signal_ign(int signum)
-{
-	struct sigaction	sa;
-
-		sa.sa_handler = SIG_IGN;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = SA_RESTART;
-		sigaction(signum, &sa, NULL);
-}
 
 void	signal_handler_when_children(int signum)
 {
