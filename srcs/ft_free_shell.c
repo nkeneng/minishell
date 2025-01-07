@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:07:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 10:30:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:40:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 // TODO: make this work, it is leaking memory
 
-void	ft_free_shell(t_shell **shell)
+void	ft_free_shell(t_shell *shell)
 {
-	if (!shell || !*shell)
+	if (!shell)
 		return ;
-	if ((*shell)->envp)
-		ft_free_envp((*shell)->envp, (*shell)->nb_env);
-	free(*shell);
-	*shell = NULL;
+	if (shell->envp)
+		ft_free_envp(shell->envp, shell->nb_env);
+	if (shell->cmd_list)
+		ft_lstclear(shell->cmd_list, ft_free_command);
 }
 
 void	ft_free_envp(t_env *envp, int nb_env)

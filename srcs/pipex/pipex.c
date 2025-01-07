@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/20 13:20:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:07:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	start_pipex(t_list **cmd_list, t_shell *shell)
 	int	exit_code;
 	if (!cmd_list)
 		return (rperror("command list empty"));
+	shell->cmd_list = cmd_list;
 	exit_code = pipex(shell, cmd_list);
 	reopen_stdin();
 	reopen_stdout();
