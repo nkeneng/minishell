@@ -59,9 +59,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signals();
 		handle_signals(&shell);
-		line = rl_gets(PROMPT);
+		line = readline(PROMPT);
 		if (!line)
 			continue ;
+		add_history(line);
 		process_line(line, &shell);
 	}
 	return (shell.exit_status);
