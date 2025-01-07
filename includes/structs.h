@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:33:15 by stevennke         #+#    #+#             */
-/*   Updated: 2024/11/22 11:22:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:05:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_shell
 	t_env			*envp;
 	int				nb_env;
 	int				exit_status;
+	t_list			**cmd_list;
 }					t_shell;
 
 typedef struct s_dlist

@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/07 14:17:12 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/07 18:00:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.envp = NULL;
 	shell.exit_status = 0;
 	init_envp(envp, &shell);
-	while (1)
+	while (!g_signal)
 	{
 		init_signals();
 		handle_signals(&shell);
@@ -64,5 +64,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		process_line(line, &shell);
 	}
+	ft_free_shell(&shell);
 	return (shell.exit_status);
 }

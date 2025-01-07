@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/20 13:20:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:58:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,51 @@
 // TODO: macro values for fileindicator: < for input, > for output,
 	// >> for append
 // TODO: make pipex use linked list instead of double array
-// int	start_pipex(t_list **cmd_list, t_shell *shell)
-// {
-// 	int	exit_code;
-// 	if (!cmd_list)
-// 		return (rperror("command list empty"));
-// 	exit_code = pipex(shell, cmd_list);
-// 	reopen_stdin();
-// 	reopen_stdout();
-// 	return (exit_code);
-// }
 
 int	start_pipex(t_list **cmd_list, t_shell *shell)
 {
 	int	exit_code;
-	int original_stdin;
-	int original_stdout;
-
 	if (!cmd_list)
 		return (rperror("command list empty"));
-	original_stdin = dup(STDIN_FILENO);
-	if (original_stdin == -1)
-		return (rperror("dup"));
-	original_stdout = dup(STDOUT_FILENO);
-	if (original_stdout == -1)
-	{
-		close(original_stdin);
-		return (rperror("dup"));
-	}
+	shell->cmd_list = cmd_list;
 	exit_code = pipex(shell, cmd_list);
-	dup2(original_stdin, STDIN_FILENO);
-	dup2(original_stdout, STDOUT_FILENO);
-	close(original_stdin);
-	close(original_stdout);
+	reopen_stdin();
+	reopen_stdout();
 	return (exit_code);
 }
+
+// int	start_pipex(t_list **cmd_list, t_shell *shell)
+// {
+// 	int	exit_code;
+// 	int original_stdin;
+// 	int original_stdout;
+//
+// 	if (!cmd_list)
+// 		return (rperror("command list empty"));
+// 	shell->cmd_list = cmd_list;
+// 	original_stdin = dup(STDIN_FILENO);
+// 	if (original_stdin == -1)
+// 		return (rperror("dup"));
+// 	original_stdout = dup(STDOUT_FILENO);
+// 	if (original_stdout == -1)
+// 	{
+// 		close(original_stdin);
+// 		return (rperror("dup"));
+// 	}
+// 	exit_code = pipex(shell, cmd_list);
+// 	dup2(original_stdin, STDIN_FILENO);
+// 	dup2(original_stdout, STDOUT_FILENO);
+// 	close(original_stdin);
+// 	close(original_stdout);
+// 	return (exit_code);
+// }
 
 pid_t	container(t_shell *shell, char *dlm, int filekind)
 {
 	int		pipefd[2];
 	pid_t	cpid;
 	int		status;
+	int		exit_status;
 
 	init_signals_heredoc();
 	if (pipe(pipefd) == -1)
@@ -99,7 +103,7 @@ pid_t	container(t_shell *shell, char *dlm, int filekind)
 	}
 	if (WIFEXITED(status))
 	{
-		int exit_status = WEXITSTATUS(status);
+		exit_status = WEXITSTATUS(status);
 		if (exit_status != 0)
 			return (exit_status);
 	}

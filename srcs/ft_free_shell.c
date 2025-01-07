@@ -6,21 +6,22 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:07:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/07 14:18:09 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/07 17:58:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // TODO: make this work, it is leaking memory
-void	ft_free_shell(t_shell **shell)
+
+void	ft_free_shell(t_shell *shell)
 {
-	if (!shell || !*shell)
+	if (!shell)
 		return ;
-	if ((*shell)->envp)
-		ft_free_envp((*shell)->envp, (*shell)->nb_env);
-	free(*shell);
-	*shell = NULL;
+	if (shell->envp)
+		ft_free_envp(shell->envp, shell->nb_env);
+	if (shell->cmd_list)
+		ft_lstclear(shell->cmd_list, ft_free_command);
 }
 
 void	ft_free_envp(t_env *envp, int nb_env)
