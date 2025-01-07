@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 		handle_signals(&shell);
 		line = readline(PROMPT);
 		if (!line)
-			continue ;
+			exit (0) ;
 		add_history(line);
 		process_line(line, &shell);
 	}
