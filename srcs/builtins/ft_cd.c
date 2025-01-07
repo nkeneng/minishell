@@ -6,30 +6,95 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:56:30 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/02 22:05:10 by stevennke        ###   ########.fr       */
+/*   Updated: 2025/01/07 15:00:49 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void update_pwd_vars(t_env **envp)
+static void	update_pwd_vars(t_env **envp)
 {
-    char *cwd;
-    char *pwd;
+	char	*cwd;
+	char	*pwd;
 
-    cwd = getcwd(NULL, 0);
-    if (cwd)
-    {
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
 		pwd = envp_keytovalue("PWD", *envp, ft_strlen("PWD"));
 		ft_override_env("OLDPWD", pwd, envp);
 		ft_override_env("PWD", cwd, envp);
-        free(cwd);
-    }
+		free(cwd);
+	}
+}
+
+static int	change_to_home(void)
+{
+	char	*home;
+
+	home = getenv("HOME");
+	if (!home)
+	{
+		ft_fprintf(2, "cd: HOME not set\n");
+		return (EXIT_FAILURE);
+	}
+	if (chdir(home) == -1)
+	{
+		perror("chdir");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+static int	change_to_previous(t_env **envp)
+{
+	char	*oldpwd;
+
+	oldpwd = envp_keytovalue("OLDPWD", *envp, ft_strlen("OLDPWD"));
+	if (!oldpwd)
+	{
+		ft_fprintf(2, "cd: OLDPWD not set\n");
+		return (EXIT_FAILURE);
+	}
+	if (chdir(oldpwd) == -1)
+	{
+		perror("chdir");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+static int	handle_tilde_path(const char *path, char *home)
+{
+	char	*full_path;
+	int		ret;
+
+	if (!home)
+	{
+		ft_fprintf(2, "cd: HOME not set\n");
+		return (EXIT_FAILURE);
+	}
+	if (path[1])
+	{
+		full_path = ft_strjoin(home, path + 1);
+		ret = chdir(full_path);
+		free(full_path);
+		if (ret == -1)
+		{
+			perror("chdir");
+			return (EXIT_FAILURE);
+		}
+	}
+	else if (chdir(home) == -1)
+	{
+		perror("chdir");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	ft_cd(char **cmd, t_env **envp)
 {
-	char	*home;
+	int	ret;
 
 	if (cmd && cmd[1] && cmd[2])
 	{
@@ -37,66 +102,19 @@ int	ft_cd(char **cmd, t_env **envp)
 		return (EXIT_FAILURE);
 	}
 	if (cmd && !cmd[1])
+		ret = change_to_home();
+	else if (!ft_strncmp(cmd[1], "-", 1))
+		ret = change_to_previous(envp);
+	else if (cmd[1][0] == '~')
+		ret = handle_tilde_path(cmd[1], getenv("HOME"));
+	else if (chdir(cmd[1]) == -1)
 	{
-		home = getenv("HOME");
-		if (!home)
-		{
-			perror("HOME not set");
-			return (EXIT_FAILURE);
-		}
-		if (chdir(home) == -1)
-		{
-			perror("chdir");
-			return (EXIT_FAILURE);
-		}
+		perror("chdir");
+		ret = EXIT_FAILURE;
 	}
-    else if (cmd && cmd[1])
-    {
-        if (!ft_strncmp(cmd[1], "-", 1))
-        {
-            char *oldpwd = envp_keytovalue("OLDPWD", *envp, ft_strlen("OLDPWD"));
-            if (!oldpwd)
-            {
-                ft_fprintf(2, "cd: OLDPWD not set\n");
-                return (EXIT_FAILURE);
-            }
-            if (chdir(oldpwd) == -1)
-            {
-                perror("chdir");
-                return (EXIT_FAILURE);
-            }
-        }
-        else if (cmd[1][0] == '~')
-        {
-            char *home = getenv("HOME");
-            if (!home)
-            {
-                ft_fprintf(2, "cd: HOME not set\n");
-                return (EXIT_FAILURE);
-            }
-            if (cmd[1][1])
-            {
-                char *path = ft_strjoin(home, cmd[1] + 1);
-                if (chdir(path) == -1)
-                {
-                    perror("chdir");
-                    free(path);
-                    return (EXIT_FAILURE);
-                }
-                free(path);
-            }
-            else if (chdir(home) == -1)
-            {
-                perror("chdir");
-                return (EXIT_FAILURE);
-            }
-        }
-        else if (chdir(cmd[1]) == -1)
-        {
-            perror("chdir");
-            return (EXIT_FAILURE);
-        }
-    }
-	update_pwd_vars(envp);
-	return (EXIT_SUCCESS);
+	else
+		ret = EXIT_SUCCESS;
+	if (ret == EXIT_SUCCESS)
+		update_pwd_vars(envp);
+	return (ret);
 }

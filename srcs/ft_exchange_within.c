@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 12:31:16 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/01 13:03:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:17:57 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*ft_exchange_within(char *original, int from, int to, char *exch_with)
 {
 	char	*new;
 
-	new = malloc(sizeof(char) * (ft_strlen(original) + ft_strlen(exch_with) - (to - from)));
+	new = malloc(sizeof(char) * (ft_strlen(original) + ft_strlen(exch_with)
+				- (to - from)));
 	if (!new)
 		return (NULL);
 	ft_strlcpy(new, original, from + 1);
