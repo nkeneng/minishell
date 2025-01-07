@@ -66,36 +66,51 @@ int	wait_for_children(int *chld_pids)
 	return (status);
 }
 
-int has_flags(t_command *command, int wordmask_in_or_out)
+void	pipex_child(t_shell *shell, t_command *cmd, int *prev_fd, int *pipefd)
 {
-	t_list		*redir_list;
-	t_redirect	*redir;
+	char **envp_array;
 
-	redir_list = command->redirects;
-	while (redir_list && redir_list->content && !g_signal)
+	init_signals_noninteractive();
+	if (*prev_fd != -1 && !(has_flags(cmd, C_HERE_DOC | C_OPEN_INFILE)))
 	{
-		redir = redir_list->content;
-		if (redir->filename->flags & wordmask_in_or_out)
-			return (1);
-		redir_list = redir_list->next;
+		if (dup2(*prev_fd, STDIN_FILENO) == -1)
+			exit(rperror("dup2"));
+		close(*prev_fd);
 	}
-	return (0);
+	if (pipefd != NULL)
+	{
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			exit(rperror("dup2"));
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
+		exit(EXIT_FAILURE);
+	if (cmd->flags & C_BUILTIN)
+		exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, &(shell->envp)));
+	else
+	{
+		envp_array = env_to_array((shell->envp));
+		if (!envp_array)
+			exit(EXIT_FAILURE);
+		make_exec(cmd, envp_array);
+	}
+	exit(errno);
 }
-
 int exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 {
 	pid_t   cpid;
 	int	 status;
-	char	**envp_array;
+	// char	**envp_array;
 	int	 builtin_nb;
-	t_env	   **envp = &(shell->envp);
+	// t_env	   **envp = &(shell->envp);
 
 	builtin_nb = is_builtin(cmd->cmd[0]);
 	if (chld_pids[0] == 1 && builtin_nb)
 	{
 		if (handle_redirects(shell, cmd, C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 			return (EXIT_FAILURE);
-		return (exec_builtin(builtin_nb, cmd, envp));
+		return (exec_builtin(builtin_nb, cmd, &(shell->envp)));
 	}
 	if (handle_redirects(shell, cmd, C_HERE_DOC | C_OPEN_INFILE))
 		return (EXIT_FAILURE);
@@ -107,24 +122,25 @@ int exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 	}
 	else if (cpid == 0)
 	{
-		init_signals_noninteractive();
-
-		if (prev_fd != -1 && !(has_flags(cmd, C_HERE_DOC | C_OPEN_INFILE)))
-		{
-			if (dup2(prev_fd, STDIN_FILENO) == -1)
-				exit(rperror("dup2"));
-			close(prev_fd);
-		}
-
-		if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
-			exit(EXIT_FAILURE);
-		if (builtin_nb)
-			exit(exec_builtin(builtin_nb, cmd, envp));
-		envp_array = env_to_array(*envp);
-		if (!envp_array)
-			exit(EXIT_FAILURE);
-		errno = make_exec(cmd, envp_array);
-		exit(errno);
+		pipex_child(shell, cmd, &prev_fd, NULL);
+		// init_signals_noninteractive();
+		//
+		// if (prev_fd != -1 && !(has_flags(cmd, C_HERE_DOC | C_OPEN_INFILE)))
+		// {
+		// 	if (dup2(prev_fd, STDIN_FILENO) == -1)
+		// 		exit(rperror("dup2"));
+		// 	close(prev_fd);
+		// }
+		//
+		// if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
+		// 	exit(EXIT_FAILURE);
+		// if (builtin_nb)
+		// 	exit(exec_builtin(builtin_nb, cmd, envp));
+		// envp_array = env_to_array(*envp);
+		// if (!envp_array)
+		// 	exit(EXIT_FAILURE);
+		// errno = make_exec(cmd, envp_array);
+		// exit(errno);
 	}
 	if (prev_fd != -1)
 		close(prev_fd);
@@ -141,10 +157,10 @@ int exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 int pipex(t_shell *shell, t_list **cmd_list)
 {
 	int		 pipefd[2];
-	t_env	   **envp = &(shell->envp);
+	// t_env	   **envp = &(shell->envp);
 	pid_t	   cpid;
 	t_list	  *tmp_list;
-	t_command   *cmd;
+	// t_command   *cmd;
 	int		 size;
 	int		 *pid_array;
 	int		 prev_fd = -1;
@@ -184,30 +200,31 @@ int pipex(t_shell *shell, t_list **cmd_list)
 			return (rperror("fork"));
 		else if (cpid == 0 && g_signal == 0)
 		{
-			init_signals_noninteractive();
-			cmd = (t_command *)tmp_list->content;
-			if (prev_fd != -1 && !(has_flags(cmd, C_HERE_DOC | C_OPEN_INFILE)))
-			{
-				if (dup2(prev_fd, STDIN_FILENO) == -1)
-					exit(rperror("dup2"));
-				close(prev_fd);
-			}
-			if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-				exit(rperror("dup2"));
-			close(pipefd[1]);
-			close(pipefd[0]);
-			if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
-				exit(EXIT_FAILURE);
-			if (cmd->flags & C_BUILTIN)
-				exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp));
-			else
-			{
-				char **envp_array = env_to_array(*envp);
-				if (!envp_array)
-					exit(EXIT_FAILURE);
-				make_exec(cmd, envp_array);
-			}
-			exit(errno);
+			pipex_child(shell, (t_command *) tmp_list->content, &prev_fd, pipefd);
+			// init_signals_noninteractive();
+			// cmd = (t_command *)tmp_list->content;
+			// if (prev_fd != -1 && !(has_flags(cmd, C_HERE_DOC | C_OPEN_INFILE)))
+			// {
+			// 	if (dup2(prev_fd, STDIN_FILENO) == -1)
+			// 		exit(rperror("dup2"));
+			// 	close(prev_fd);
+			// }
+			// if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			// 	exit(rperror("dup2"));
+			// close(pipefd[1]);
+			// close(pipefd[0]);
+			// if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
+			// 	exit(EXIT_FAILURE);
+			// if (cmd->flags & C_BUILTIN)
+			// 	exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp));
+			// else
+			// {
+			// 	char **envp_array = env_to_array(*envp);
+			// 	if (!envp_array)
+			// 		exit(EXIT_FAILURE);
+			// 	make_exec(cmd, envp_array);
+			// }
+			// exit(errno);
 		}
 		close(pipefd[1]);
 		if (prev_fd != -1)

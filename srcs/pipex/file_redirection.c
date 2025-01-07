@@ -12,6 +12,24 @@
 
 #include "../../includes/minishell.h"
 
+// checks if the redirects list of the command contains a file with the 
+// given flags
+int has_flags(t_command *command, int wordmask_in_or_out)
+{
+	t_list		*redir_list;
+	t_redirect	*redir;
+
+	redir_list = command->redirects;
+	while (redir_list && redir_list->content && !g_signal)
+	{
+		redir = redir_list->content;
+		if (redir->filename->flags & wordmask_in_or_out)
+			return (1);
+		redir_list = redir_list->next;
+	}
+	return (0);
+}
+
 // calls open_doc over redirect list
 // when given C_OPEN_INFILE | C_HERE_DOC dups over STDIN_FILENO
 // when given C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP dups over STDOUT_FILENO
