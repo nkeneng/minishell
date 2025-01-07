@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft_full.h"
+# include "structs.h"
 # include "builtins.h"
 # include "command.h"
 # include "expansion_macros.h"
@@ -9,7 +10,6 @@
 # include "parsing.h"
 # include "pipex.h"
 # include "redirect.h"
-# include "structs.h"
 //# include "globals.h"
 # include "functions_to_remove_later.h"
 # include "signals.h"
@@ -26,10 +26,6 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-// just for test cases
-# include "dummy.h"
-
-// DEFINITIONS
 # define PROMPT "〘🐚〙: "
 
 // GLOBALS
