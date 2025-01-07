@@ -65,7 +65,6 @@ int								here_doc(t_shell *shell, char *delim,
 									int flags);
 
 // file_redirection.c
-int								has_flags(t_command *command, int wordmask_in_or_out);
 int								handle_redirects(t_shell *shell,
 									t_command *command, int wordmask_in_or_out);
 void							reopen_stdout(void);
@@ -89,7 +88,7 @@ void							init_envp(char **env, t_shell *shell);
 t_shell							*init_shell(char **env);
 
 // ft_free_shell.c
-void							ft_free_shell(t_shell *shell);
+void							ft_free_shell(t_shell **shell);
 void							ft_free_envp(t_env *envp, int nb_env);
 
 // SIGNALS
