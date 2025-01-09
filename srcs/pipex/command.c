@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 17:55:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:41:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 
 	envp = &(shell->envp);
 	builtin_nb = is_builtin(cmd->cmd[0]);
+	if (ft_strncmp(cmd->cmd[0], "exit", 5) == 0)
+		free(chld_pids);
 	if (chld_pids[0] == 1 && builtin_nb)
 	{
 		if (handle_redirects(shell, cmd,
