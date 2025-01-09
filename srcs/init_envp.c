@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:51:05 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/07 14:18:27 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/09 18:30:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ static void	copy_values(t_env *envp, char **env)
 		tmp_env.value = ft_strdup(ret[1]);
 		envp[i] = tmp_env;
 		i++;
-		free(ret[0]);
-		free(ret[1]);
-		free(ret);
+		free_char_array(ret, 0);
 	}
 	envp[i] = (t_env){NULL, NULL};
 }
