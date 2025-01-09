@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:54:33 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/02 16:32:30 by stevennke        ###   ########.fr       */
+/*   Updated: 2025/01/09 12:29:18 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	dummy_cmd_list(t_list **cmd_list, int num_cmds, ...)
 {
-	va_list	args;
+	va_list		args;
 	t_command	*cmd;
-	int		i;
+	int			i;
 
 	*cmd_list = NULL;
 	va_start(args, num_cmds);

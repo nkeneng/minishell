@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 13:57:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 11:33:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_get_file_descriptor(char *str);
 t_list	**convert_line_to_dlist(char *line);
 
 // syntax_error.c
-int	syntax_error(t_word_list **word_list, char *str);
+int	syntax_error(t_word_list **word_list, const char *str);
 int	syntax_error_unexpected_eof(t_word_list **word_list);
 
 //cleanup
