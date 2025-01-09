@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 17:14:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:55:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 		if (handle_redirects(shell, cmd,
 				C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 			return (EXIT_FAILURE);
-		return (exec_builtin(builtin_nb, cmd, envp));
+		return (exec_builtin(builtin_nb, cmd, envp, shell));
 	}
 	if (handle_redirects(shell, cmd, C_HERE_DOC | C_OPEN_INFILE))
 		return (EXIT_FAILURE);
@@ -64,7 +64,7 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 		if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 			exit(EXIT_FAILURE);
 		if (builtin_nb)
-			exit(exec_builtin(builtin_nb, cmd, envp));
+			exit(exec_builtin(builtin_nb, cmd, envp, shell));
 		envp_array = env_to_array(*envp);
 		if (!envp_array)
 			exit(EXIT_FAILURE);
@@ -95,14 +95,17 @@ void	pipex_child(t_command *cmd, int prev_fd, int *pipefd, t_shell *shell)
 			exit(rperror("dup2"));
 		close(prev_fd);
 	}
-	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-		exit(rperror("dup2"));
-	close(pipefd[1]);
-	close(pipefd[0]);
+	if (pipefd)
+	{
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			exit(rperror("dup2"));
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
 	if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 		exit(EXIT_FAILURE);
 	if (cmd->flags & C_BUILTIN)
-		exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp));
+		exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp, shell));
 	else
 	{
 		envp_array = env_to_array(*envp);

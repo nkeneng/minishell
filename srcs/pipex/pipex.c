@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 16:10:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:12:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // int	start_pipex(t_list **cmd_list, t_shell *shell)
 // {
 // 	int	exit_code;
+//
 // 	if (!cmd_list)
 // 		return (rperror("command list empty"));
 // 	exit_code = pipex(shell, cmd_list);
@@ -100,6 +101,31 @@ pid_t	container(t_shell *shell, char *dlm, int filekind)
 	return (EXIT_SUCCESS);
 }
 
+// // checks for permission first and only opens file if permission is granted
+// int	open_with_perm(const char *file, int oflag, int perm)
+// {
+// 	// struct stat	st;
+// 	int	fd;
+//
+// 	if (access(file, F_OK) == 0)
+// 	{
+// 		if (access(file, oflag) == -1)
+// 		{
+// 			perror("Permission denied");
+// 			return (-1);
+// 		}
+// 		else if (errno != ENOENT) 
+// 		{
+// 			perror(file);
+// 			return -1;
+//     	}
+// 	}
+// 	fd = open(file, oflag, perm));
+// 	if (fd == -1)
+// 		return (rperror("open"));
+// 	return (fd);
+// }
+
 // opens file, dup2s over correct std fd or executes heredoc
 // heredoc gets opened with expand set to the oposite of quotation status
 int	open_doc(t_shell *shell, char *file, int filekind)
@@ -129,30 +155,3 @@ int	open_doc(t_shell *shell, char *file, int filekind)
 	close(fd);
 	return (0);
 }
-
-// int	pipheredoc(char *arg)
-// {
-// 	pid_t	cpid;
-// 	int		pipefd[2];
-//
-// 	if (pipe(pipefd) == -1)
-// 		return (rperror("pipe"));
-// 	cpid = fork();
-// 	if (cpid == -1)
-// 		return (rperror("fork"));
-// 	else if (cpid == 0)
-// 	{
-// 		close(pipefd[0]);
-// 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-// 			return (rperror("dup2"));
-// 		close(pipefd[1]);
-// 		here_doc(arg);
-// 		exit(0);
-// 	}
-// 	close(pipefd[1]);
-// 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
-// 		return (rperror("dup2"));
-// 	close(pipefd[0]);
-// 	waitpid(cpid, NULL, 0);
-// 	return (EXIT_SUCCESS);
-// }

@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/07 14:17:12 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/09 18:12:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	process_line(char *line, t_shell *shell)
 	free(line);
 	if (!lst)
 		return ;
+	shell->cmds = &lst;
 	shell->exit_status = start_pipex(&lst, shell);
 	if (g_signal)
 	{
@@ -64,5 +65,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		process_line(line, &shell);
 	}
+	ft_free_envp(shell.envp, shell.nb_env);
 	return (shell.exit_status);
 }
