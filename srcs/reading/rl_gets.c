@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:47:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/10 12:33:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:06:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,10 @@ char	*rl_gets(char *prompt)
 {
 	static char	*line;
 
-	// rl_catch_signals = 1;
-	// if (!isatty(STDIN_FILENO))
-	// {
-	// 	close(STDIN_FILENO);
-	// 	if (open("/dev/tty", O_RDONLY) != STDIN_FILENO)
-	// 	{
-	// 		perror("Failed to reopen stdin");
-	// 		exit (EXIT_FAILURE);
-	// 	}
-	// }
 	line = readline(prompt);
 	if (!line)
 		exit (0);
-	// if (g_signal)
-	// {
-	// 	g_signal = 0;
-	// 	return (line);
-	// }
-	// if (ft_strncmp("exit", line, 5) == 0)
-	// 	exit (0);
-	if (*line) // seeing if line is not is unnecessary because auf previous check, leaving it in for later
+	if (*line)
 		add_history(line);
 	return (line);
 }
