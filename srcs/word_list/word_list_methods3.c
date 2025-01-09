@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/20 12:28:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 07:39:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,25 @@ t_word_list	*wl_remove_whitespace_element(t_word_list **head, t_word_list *curr)
 		curr = wl_delone(head, curr);
 	}
 	return (curr);
+}
+
+// inserts a word list called new_lst after a word list element called after
+// returns the last element of the inserted list
+t_word_list	*wl_insert_word_list(t_word_list *new_lst, t_word_list *after)
+{
+	t_word_list	*next_element;
+	t_word_list	*last;
+
+	if (!new_lst || !after)
+		return (NULL);
+	next_element = after->next;
+	after->next = new_lst;
+	new_lst->prev = after;
+	last = new_lst;
+	while (last->next)
+		last = last->next;
+	last->next = next_element;
+	if (next_element)
+		next_element->prev = last;
+	return (last);
 }
