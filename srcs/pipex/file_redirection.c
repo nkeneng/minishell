@@ -6,11 +6,27 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:06:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/20 13:17:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:13:45 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	has_flags(t_command *command, int wordmask_in_or_out)
+{
+	t_list		*redir_list;
+	t_redirect	*redir;
+
+	redir_list = command->redirects;
+	while (redir_list && redir_list->content && !g_signal)
+	{
+		redir = redir_list->content;
+		if (redir->filename->flags & wordmask_in_or_out)
+			return (1);
+		redir_list = redir_list->next;
+	}
+	return (0);
+}
 
 // calls open_doc over redirect list
 // when given C_OPEN_INFILE | C_HERE_DOC dups over STDIN_FILENO
@@ -27,7 +43,8 @@ int	handle_redirects(t_shell *shell, t_command *command, int wordmask_in_or_out)
 		redir = redir_list->content;
 		if (redir->filename->flags & wordmask_in_or_out)
 		{
-			status = open_doc(shell, redir->filename->word, redir->filename->flags);
+			status = open_doc(shell, redir->filename->word,
+					redir->filename->flags);
 			if (status || g_signal)
 				return (status);
 		}

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:51:34 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/10/07 17:12:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:10:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	count_char_array(char **charray)
 	return (i);
 }
 
-int ft_env_size(t_env *envp)
+int	ft_env_size(t_env *envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i].key)

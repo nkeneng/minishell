@@ -57,6 +57,10 @@ int								free_char_array(char **array, int ret);
 int								rperror(char *str);
 int								count_char_array(char **charray);
 
+// builtins_helpers.c
+char							**env_to_array(t_env *envp);
+int								exec_builtin(int builtin, t_command *command, t_env **envp);
+
 // checkdir.c
 int								checkdir(char *path);
 
@@ -65,6 +69,7 @@ int								here_doc(t_shell *shell, char *delim,
 									int flags);
 
 // file_redirection.c
+int								has_flags(t_command *command, int wordmask_in_or_out);
 int								handle_redirects(t_shell *shell,
 									t_command *command, int wordmask_in_or_out);
 void							reopen_stdout(void);

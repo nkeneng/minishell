@@ -27,7 +27,7 @@ MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix dummy_helpers/, fake_commands.c debug.c) \
-		$(addprefix pipex/, pipex.c path.c command.c utils.c file_redirection.c checkdir.c) \
+		$(addprefix pipex/, pipex.c path.c command.c utils.c file_redirection.c checkdir.c builtins_helpers.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
 		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c \
 		ft_free_redirects.c ft_free_command_list.c) \

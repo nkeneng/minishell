@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/20 13:20:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 08:11:30 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // TODO: macro values for fileindicator: < for input, > for output,
 	// >> for append
 // TODO: make pipex use linked list instead of double array
+
 // int	start_pipex(t_list **cmd_list, t_shell *shell)
 // {
 // 	int	exit_code;
@@ -33,8 +34,8 @@
 int	start_pipex(t_list **cmd_list, t_shell *shell)
 {
 	int	exit_code;
-	int original_stdin;
-	int original_stdout;
+	int	original_stdin;
+	int	original_stdout;
 
 	if (!cmd_list)
 		return (rperror("command list empty"));
