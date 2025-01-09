@@ -6,19 +6,12 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 08:11:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:10:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <readline/readline.h>
-
-// TODO: return exit code 130 from here_doc on cntl
-	// + D (by child process or by manually returning)
-// TODO: string expansion in here_doc
-// TODO: macro values for fileindicator: < for input, > for output,
-	// >> for append
-// TODO: make pipex use linked list instead of double array
 
 // int	start_pipex(t_list **cmd_list, t_shell *shell)
 // {
