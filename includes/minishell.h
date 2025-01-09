@@ -8,7 +8,6 @@
 # include "expansion_macros.h"
 # include "list.h"
 # include "parsing.h"
-# include "pipex.h"
 # include "redirect.h"
 //# include "globals.h"
 # include "functions_to_remove_later.h"
@@ -56,6 +55,7 @@ int								open_doc(t_shell *shell, char *file,
 int								free_char_array(char **array, int ret);
 int								rperror(char *str);
 int								count_char_array(char **charray);
+int								ft_env_size(t_env *envp);
 
 // builtins_helpers.c
 char							**env_to_array(t_env *envp);
