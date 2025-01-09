@@ -13,7 +13,8 @@ int	get_number_of_words_before_pipe(t_word_list *word_list)
 	{
 		if (tmp->word->flags & WM_OPERATOR_MASK)
 			break ;
-		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK)
+		if (tmp->word->flags & W_SPLITSPACE || !tmp->next
+			|| tmp->next->word->flags & WM_OPERATOR_MASK)
 			number_of_words_before_pipe++;
 		tmp = tmp->next;
 	}
@@ -30,7 +31,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	joined_str = (char *) malloc(len1 + len2 + 1);
+	joined_str = (char *)malloc(len1 + len2 + 1);
 	if (!joined_str)
 		return (NULL);
 	ft_strlcpy(joined_str, s1, len1 + 1);
@@ -45,14 +46,37 @@ void	ft_assign_flag_builtin(t_command *command)
 		command->flags |= C_BUILTIN;
 }
 
+t_command	*fill_command(int wdcnt_to_pipe, t_command *cmd, t_word_list **wlst)
+{
+	t_word_list	*tmp;
+	int			i;
+
+	i = 0;
+	tmp = *wlst;
+	while (i < wdcnt_to_pipe)
+	{
+		if (cmd->cmd[i])
+			cmd->cmd[i] = ft_strjoin(cmd->cmd[i], tmp->word->word);
+		else
+			cmd->cmd[i] = ft_strdup(tmp->word->word);
+		if (tmp->word->flags & W_SPLITSPACE || !tmp->next
+			|| tmp->next->word->flags & WM_OPERATOR_MASK)
+			i++;
+		cmd->flags |= (*wlst)->word->flags;
+		wl_delone(wlst, tmp);
+		tmp = *wlst;
+	}
+	wl_delone(wlst, tmp);
+	cmd->cmd[i] = NULL;
+	ft_assign_flag_builtin(cmd);
+	return (cmd);
+}
+
 t_command	*make_command_list(t_word_list **word_list)
 {
 	t_command	*command;
 	int			wordcount_till_pipe;
-	int			i;
-	t_word_list	*tmp;
 
-	i = 0;
 	if (!word_list)
 		return (NULL);
 	wordcount_till_pipe = 0;
@@ -65,28 +89,12 @@ t_command	*make_command_list(t_word_list **word_list)
 		free(command);
 		return (NULL);
 	}
-	command->cmd = (char **)ft_calloc(sizeof(char *), (wordcount_till_pipe + 1));
+	command->cmd = (char **)ft_calloc(sizeof(char *), (wordcount_till_pipe
+				+ 1));
 	if (!command->cmd)
 	{
 		free(command);
 		return (NULL);
 	}
-	tmp = *word_list;
-	while (i < wordcount_till_pipe)
-	{
-		if (command->cmd[i])
-			command->cmd[i] = ft_strjoin(command->cmd[i], tmp->word->word);
-		else
-			command->cmd[i] = ft_strdup(tmp->word->word);
-		if (tmp->word->flags & W_SPLITSPACE || !tmp->next || tmp->next->word->flags & WM_OPERATOR_MASK)
-			i++;
-		// TODO: free if !command->cmd[i]
-		command->flags |= (*word_list)->word->flags;
-		wl_delone(word_list, tmp);
-		tmp = *word_list;
-	}
-	wl_delone(word_list, tmp); // remove the pipe
-	command->cmd[i] = NULL;
-	ft_assign_flag_builtin(command);
-	return (command);
+	return (fill_command(wordcount_till_pipe, command, word_list));
 }
