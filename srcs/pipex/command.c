@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 18:41:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:01:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ int	wait_for_children(int *chld_pids)
 	return (status);
 }
 
+int	free_int_array(int (**array), int status)
+{
+	free(*array);
+	*array = NULL;
+	return (status);
+}
+
 int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 {
 	pid_t	cpid;
@@ -37,10 +44,9 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 
 	envp = &(shell->envp);
 	builtin_nb = is_builtin(cmd->cmd[0]);
-	if (ft_strncmp(cmd->cmd[0], "exit", 5) == 0)
-		free(chld_pids);
 	if (chld_pids[0] == 1 && builtin_nb)
 	{
+		free_int_array(&chld_pids, EXIT_FAILURE);
 		if (handle_redirects(shell, cmd,
 				C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 			return (EXIT_FAILURE);
@@ -107,7 +113,7 @@ void	pipex_child(t_command *cmd, int prev_fd, int *pipefd, t_shell *shell)
 	if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 		exit(EXIT_FAILURE);
 	if (cmd->flags & C_BUILTIN)
-		exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp, shell));
+		clean_exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp, shell), shell);
 	else
 	{
 		envp_array = env_to_array(*envp);
@@ -115,7 +121,7 @@ void	pipex_child(t_command *cmd, int prev_fd, int *pipefd, t_shell *shell)
 			exit(EXIT_FAILURE);
 		make_exec(cmd, envp_array);
 	}
-	exit(errno);
+	clean_exit(errno, shell);
 }
 
 int	setup_pipfd(int (*pipefd)[2], int prev_fd)
