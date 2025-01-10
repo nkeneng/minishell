@@ -40,24 +40,24 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int chld_pids, int prev_fd)
 		if (prev_fd != -1 && !(has_flags(cmd, C_HERE_DOC | C_OPEN_INFILE)))
 		{
 			if (dup2(prev_fd, STDIN_FILENO) == -1)
-				exit(rperror("dup2"));
+				clean_exit(rperror("dup2"), shell);
 			close(prev_fd);
 		}
 		if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
-			exit(EXIT_FAILURE);
+			clean_exit(EXIT_FAILURE, shell);
 		if (builtin_nb)
-			exit(exec_builtin(builtin_nb, cmd, envp, shell));
+			clean_exit(exec_builtin(builtin_nb, cmd, envp, shell), shell);
 		envp_array = env_to_array(*envp);
 		if (!envp_array)
-			exit(EXIT_FAILURE);
+			clean_exit(EXIT_FAILURE, shell);
 		errno = make_exec(cmd, envp_array);
-		exit(errno);
+		clean_exit(errno, shell);
 	}
 	if (prev_fd != -1)
 		close(prev_fd);
 	waitpid(cpid, &status, 0);
-	while (chld_pids)
-		waitpid(chld_pids--, NULL, 0);
+	while (chld_pids--)
+		waitpid(chld_pids, NULL, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
@@ -75,7 +75,7 @@ void	pipex_child(t_command *cmd, int prev_fd, int *pipefd, t_shell *shell)
 	if (prev_fd != -1 && !(has_flags(cmd, C_HERE_DOC | C_OPEN_INFILE)))
 	{
 		if (dup2(prev_fd, STDIN_FILENO) == -1)
-			exit(rperror("dup2"));
+			clean_exit(rperror("dup2"), shell);
 		close(prev_fd);
 	}
 	if (pipefd)
@@ -86,7 +86,7 @@ void	pipex_child(t_command *cmd, int prev_fd, int *pipefd, t_shell *shell)
 		close(pipefd[0]);
 	}
 	if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
-		exit(EXIT_FAILURE);
+		clean_exit(EXIT_FAILURE, shell);
 	if (cmd->flags & C_BUILTIN)
 		clean_exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp, shell), shell);
 	else
