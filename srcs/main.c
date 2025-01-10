@@ -42,6 +42,7 @@ static void	process_line(char *line, t_shell *shell)
 	}
 	init_signals_noninteractive();
 	ft_lstclear(&lst, ft_free_command);
+	shell->cmds = NULL;
 	if (g_signal == SIGINT)
 		g_signal = 0;
 }
