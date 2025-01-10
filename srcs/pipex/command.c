@@ -6,28 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 18:41:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:11:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	wait_for_children(int *chld_pids)
-{
-	int	status;
-	int	i;
-
-	i = 1;
-	while (i < chld_pids[0])
-	{
-		waitpid(chld_pids[i], &status, 0);
-		i++;
-	}
-	free(chld_pids);
-	return (status);
-}
-
-int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
+int	exec_to_stdout(t_shell *shell, t_command *cmd, int chld_pids, int prev_fd)
 {
 	pid_t	cpid;
 	int		status;
@@ -37,9 +22,7 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 
 	envp = &(shell->envp);
 	builtin_nb = is_builtin(cmd->cmd[0]);
-	if (ft_strncmp(cmd->cmd[0], "exit", 5) == 0)
-		free(chld_pids);
-	if (chld_pids[0] == 1 && builtin_nb)
+	if (chld_pids == 1 && builtin_nb)
 	{
 		if (handle_redirects(shell, cmd,
 				C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
@@ -50,10 +33,7 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 		return (EXIT_FAILURE);
 	cpid = fork();
 	if (cpid == -1)
-	{
-		free(chld_pids);
 		return (rperror("fork"));
-	}
 	else if (cpid == 0)
 	{
 		init_signals_noninteractive();
@@ -76,7 +56,8 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int *chld_pids, int prev_fd)
 	if (prev_fd != -1)
 		close(prev_fd);
 	waitpid(cpid, &status, 0);
-	wait_for_children(chld_pids);
+	while (chld_pids)
+		waitpid(chld_pids--, NULL, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
@@ -107,7 +88,7 @@ void	pipex_child(t_command *cmd, int prev_fd, int *pipefd, t_shell *shell)
 	if (handle_redirects(shell, cmd, C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP))
 		exit(EXIT_FAILURE);
 	if (cmd->flags & C_BUILTIN)
-		exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp, shell));
+		clean_exit(exec_builtin(is_builtin(cmd->cmd[0]), cmd, envp, shell), shell);
 	else
 	{
 		envp_array = env_to_array(*envp);
@@ -115,7 +96,7 @@ void	pipex_child(t_command *cmd, int prev_fd, int *pipefd, t_shell *shell)
 			exit(EXIT_FAILURE);
 		make_exec(cmd, envp_array);
 	}
-	exit(errno);
+	clean_exit(errno, shell);
 }
 
 int	setup_pipfd(int (*pipefd)[2], int prev_fd)
@@ -140,15 +121,12 @@ int	pipex(t_shell *shell, t_list **cmd_list)
 	pid_t		cpid;
 	t_list		*tmp_list;
 	int			size;
-	int			*pid_array;
+	int			p_nb;
 	int			prev_fd;
 
 	prev_fd = -1;
 	size = ft_lstsize(*cmd_list);
-	pid_array = malloc(sizeof(int) * size);
-	if (!pid_array)
-		return (rperror("malloc"));
-	pid_array[0] = size;
+	p_nb = size;
 	size = 1;
 	tmp_list = *cmd_list;
 	init_signals_when_children();
@@ -185,8 +163,7 @@ int	pipex(t_shell *shell, t_list **cmd_list)
 		prev_fd = pipefd[0];
 		init_signals_when_children();
 		tmp_list = tmp_list->next;
-		pid_array[size++] = cpid;
 	}
-	return (exec_to_stdout(shell, ft_lstlast(*cmd_list)->content, pid_array,
+	return (exec_to_stdout(shell, ft_lstlast(*cmd_list)->content, p_nb,
 			prev_fd));
 }
