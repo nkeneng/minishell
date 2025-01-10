@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/10 16:09:12 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:11:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int	pipex(t_shell *shell, t_list **cmd_list)
 		if (handle_redirects(shell, tmp_list->content,
 				C_HERE_DOC | C_OPEN_INFILE))
 		{
+			// prev_fd = setup_pipfd(&pipefd, prev_fd);
 			close(pipefd[1]);
 			if (dup2(pipefd[0], STDIN_FILENO) == -1)
 			{
