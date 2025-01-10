@@ -6,17 +6,18 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:56:57 by stevennke         #+#    #+#             */
-/*   Updated: 2024/10/05 12:58:10 by stevennke        ###   ########.fr       */
+/*   Updated: 2025/01/09 18:36:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_exit(char **cmd)
+int	ft_exit(char **cmd, t_shell *shell)
 {
 	int		exit_code = 0;
 	char	*endptr;
 
+	(void)shell;
 	if (cmd && cmd[1])
 	{
 		if (cmd[2])
@@ -30,8 +31,10 @@ int	ft_exit(char **cmd)
 		{
 			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", cmd[1]);
 			exit_code = 2;
-			exit(exit_code);
+			clean_exit(exit_code, shell);
+			// exit(exit_code);
 		}
 	}
+	clean_exit(exit_code, shell);
 	exit(exit_code);
 }

@@ -30,6 +30,8 @@
 // GLOBALS
 extern volatile sig_atomic_t	g_signal;
 
+int								clean_exit(int exit_status, t_shell *shell);
+
 // dlist
 t_dlist							*ft_dlstnew(void *content);
 t_dlist							*ft_dlstfirst(t_dlist *lst);
@@ -59,7 +61,7 @@ int								ft_env_size(t_env *envp);
 
 // builtins_helpers.c
 char							**env_to_array(t_env *envp);
-int								exec_builtin(int builtin, t_command *command, t_env **envp);
+int								exec_builtin(int builtin, t_command *command, t_env **envp, t_shell *shell);
 
 // checkdir.c
 int								checkdir(char *path);

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 08:14:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 08:14:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:58:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ char	**env_to_array(t_env *envp)
 	return (envp_array);
 }
 
-int	exec_builtin(int builtin, t_command *command, t_env **envp)
+int	exec_builtin(int builtin, t_command *command, t_env **envp, t_shell *shell)
 {
+	(void)shell;
 	if (builtin == CD_BUILTIN)
 		return (ft_cd(command->cmd, envp));
 	else if (builtin == ECHO_BUILTIN)
@@ -47,7 +48,7 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp)
 	else if (builtin == ENV_BUILTIN)
 		return (ft_env(env_to_array(*envp)));
 	else if (builtin == EXIT_BUILTIN)
-		return (ft_exit(command->cmd));
+		return (ft_exit(command->cmd, shell));
 	return (0);
 }
 
