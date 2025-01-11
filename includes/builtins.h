@@ -23,4 +23,8 @@ int		ft_echo(char **args);
 int		ft_exit(char **cmd, t_shell *shell);
 int		ft_pwd(void);
 int		ft_env(char **envp);
+int		is_valid_identifier(char *str);
+int		key_exist(char *key, t_env *envp);
+t_env	*ft_setenv(char *key, char *value, t_env **envp);
+void	free_old_env(t_env **envp);
 #endif
