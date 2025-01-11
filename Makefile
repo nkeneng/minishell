@@ -18,7 +18,7 @@ OBJS_DIR		= objs/
 TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
-DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser tests word_list signals)
+DIRS = $(addprefix $(OBJS_DIR), . builtins pipex lst reading parser word_list signals)
 
 # MAIN = $(SRCS_DIR)tests/simple_main.c
 MAIN = $(SRCS_DIR)main.c
@@ -26,8 +26,7 @@ MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
-		$(addprefix dummy_helpers/, fake_commands.c debug.c) \
-		$(addprefix pipex/, pipex.c path.c command.c utils.c file_redirection.c checkdir.c builtins_helpers.c) \
+		$(addprefix pipex/, pipex.c path.c command.c utils.c file_redirection.c checkdir.c builtins_helpers.c pipex_core.c pipex_exec.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
 		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c \
 		ft_free_redirects.c ft_free_command_list.c) \
@@ -35,10 +34,9 @@ SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix parser/, parse.c missing_close.c \
 		splitting.c flags.c quotes.c vars.c spaces.c flags_setting.c syntax_error.c \
 		split_at_space.c make_word_list.c expand.c ft_strexchange.c wl_expansion.c) \
-		$(addprefix tests/, prints.c) \
 		$(addprefix word_list/, word_list_methods.c word_list_methods2.c word_list_methods3.c word_desc.c) \
 		$(addprefix signals/, signals_interactive.c utilities.c) \
-		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c) \
+		$(addprefix builtins/ft_, cd.c echo.c pwd.c unset.c env.c exit.c export.c utilities.c) \
 		init_envp.c init_shell.c ft_free_shell.c signals.c ft_exchange_within.c clean_exit.c\
 		)
 

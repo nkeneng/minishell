@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 12:35:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/11 05:08:36 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define PIPE_OR_REDIR_MASK (C_PIPE | C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP)
 
 // enum used in is_builtin for a return value
-enum	e_builtin
+enum		e_builtin
 {
 	EXIT_BUILTIN = 2,
 	EXPORT_BUILTIN = 4,
@@ -42,14 +42,14 @@ enum	e_builtin
 };
 
 /* A structure which represents a command. */
-//**cmd;        /* NULL terminated array */                    
-//*redirects; /* Redirections associated with this command. */ 
-//flags;         /* Flags associated with this command. */     
+//**cmd;        /* NULL terminated array */
+//*redirects; /* Redirections associated with this command. */
+// flags;         /* Flags associated with this command. */
 typedef struct t_command
 {
 	char	**cmd;
 	t_list	*redirects;
 	int		flags;
-}		t_command;
+}			t_command;
 
 #endif // !COMMAND_H

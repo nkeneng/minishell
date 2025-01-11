@@ -19,8 +19,6 @@ int	clean_exit(int exit_status, t_shell *shell)
 	if (shell->envp)
 		ft_free_envp(shell->envp, shell->nb_env);
 	shell->envp = NULL;
-	// if (shell->cmds)
-	// 	ft_free_command_list(shell->cmds);
 	shell->cmds = NULL;
 	exit(exit_status);
 }

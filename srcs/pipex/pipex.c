@@ -13,17 +13,73 @@
 #include "../../includes/minishell.h"
 #include <readline/readline.h>
 
-// int	start_pipex(t_list **cmd_list, t_shell *shell)
-// {
-// 	int	exit_code;
-//
-// 	if (!cmd_list)
-// 		return (rperror("command list empty"));
-// 	exit_code = pipex(shell, cmd_list);
-// 	reopen_stdin();
-// 	reopen_stdout();
-// 	return (exit_code);
-// }
+static void	container_child(t_shell *shell, int pipefd[2], char *dlm,
+		int filekind)
+{
+	signal_dfl(SIGINT);
+	close(pipefd[0]);
+	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+	{
+		close(pipefd[1]);
+		exit(rperror("dup2"));
+	}
+	close(pipefd[1]);
+	exit(here_doc(shell, dlm, filekind));
+}
+
+static pid_t	container_parent(pid_t cpid, int pipefd[2])
+{
+	int	status;
+	int	exit_status;
+
+	close(pipefd[1]);
+	if (dup2(pipefd[0], STDIN_FILENO) == -1)
+	{
+		close(pipefd[0]);
+		return (rperror("dup2"));
+	}
+	close(pipefd[0]);
+	waitpid(cpid, &status, 0);
+	init_signals_when_children();
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		g_signal = SIGINT;
+		return (EXIT_FAILURE);
+	}
+	if (WIFEXITED(status))
+	{
+		exit_status = WEXITSTATUS(status);
+		if (exit_status != 0)
+			return (exit_status);
+	}
+	return (EXIT_SUCCESS);
+}
+
+/**
+ * container
+ * ---------
+ * Creates a pipe, forks a child to run a here_doc, and redirects stdin.
+ * Returns EXIT_SUCCESS on success or an error code otherwise.
+ */
+pid_t	container(t_shell *shell, char *dlm, int filekind)
+{
+	int		pipefd[2];
+	pid_t	cpid;
+
+	init_signals_heredoc();
+	if (pipe(pipefd) == -1)
+		return (rperror("pipe"));
+	cpid = fork();
+	if (cpid == -1)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+		return (rperror("fork"));
+	}
+	if (cpid == 0)
+		container_child(shell, pipefd, dlm, filekind);
+	return (container_parent(cpid, pipefd));
+}
 
 int	start_pipex(t_list **cmd_list, t_shell *shell)
 {
@@ -50,84 +106,6 @@ int	start_pipex(t_list **cmd_list, t_shell *shell)
 	return (exit_code);
 }
 
-pid_t	container(t_shell *shell, char *dlm, int filekind)
-{
-	int		pipefd[2];
-	pid_t	cpid;
-	int		status;
-
-	init_signals_heredoc();
-	if (pipe(pipefd) == -1)
-		return (rperror("pipe"));
-	cpid = fork();
-	if (cpid == -1)
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-		return (rperror("fork"));
-	}
-	if (cpid == 0)
-	{
-		signal_dfl(SIGINT);
-		close(pipefd[0]);
-		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-		{
-			close(pipefd[1]);
-			exit(rperror("dup2"));
-		}
-		close(pipefd[1]);
-		exit(here_doc(shell, dlm, filekind));
-	}
-	close(pipefd[1]);
-	if (dup2(pipefd[0], STDIN_FILENO) == -1)
-	{
-		close(pipefd[0]);
-		return (rperror("dup2"));
-	}
-	close(pipefd[0]);
-	waitpid(cpid, &status, 0);
-	init_signals_when_children();
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		g_signal = SIGINT;
-		return (EXIT_FAILURE);
-	}
-	if (WIFEXITED(status))
-	{
-		int exit_status = WEXITSTATUS(status);
-		if (exit_status != 0)
-			return (exit_status);
-	}
-	return (EXIT_SUCCESS);
-}
-
-// // checks for permission first and only opens file if permission is granted
-// int	open_with_perm(const char *file, int oflag, int perm)
-// {
-// 	// struct stat	st;
-// 	int	fd;
-//
-// 	if (access(file, F_OK) == 0)
-// 	{
-// 		if (access(file, oflag) == -1)
-// 		{
-// 			perror("Permission denied");
-// 			return (-1);
-// 		}
-// 		else if (errno != ENOENT) 
-// 		{
-// 			perror(file);
-// 			return -1;
-//     	}
-// 	}
-// 	fd = open(file, oflag, perm));
-// 	if (fd == -1)
-// 		return (rperror("open"));
-// 	return (fd);
-// }
-
-// opens file, dup2s over correct std fd or executes heredoc
-// heredoc gets opened with expand set to the oposite of quotation status
 int	open_doc(t_shell *shell, char *file, int filekind)
 {
 	int	fd;
