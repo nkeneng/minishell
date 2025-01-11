@@ -13,29 +13,15 @@
 #include "../../includes/minishell.h"
 
 /**
- * Function: ft_echo
- * -----------------
- * Implements the echo command in the shell.
- *
- * @param args: A null-terminated array of strings 
- * where each string is an argument to the echo command.
- *
- * The function handles multiple `-n` arguments and treats them as one.
- * If any character other than `n` is found after the initial `-`, 
- * the argument is treated as a regular argument.
- *
- * If no `-n` argument is found, a newline character is printed at the end.
- *
- * @return: Always returns EXIT_SUCCESS.
+ * Checks if the argument is a valid '-n' flag
+ * Returns the next argument index and updates the newline printing flag
  */
-int	ft_echo(char **args)
+static int	handle_n_flag(char **args, int *to_print)
 {
 	int	i;
-	int j;
-	int to_print;
+	int	j;
 
-	i = 1; 
-	to_print = 1;
+	i = 1;
 	while (args[i])
 	{
 		if (args[i][0] == '-')
@@ -45,13 +31,23 @@ int	ft_echo(char **args)
 				j++;
 			if (args[i][j] == '\0')
 			{
-				to_print = 0;
+				*to_print = 0;
 				i++;
-				continue;
+				continue ;
 			}
 		}
-		break;
+		break ;
 	}
+	return (i);
+}
+
+int	ft_echo(char **args)
+{
+	int	i;
+	int	to_print;
+
+	to_print = 1;
+	i = handle_n_flag(args, &to_print);
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);

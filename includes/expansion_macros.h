@@ -13,7 +13,8 @@
 #ifndef EXPANSION_MACROS_H
 # define EXPANSION_MACROS_H
 
-enum {
+enum
+{
 	DOLLAR = 1,
 	DQUOTE = 2,
 	SQUOTE = 3,

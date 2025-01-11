@@ -51,4 +51,3 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp, t_shell *shell)
 		return (ft_exit(command->cmd, shell));
 	return (0);
 }
-

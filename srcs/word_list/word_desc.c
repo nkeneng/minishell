@@ -56,7 +56,6 @@ int	ft_printf_word_desc(void *word_desc)
 	}
 	ft_printf("word:	\"%s\"\n", desc->word);
 	ft_printf("flags:	\n");
-	print_flag_name(desc->flags);
 	return (1);
 }
 
@@ -98,7 +97,8 @@ t_word_desc	*wd_fuse_words(t_word_desc *first, t_word_desc *second)
 		return (NULL);
 	ft_strlcpy(new_string, first->word, len1 + 1);
 	ft_strlcpy(new_string + len1, second->word, len2 + 1);
-	new_word = wd_make_word(new_string, len1 + len2, first->flags | second->flags);
+	new_word = wd_make_word(new_string, len1 + len2,
+			first->flags | second->flags);
 	free(new_string);
 	return (new_word);
 }

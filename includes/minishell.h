@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/11 05:09:57 by admin             #+#    #+#             */
+/*   Updated: 2025/01/11 05:09:57 by admin            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -8,6 +20,7 @@
 # include "expansion_macros.h"
 # include "list.h"
 # include "parsing.h"
+# include "pipex.h"
 # include "redirect.h"
 //# include "globals.h"
 # include "functions_to_remove_later.h"
@@ -61,7 +74,8 @@ int								ft_env_size(t_env *envp);
 
 // builtins_helpers.c
 char							**env_to_array(t_env *envp);
-int								exec_builtin(int builtin, t_command *command, t_env **envp, t_shell *shell);
+int								exec_builtin(int builtin, t_command *command,
+									t_env **envp, t_shell *shell);
 
 // checkdir.c
 int								checkdir(char *path);
@@ -71,15 +85,16 @@ int								here_doc(t_shell *shell, char *delim,
 									int flags);
 
 // file_redirection.c
-int								has_flags(t_command *command, int wordmask_in_or_out);
+int								has_flags(t_command *command,
+									int wordmask_in_or_out);
 int								handle_redirects(t_shell *shell,
 									t_command *command, int wordmask_in_or_out);
 void							reopen_stdout(void);
 void							reopen_stdin(void);
 
 // path.c
-char							*get_commpath(char *envp[],
-									const char *command);
+char							*get_commpath(char *envp[], const char *command,
+									int *err);
 char							**get_paths(char *envp[]);
 int								make_exec(t_command *command, char *envp[]);
 

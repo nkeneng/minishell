@@ -36,7 +36,6 @@ int	ft_printf_command(void *command)
 	cmd = (t_command *) command;
 	count = ft_printf_char_array(cmd->cmd);
 	count += ft_printf("flags:\n");
-	print_flag_name(cmd->flags);
 	if (cmd->redirects)
 	{
 		count += ft_printf_lst(cmd->redirects, ft_printf_redirect);

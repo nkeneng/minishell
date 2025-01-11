@@ -14,9 +14,10 @@
 
 int	ft_exit(char **cmd, t_shell *shell)
 {
-	int		exit_code = 0;
+	int		exit_code;
 	char	*endptr;
 
+	exit_code = 0;
 	(void)shell;
 	if (cmd && cmd[1])
 	{
@@ -29,10 +30,10 @@ int	ft_exit(char **cmd, t_shell *shell)
 		exit_code = ft_strtoimax(cmd[1], &endptr, 10);
 		if (errno != 0 || *endptr != '\0')
 		{
-			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", cmd[1]);
+			ft_fprintf(2, "minishell: exit: %s: ", cmd[1]);
+			ft_fprintf(2, "numeric argument required\n");
 			exit_code = 2;
 			clean_exit(exit_code, shell);
-			// exit(exit_code);
 		}
 	}
 	clean_exit(exit_code, shell);

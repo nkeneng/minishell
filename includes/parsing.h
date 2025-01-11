@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 11:33:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/11 05:10:12 by admin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,86 +14,89 @@
 # define PARSING_H
 
 # include "../libft/libft_full.h"
+# include "minishell.h"
 
-//quotes.c
+// quotes.c
 t_word_desc	*remove_quotes(t_word_desc *word);
 
-//free_str.c
-char	*free_str(char **str);
+// free_str.c
+char		*free_str(char **str);
 
-//vars.c
-int	contains_more_vars(t_word_desc *item);
-int	ft_is_var_till(char *line);
-int	ft_is_special(char c);
-void	ft_is_var_name(t_word_desc *word);
+// vars.c
+int			contains_more_vars(t_word_desc *item);
+int			ft_is_var_till(char *line);
+int			ft_is_special(char c);
+void		ft_is_var_name(t_word_desc *word);
 
-//ft_strexchange.c
-char	*ft_strexchange(char *original, int len_old, char *new_str);
+// ft_strexchange.c
+char		*ft_strexchange(char *original, int len_old, char *new_str);
 
-//expand.c
-int	ft_expand_variable_name(t_word_desc *item, t_shell *shell);
+// expand.c
+int			ft_expand_variable_name(t_word_desc *item, t_shell *shell);
 t_word_desc	*wd_expand_var(t_word_desc *(*item), t_shell *shell);
-char	*get_varname(char *str);
-void	exchange_in_word(t_word_desc **item, char *new_str, char *old_str, int flags);
-char	*envp_keytovalue(char *key, t_env *envp, int keylen);
+char		*get_varname(char *str);
+void		exchange_in_word(t_word_desc **item, char *new_str, char *old_str,
+				int flags);
+char		*envp_keytovalue(char *key, t_env *envp, int keylen);
 
-//wl_expansion.c
-int	wl_expand_list(t_word_list **word_list, t_shell *shell);
-t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr, t_shell *shell);
+// wl_expansion.c
+int			wl_expand_list(t_word_list **word_list, t_shell *shell);
+t_word_list	*expand_and_split(t_word_list **word_list, t_word_list *curr,
+				t_shell *shell);
 
-//ft_get_file_descriptor.c
-int	ft_get_file_descriptor(char *str);
+// ft_get_file_descriptor.c
+int			ft_get_file_descriptor(char *str);
 
 // unsorted shellpromt
-t_list	**convert_line_to_dlist(char *line);
+t_list		**convert_line_to_dlist(char *line);
 
 // syntax_error.c
-int	syntax_error(t_word_list **word_list, const char *str);
-int	syntax_error_unexpected_eof(t_word_list **word_list);
+int			syntax_error(t_word_list **word_list, const char *str);
+int			syntax_error_unexpected_eof(t_word_list **word_list);
 
-//cleanup
-void	clean_line_whitespace(t_word_desc *obj);
-void	wl_clean_whitespace(t_word_list *lst);
+// cleanup
+void		clean_line_whitespace(t_word_desc *obj);
+void		wl_clean_whitespace(t_word_list *lst);
 
-//parse.c
-t_list	*parse_input(char *line, t_shell *shell);
+// parse.c
+t_list		*parse_input(char *line, t_shell *shell);
 
-// splitting.c 
+// splitting.c
 t_word_list	*split_around(t_word_desc *input);
 int			next_word_till(char *line, char sign);
-int	next_word_till_metachar(char *line);
+int			next_word_till_metachar(char *line);
 
-//spaces.c
-int	memmove_whitespaces_to_space(char *line);
-int	ft_remove_spaces(char *line);
-int	wd_remove_whitespace(t_word_desc *item);
-int	clean_whitespaces_to_space(t_word_desc *item);
-int	ft_whitespace_seperator(char *line);
+// spaces.c
+int			memmove_whitespaces_to_space(char *line);
+int			ft_remove_spaces(char *line);
+int			wd_remove_whitespace(t_word_desc *item);
+int			clean_whitespaces_to_space(t_word_desc *item);
+int			ft_whitespace_seperator(char *line);
 
-//split_at_space.c
+// split_at_space.c
 t_word_list	*split_at_spaces(t_word_list *item);
-t_word_list	*word_list_ft_split(char *line, int	flags);
+t_word_list	*word_list_ft_split(char *line, int flags);
 
-//flags.c
-int	flag_correctly_delimeted(t_word_desc *item);
-int	is_pipe_or_redirect(char *sign);
-int	identify_word_type(t_word_desc *word);
-int	sign_to_flag(char *sign);
-int	is_quote(char *sign);
+// flags.c
+int			flag_correctly_delimeted(t_word_desc *item);
+int			is_pipe_or_redirect(char *sign);
+int			identify_word_type(t_word_desc *word);
+int			sign_to_flag(char *sign);
+int			is_quote(char *sign);
 
-//flags_setting.c
-void	assign_flag(t_word_list *list);
-void	assign_operator_till_end(t_word_list *list, int flag);
-int	is_builtin(char *command);
+// flags_setting.c
+void		assign_flag(t_word_list *list);
+void		assign_operator_till_end(t_word_list *list, int flag);
+int			is_builtin(char *command);
 
-//missing_close.c
-int	missing_close_sign(char *line, char sign);
-int	missing_close_bracket(char *line);
+// missing_close.c
+int			missing_close_sign(char *line, char sign);
+int			missing_close_bracket(char *line);
 
 // make_word_list.c
 t_word_list	*make_word_list(char *line, t_shell *shell);
-int	wl_identify_words(t_word_list **word_list);
-int	wl_split_on_whitesp(t_word_list **word_list);
+int			wl_identify_words(t_word_list **word_list);
+int			wl_split_on_whitesp(t_word_list **word_list);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
 t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item);
 
@@ -114,12 +117,13 @@ t_word_desc	*wl_unlink(t_word_list **head, t_word_list *to_unlink);
 
 // word_list_methods3.c
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
-t_word_list	*wl_remove_whitespace_element(t_word_list **head, t_word_list *curr);
+t_word_list	*wl_remove_whitespace_element(t_word_list **head,
+				t_word_list *curr);
 
-//word_desc.c
-void	ft_free_word_desc(void *word_desc);
-int		ft_printf_word_desc(void *word_desc);
-void	*free_word_desc(t_word_desc **word_desc);
+// word_desc.c
+void		ft_free_word_desc(void *word_desc);
+int			ft_printf_word_desc(void *word_desc);
+void		*free_word_desc(t_word_desc **word_desc);
 t_word_desc	*wd_make_word(const char *line, const int end, const int flag);
 t_word_desc	*wd_fuse_words(t_word_desc *first, t_word_desc *second);
 #endif // !PARSING_H
