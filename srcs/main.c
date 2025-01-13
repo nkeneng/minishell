@@ -42,6 +42,7 @@ static void	process_line(char *line, t_shell *shell)
 	}
 	init_signals_noninteractive();
 	ft_lstclear(&lst, ft_free_command);
+	debug_log("list cleared\n");
 	shell->cmds = NULL;
 	if (g_signal == SIGINT)
 		g_signal = 0;
@@ -68,4 +69,23 @@ int	main(int argc, char **argv, char **envp)
 	}
 	ft_free_envp(shell.envp, shell.nb_env);
 	return (shell.exit_status);
+}
+
+
+int	main2(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	(void)envp;
+
+	char *line = ft_strdup("ddd");
+	t_list *lst;
+	t_shell shell;
+
+ 	lst = parse_input(line, &shell);
+	free(line);
+	ft_lstclear(&lst, ft_free_command);
+	// process_line(line, &shell);
+
+	return 0;
 }

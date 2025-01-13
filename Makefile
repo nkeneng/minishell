@@ -6,7 +6,7 @@ NAME = minishell
 
 CC := cc
 #-fPIE: Used during compilation to generate position-independent code
-CFLAGS := -Werror -Wall -Wextra -Wextra -g -fPIE
+CFLAGS :=  -Wall -Wextra -Wextra -g -fPIE
 LIBS := -lreadline
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
@@ -18,7 +18,7 @@ OBJS_DIR		= objs/
 TEST_OBJS_DIR	= test_objs/
 HEADER_DIR		= includes/
 
-DIRS = $(addprefix $(OBJS_DIR), . builtins pipex lst reading parser word_list signals)
+DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser word_list signals)
 
 # MAIN = $(SRCS_DIR)tests/simple_main.c
 MAIN = $(SRCS_DIR)main.c
@@ -27,6 +27,7 @@ MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 #		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c file_redirection.c checkdir.c builtins_helpers.c pipex_core.c pipex_exec.c) \
+		$(addprefix dummy_helpers/, fake_commands.c debug.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
 		ft_convert_word_list_to_list.c ft_make_redirect_list.c ft_printf_redirect.c ft_make_command_list.c \
 		ft_free_redirects.c ft_free_command_list.c) \
