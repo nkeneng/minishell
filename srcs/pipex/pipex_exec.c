@@ -41,6 +41,7 @@ void	child_exec_to_stdout(t_shell *shell, t_command *cmd, int builtin_nb,
 		if (!envp_array)
 			clean_exit(EXIT_FAILURE, shell);
 		errno = make_exec(cmd, envp_array);
+		free_char_array(envp_array, 0);
 		clean_exit(errno, shell);
 	}
 }
