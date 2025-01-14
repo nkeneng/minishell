@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:09:57 by admin             #+#    #+#             */
-/*   Updated: 2025/01/11 05:09:57 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/14 16:06:21 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void							init_signals_when_children(void);
 
 // reading
 // reading.c
-char							*rl_gets(char *prompt);
+char							*rl_gets(char *prompt, t_shell *shell);
 // new utility and library functions
 // ft_strexchange_within.c
 char							*ft_exchange_within(char *original, int from,
