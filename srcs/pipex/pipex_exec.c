@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:00:49 by admin             #+#    #+#             */
-/*   Updated: 2025/01/11 05:00:50 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/14 16:47:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int chld_pids, int prev_fd)
 		close(prev_fd);
 	waitpid(cpid, &status, 0);
 	while (chld_pids--)
-		waitpid(chld_pids, NULL, 0);
+		waitpid(0, NULL, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
