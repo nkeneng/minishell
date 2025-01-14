@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 18:12:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:17:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,18 @@ pid_t	container(t_shell *shell, char *dlm, int filekind)
 		container_child(shell, pipefd, dlm, filekind);
 	return (container_parent(cpid, pipefd));
 }
+
+// int	start_pipex(t_list **cmd_list, t_shell *shell)
+// {
+// 	int	exit_code;
+//
+// 	if (!cmd_list)
+// 		return (rperror("command list empty"));
+// 	exit_code = pipex(shell, cmd_list);
+// 	reopen_stdin();
+// 	reopen_stdout();
+// 	return (exit_code);
+// }
 
 int	start_pipex(t_list **cmd_list, t_shell *shell)
 {

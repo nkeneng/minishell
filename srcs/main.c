@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/09 18:12:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:10:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	handle_signals(t_shell *shell)
 	if (g_signal)
 	{
 		shell->exit_status = (128 + g_signal);
+		if (g_signal == SIGQUIT)
+			ft_free_shell(&shell);
 		g_signal = 0;
 	}
 }
@@ -33,16 +35,9 @@ static void	process_line(char *line, t_shell *shell)
 		return ;
 	shell->cmds = &lst;
 	shell->exit_status = start_pipex(&lst, shell);
-	if (g_signal)
-	{
-		shell->exit_status = (128 + g_signal);
-		if (g_signal == SIGINT)
-			ft_printf("\n", 1);
-		g_signal = 0;
-	}
+	handle_signals(shell);
 	init_signals_noninteractive();
 	ft_lstclear(&lst, ft_free_command);
-	debug_log("list cleared\n");
 	shell->cmds = NULL;
 	if (g_signal == SIGINT)
 		g_signal = 0;
@@ -57,35 +52,17 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell.envp = NULL;
 	shell.exit_status = 0;
+	shell.cmds = NULL;
 	init_envp(envp, &shell);
 	while (1)
 	{
 		init_signals();
 		handle_signals(&shell);
-		line = rl_gets(PROMPT);
+		line = rl_gets(PROMPT, &shell);
 		if (!line)
 			continue ;
 		process_line(line, &shell);
 	}
 	ft_free_envp(shell.envp, shell.nb_env);
 	return (shell.exit_status);
-}
-
-
-int	main2(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	(void)envp;
-
-	char *line = ft_strdup("ddd");
-	t_list *lst;
-	t_shell shell;
-
- 	lst = parse_input(line, &shell);
-	free(line);
-	ft_lstclear(&lst, ft_free_command);
-	// process_line(line, &shell);
-
-	return 0;
 }
