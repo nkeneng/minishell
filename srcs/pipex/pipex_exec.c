@@ -103,7 +103,8 @@ void	handle_child_exec(t_shell *shell, t_command *cmd, t_env **envp)
 	{
 		envp_array = env_to_array(*envp);
 		if (!envp_array)
-			exit(EXIT_FAILURE);
+			clean_exit(EXIT_FAILURE, shell);
 		make_exec(cmd, envp_array);
+		free_char_array(envp_array, 0);
 	}
 }
