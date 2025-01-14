@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/14 16:17:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:31:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,40 +81,15 @@ pid_t	container(t_shell *shell, char *dlm, int filekind)
 	return (container_parent(cpid, pipefd));
 }
 
-// int	start_pipex(t_list **cmd_list, t_shell *shell)
-// {
-// 	int	exit_code;
-//
-// 	if (!cmd_list)
-// 		return (rperror("command list empty"));
-// 	exit_code = pipex(shell, cmd_list);
-// 	reopen_stdin();
-// 	reopen_stdout();
-// 	return (exit_code);
-// }
-
 int	start_pipex(t_list **cmd_list, t_shell *shell)
 {
 	int	exit_code;
-	int	original_stdin;
-	int	original_stdout;
 
 	if (!cmd_list)
 		return (rperror("command list empty"));
-	original_stdin = dup(STDIN_FILENO);
-	if (original_stdin == -1)
-		return (rperror("dup"));
-	original_stdout = dup(STDOUT_FILENO);
-	if (original_stdout == -1)
-	{
-		close(original_stdin);
-		return (rperror("dup"));
-	}
 	exit_code = pipex(shell, cmd_list);
-	dup2(original_stdin, STDIN_FILENO);
-	dup2(original_stdout, STDOUT_FILENO);
-	close(original_stdin);
-	close(original_stdout);
+	reopen_stdin();
+	reopen_stdout();
 	return (exit_code);
 }
 
