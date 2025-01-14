@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/17 20:15:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:41:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,15 @@ int	wl_split_on_whitesp(t_word_list **word_list)
 int	wl_identify_words(t_word_list **word_list)
 {
 	t_word_list	*curr;
+	int			type;
 
 	curr = *word_list;
-	while (curr)
+	if (identify_word_type(curr->word) == W_PIPE)
+		return (syntax_error(word_list, curr->word->word));
+	while (curr->next)
 	{
-		if (identify_word_type(curr->word))
+		type = identify_word_type(curr->word);
+		if (type)
 		{
 			if (!flag_correctly_delimeted(curr->word))
 				return (syntax_error(word_list, curr->word->word));
@@ -117,5 +121,8 @@ int	wl_identify_words(t_word_list **word_list)
 		}
 		curr = curr->next;
 	}
+	type = identify_word_type(curr->word);
+	if (type == W_PIPE)
+		return (syntax_error(word_list, curr->word->word));
 	return (0);
 }
