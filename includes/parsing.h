@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 13:42:57 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/11 05:10:12 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/15 17:59:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ t_word_list	*make_word_list(char *line, t_shell *shell);
 int			wl_identify_words(t_word_list **word_list);
 int			wl_split_on_whitesp(t_word_list **word_list);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
-t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item);
 
 // word_list_methods.c
 t_word_list	*wl_init(char *line);
@@ -119,6 +118,7 @@ t_word_desc	*wl_unlink(t_word_list **head, t_word_list *to_unlink);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
 t_word_list	*wl_remove_whitespace_element(t_word_list **head,
 				t_word_list *curr);
+t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item);
 
 // word_desc.c
 void		ft_free_word_desc(void *word_desc);
