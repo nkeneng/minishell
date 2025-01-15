@@ -21,10 +21,10 @@ static void	container_child(t_shell *shell, int pipefd[2], char *dlm,
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipefd[1]);
-		exit(rperror("dup2"));
+		clean_exit(rperror("dup2"), shell);
 	}
 	close(pipefd[1]);
-	exit(here_doc(shell, dlm, filekind));
+	clean_exit(here_doc(shell, dlm, filekind), shell);
 }
 
 static pid_t	container_parent(pid_t cpid, int pipefd[2])
