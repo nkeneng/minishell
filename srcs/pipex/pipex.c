@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/14 16:17:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:13:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	container_child(t_shell *shell, int pipefd[2], char *dlm,
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipefd[1]);
-		exit(rperror("dup2"));
+		clean_exit(rperror("dup2"), shell);
 	}
 	close(pipefd[1]);
-	exit(here_doc(shell, dlm, filekind));
+	clean_exit(here_doc(shell, dlm, filekind), shell);
 }
 
 static pid_t	container_parent(pid_t cpid, int pipefd[2])
