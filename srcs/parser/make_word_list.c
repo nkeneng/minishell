@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/15 16:59:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:03:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,6 @@ t_word_list	*make_word_list(char *line, t_shell *shell)
 	if (1 == wl_expand_list(&word_list, shell))
 		return (NULL);
 	return (word_list);
-}
-
-// splits a word_list at whitespaces and returns the last element 
-// of the new list
-// that list has been inserted into word_list
-t_word_list	*split_element_at_wh(t_word_list **word_list, t_word_list *item)
-{
-	t_word_list	*tmp;
-
-	item = wl_remove_whitespace_element(word_list, item);
-	if (!(item->word->flags & WM_SPLIT_AT_SPACES))
-	{
-		tmp = word_list_ft_split(item->word->word, item->word->flags);
-		if (item->word->word[0] != 0 && !tmp)
-			return (free_word_list(word_list));
-		tmp = wl_insert_word_list(tmp, item);
-		wl_delone(word_list, item);
-		item = tmp;
-	}
-	return (item);
 }
 
 int	fuse_words(t_word_list **word_list, t_word_list *curr)
@@ -102,6 +82,17 @@ int	wl_split_on_whitesp(t_word_list **word_list)
 	return (0);
 }
 
+static int	has_syntax_error(t_word_list **word_list, t_word_desc *word)
+{
+	if (identify_word_type(word))
+	{
+		if (!flag_correctly_delimeted(word))
+			return (syntax_error(word_list, word->word));
+		remove_quotes(word);
+	}
+	return (0);
+}
+
 int	wl_identify_words(t_word_list **word_list)
 {
 	t_word_list	*curr;
@@ -114,12 +105,7 @@ int	wl_identify_words(t_word_list **word_list)
 		curr = curr->next;
 	while (curr->next)
 	{
-		if (identify_word_type(curr->word))
-		{
-			if (!flag_correctly_delimeted(curr->word))
-				return (syntax_error(word_list, curr->word->word));
-			remove_quotes(curr->word);
-		}
+		has_syntax_error(word_list, curr->word);
 		curr = curr->next;
 	}
 	type = identify_word_type(curr->word);
