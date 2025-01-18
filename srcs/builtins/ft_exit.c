@@ -26,7 +26,7 @@ int	ft_exit(char **cmd, t_shell *shell)
 		if (errno != 0 || *endptr != '\0')
 		{
 			ft_fprintf(2, "minishell: exit: %s: ", cmd[1]);
-			ft_print(2, "numeric argument required\n", cmd[1]);
+			ft_fprintf(2, "numeric argument required\n", cmd[1]);
 			exit_code = 2;
 			clean_exit(exit_code, shell);
 		}
