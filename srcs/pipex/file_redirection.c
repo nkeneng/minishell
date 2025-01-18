@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:06:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 08:13:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:25:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	handle_redirects(t_shell *shell, t_command *command, int wordmask_in_or_out)
 		redir = redir_list->content;
 		if (redir->filename->flags & wordmask_in_or_out)
 		{
-			status = open_doc(shell, redir->filename->word,
-					redir->filename->flags);
+			status = open_doc(shell, redir->filename);
 			if (status || g_signal)
 				return (status);
 		}

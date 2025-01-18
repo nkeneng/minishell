@@ -6,16 +6,21 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/15 18:04:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:32:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <readline/readline.h>
 
-static void	container_child(t_shell *shell, int pipefd[2], char *dlm,
-		int filekind)
+static void	container_child(t_shell *shell, int pipefd[2], t_word_desc *token)
 {
+	int		exit_code;
+	int		filekind;
+	char	*dlm;
+
+	filekind = token->flags;
+	dlm = token->word;
 	signal_dfl(SIGINT);
 	close(pipefd[0]);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
@@ -24,7 +29,9 @@ static void	container_child(t_shell *shell, int pipefd[2], char *dlm,
 		clean_exit(rperror("dup2"), shell);
 	}
 	close(pipefd[1]);
-	clean_exit(here_doc(shell, dlm, filekind), shell);
+	exit_code = here_doc(shell, dlm, filekind);
+	free_word_desc(&token);
+	clean_exit(exit_code, shell);
 }
 
 static pid_t	container_parent(pid_t cpid, int pipefd[2])
@@ -61,7 +68,7 @@ static pid_t	container_parent(pid_t cpid, int pipefd[2])
  * Creates a pipe, forks a child to run a here_doc, and redirects stdin.
  * Returns EXIT_SUCCESS on success or an error code otherwise.
  */
-pid_t	container(t_shell *shell, char *dlm, int filekind)
+pid_t	container(t_shell *shell, t_word_desc *word_desc)
 {
 	int		pipefd[2];
 	pid_t	cpid;
@@ -117,10 +124,14 @@ int	start_pipex(t_list **cmd_list, t_shell *shell)
 // 	return (exit_code);
 // }
 
-int	open_doc(t_shell *shell, char *file, int filekind)
+int	open_doc(t_shell *shell, t_word_desc *word_desc)
 {
-	int	fd;
+	int		fd;
+	char	*file;
+	int		filekind;
 
+	file = word_desc->word;
+	filekind = word_desc->flags;
 	if (filekind & C_OPEN_INFILE)
 	{
 		fd = open(file, O_RDONLY, 0444);
@@ -132,7 +143,7 @@ int	open_doc(t_shell *shell, char *file, int filekind)
 		return (0);
 	}
 	else if (filekind & C_HERE_DOC)
-		return (container(shell, file, filekind));
+		return (container(shell, word_desc));
 	else if (filekind & C_OPEN_OUT_TRUNC)
 		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else

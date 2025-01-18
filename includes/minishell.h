@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:09:57 by admin             #+#    #+#             */
-/*   Updated: 2025/01/14 16:06:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:20:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ int								do_list(t_list **cmd_list, char **envp);
 int								start_pipex(t_list **cmd_list, t_shell *shell);
 int								input_checker(int argc, char *arg);
 int								pipheredoc(char *arg);
-int								open_doc(t_shell *shell, char *file,
-									int filekind);
+int								open_doc(t_shell *shell, t_word_desc *word_desc);
 
 // utils.c
 int								free_char_array(char **array, int ret);
