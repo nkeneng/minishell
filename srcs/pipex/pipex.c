@@ -30,7 +30,8 @@ static void	container_child(t_shell *shell, int pipefd[2], t_word_desc *token)
 	}
 	close(pipefd[1]);
 	exit_code = here_doc(shell, dlm, filekind);
-	free_word_desc(&token);
+	free(dlm);
+	free(token);
 	clean_exit(exit_code, shell);
 }
 
