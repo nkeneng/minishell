@@ -14,26 +14,26 @@
 
 int	ft_exit(char **cmd, t_shell *shell)
 {
-	int		exit_code;
-	char	*endptr;
+	int exit_code;
+	char *endptr;
 
 	exit_code = 0;
 	(void)shell;
 	if (cmd && cmd[1])
 	{
-		if (cmd[2])
-		{
-			ft_fprintf(2, "minishell: exit: too many arguments\n");
-			return (1);
-		}
 		errno = 0;
 		exit_code = ft_strtoimax(cmd[1], &endptr, 10);
 		if (errno != 0 || *endptr != '\0')
 		{
 			ft_fprintf(2, "minishell: exit: %s: ", cmd[1]);
-			ft_fprintf(2, "numeric argument required\n");
+			ft_print(2, "numeric argument required\n", cmd[1]);
 			exit_code = 2;
 			clean_exit(exit_code, shell);
+		}
+		else if (cmd[2])
+		{
+			ft_fprintf(2, "minishell: exit: too many arguments\n");
+			return (1);
 		}
 	}
 	clean_exit(exit_code, shell);
