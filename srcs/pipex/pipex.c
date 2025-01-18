@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/18 15:32:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:36:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ pid_t	container(t_shell *shell, t_word_desc *word_desc)
 		return (rperror("fork"));
 	}
 	if (cpid == 0)
-		container_child(shell, pipefd, dlm, filekind);
+		container_child(shell, pipefd, word_desc);
 	return (container_parent(cpid, pipefd));
 }
 
