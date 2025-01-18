@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:07:48 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/09 10:42:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:22:08 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,18 @@ t_word_list	*word_list_ft_split(char *line, int flags)
 	head = NULL;
 	begin_word = seperate_words_in_line(line, flags, i, &head);
 	if (begin_word == -1)
+	{
+		free_word_list(&head);
 		return (NULL);
+	}
 	i = ft_strlen(line);
 	if (begin_word != i)
+	{
 		if (!wl_add_node(&head, &line[begin_word], i - begin_word, flags))
+		{
+			free_word_list(&head);
 			return (NULL);
+		}
+	}
 	return (head);
 }
