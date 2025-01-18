@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/18 15:36:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:39:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,17 +124,13 @@ int	start_pipex(t_list **cmd_list, t_shell *shell)
 // 	return (exit_code);
 // }
 
-int	open_doc(t_shell *shell, t_word_desc *word_desc)
+int	open_doc(t_shell *shell, t_word_desc *w)
 {
 	int		fd;
-	char	*file;
-	int		filekind;
 
-	file = word_desc->word;
-	filekind = word_desc->flags;
-	if (filekind & C_OPEN_INFILE)
+	if (w->flags & C_OPEN_INFILE)
 	{
-		fd = open(file, O_RDONLY, 0444);
+		fd = open(w->word, O_RDONLY, 0444);
 		if (fd == -1)
 			return (rperror("open"));
 		if (dup2(fd, STDIN_FILENO) == -1)
@@ -142,12 +138,12 @@ int	open_doc(t_shell *shell, t_word_desc *word_desc)
 		close(fd);
 		return (0);
 	}
-	else if (filekind & C_HERE_DOC)
-		return (container(shell, word_desc));
-	else if (filekind & C_OPEN_OUT_TRUNC)
-		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	else if (w->flags & C_HERE_DOC)
+		return (container(shell, w));
+	else if (w->flags & C_OPEN_OUT_TRUNC)
+		fd = open(w->word, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else
-		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0644);
+		fd = open(w->word, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd == -1)
 		return (rperror("open"));
 	if (dup2(fd, STDOUT_FILENO) == -1)
