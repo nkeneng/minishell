@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:56:57 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/09 18:36:57 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/19 13:08:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_exit(char **cmd, t_shell *shell)
 {
-	int exit_code;
-	char *endptr;
+	int		exit_code;
+	char	*endptr;
 
 	exit_code = 0;
 	(void)shell;
