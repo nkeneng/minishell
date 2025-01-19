@@ -216,3 +216,14 @@ lmeubrin@c3a1c6:~/core/minishell$ ./libft
 bash: ./libft: Is a directory
 lmeubrin@c3a1c6:~/core/minishell$ echo $?
 126
+
+〘🐚〙: ^C
+〘🐚〙: cat <<rt
+sdsd
+sdsd
+rt
+rt
+rt
+rt
+
+echo "cat lol.c | cat >lol.c " jfkd"   "fjd" "
