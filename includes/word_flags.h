@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:50:29 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/11 05:12:09 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/19 14:10:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define W_DQUOTED 4096      // 1 << 12  Some double quote character is present.
 # define W_ASSIGNMENT 8192   // 1 << 13  This word is a variable assignment.
 # define W_SPLITSPACE 16384  // 1 << 14  curr word should be split from next
-// because there had been a space at the end of the curr word or beginning of next
+
 # define W_EXPANDRHS 65536     // 1 << 16  Expanding word in ${paramOPword}
 # define W_VAR 131072          // 1 << 17  variable assignment
 # define W_LAST 262144         // 1 << 18  execute command output to stdout
@@ -42,12 +42,18 @@
 # define W_DONE 1073741824      // 1 << 30  nothing else to do here
 # define W_HASDOLLAR 2147483648 // 1 << 31  Dollar sign present.
 
-# define WM_REDIR_MASK (W_HERE_DOC | W_OPEN_INFILE | W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP)
-# define WM_OPERATOR_MASK (W_PIPE | W_AND | W_OR)
-# define WM_OP_RE (WM_REDIR_MASK | WM_OPERATOR_MASK)
-# define WM_SPLIT_AT_SPACES (W_SQUOTED | W_DQUOTED | WM_OPERATOR_MASK | WM_REDIR_MASK)
+//(W_HERE_DOC | W_OPEN_INFILE | W_OPEN_OUT_TRUNC | W_OPEN_OUT_APP)
+# define WM_REDIR_MASK 240
+/*(W_PIPE | W_AND | W_OR)*/
+# define WM_OPERATOR_MASK 776
+/*(WM_REDIR_MASK | WM_OPERATOR_MASK)*/
+# define WM_OP_RE 1016
+/*(W_SQUOTED | W_DQUOTED | WM_OPERATOR_MASK | WM_REDIR_MASK)*/
+# define WM_SPLIT_AT_SPACES 7160
 
-# define WM_DOUBLE_SIGN (W_HERE_DOC | W_AND | W_OR | W_OPEN_OUT_APP)
-# define WM_SINGLE_SIGN (W_PIPE | W_OPEN_OUT_TRUNC | W_OPEN_INFILE | W_ASSIGNMENT)
+/*(W_HERE_DOC | W_AND | W_OR | W_OPEN_OUT_APP)*/
+# define WM_DOUBLE_SIGN 912
+/*(W_PIPE | W_OPEN_OUT_TRUNC | W_OPEN_INFILE | W_ASSIGNMENT)*/
+# define WM_SINGLE_SIGN 8296
 
 #endif // !WORD_FLAGS

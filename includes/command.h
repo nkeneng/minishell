@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:21:58 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/11 05:08:36 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/19 14:13:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 # define C_LAST_PIPE 512     // 1 << 9  execute command output to stdout
 # define C_ONLY 1024         // 1 << 10  first command in a pipeline
 
-# define PIPE_OR_REDIR_MASK (C_PIPE | C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP)
+/*(C_PIPE | C_HERE_DOC | C_OPEN_INFILE | C_OPEN_OUT_TRUNC | C_OPEN_OUT_APP)*/
+# define PIPE_OR_REDIR_MASK 248
 
 // enum used in is_builtin for a return value
 enum		e_builtin
