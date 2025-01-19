@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:26:45 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/07 14:38:42 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/19 13:58:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct s_redirect
 {
 	struct s_redirect	*next;
 	t_word_desc			*filename;
-	/* filename (or fd number as string) to redirect to. */
 }						t_redirect;
 
 // UNUSED
