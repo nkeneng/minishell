@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/14 16:10:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/19 13:33:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	handle_signals(t_shell *shell)
 	}
 }
 
-static int	process_line(char *line, t_shell *shell)
+static void	process_line(char *line, t_shell *shell)
 {
 	t_list	*lst;
 
@@ -34,7 +34,7 @@ static int	process_line(char *line, t_shell *shell)
 	if (!lst)
 	{
 		shell->exit_status = errno;
-		return (errno);
+		return ;
 	}
 	shell->cmds = &lst;
 	shell->exit_status = start_pipex(&lst, shell);
@@ -44,7 +44,6 @@ static int	process_line(char *line, t_shell *shell)
 	shell->cmds = NULL;
 	if (g_signal == SIGINT)
 		g_signal = 0;
-	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -65,8 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		line = rl_gets(PROMPT, &shell);
 		if (!line)
 			continue ;
-		if (process_line(line, &shell))
-			break ;
+		process_line(line, &shell);
 	}
 	ft_free_envp(shell.envp, shell.nb_env);
 	return (shell.exit_status);
