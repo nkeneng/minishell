@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:22:19 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/15 18:04:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/19 11:26:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 static void	container_child(t_shell *shell, int pipefd[2], char *dlm,
 		int filekind)
 {
+	int	return_code;
+
 	signal_dfl(SIGINT);
 	close(pipefd[0]);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
@@ -24,7 +26,11 @@ static void	container_child(t_shell *shell, int pipefd[2], char *dlm,
 		clean_exit(rperror("dup2"), shell);
 	}
 	close(pipefd[1]);
-	clean_exit(here_doc(shell, dlm, filekind), shell);
+	return_code = here_doc(shell, dlm, filekind);
+	ft_free_redirect((t_command *)(*(shell->cmds))->redirects)
+	ft_free_redirect((t_command *)(shell->cmds->content)->redirects);
+	free(dlm);
+	clean_exit(return_code, shell);
 }
 
 static pid_t	container_parent(pid_t cpid, int pipefd[2])
