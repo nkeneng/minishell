@@ -227,3 +227,6 @@ rt
 rt
 
 echo "cat lol.c | cat >lol.c " jfkd"   "fjd" "
+
+check permissions:
+echo hello | ""

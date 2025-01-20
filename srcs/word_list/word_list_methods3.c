@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 12:43:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/20 09:40:04 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:57:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ t_word_list	*wl_remove_whitespace_element(t_word_list **head, t_word_list *curr)
 	int			i;
 
 	i = ft_skip_whitespace(curr->word->word);
-	if (i && curr->word->word[i] == '\0')
+	if (i && curr->word->word[i] == '\0' && \
+		!(curr->word->flags & WM_SPLIT_AT_SPACES))
 	{
 		if (curr->prev)
 			curr->prev->word->flags |= W_SPLITSPACE;
