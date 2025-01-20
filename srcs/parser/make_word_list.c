@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/15 18:03:03 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:22:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	fuse_words(t_word_list **word_list, t_word_list *curr)
 		free_word_list(word_list);
 		return (1);
 	}
-	free_word_desc(&curr->word);
 	curr->word = new_word;
 	wl_delone(word_list, curr->prev);
 	return (0);

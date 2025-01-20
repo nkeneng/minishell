@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:19:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 13:56:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:14:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ t_word_desc	*wd_fuse_words(t_word_desc *first, t_word_desc *second)
 
 	len1 = ft_strlen(first->word);
 	len2 = ft_strlen(second->word);
+	if (len1 == 0 && len2 == 0)
+		return (second);
 	new_string = ft_calloc(len1 + len2 + 1, sizeof(char));
 	if (!new_string)
 		return (NULL);
@@ -100,5 +102,6 @@ t_word_desc	*wd_fuse_words(t_word_desc *first, t_word_desc *second)
 	new_word = wd_make_word(new_string, len1 + len2,
 			first->flags | second->flags);
 	free(new_string);
+	free_word_desc(&second);
 	return (new_word);
 }
