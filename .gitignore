@@ -11,3 +11,4 @@ minishell
 testfiles
 exec_minishell
 parse_minishell
+minishell-tester
