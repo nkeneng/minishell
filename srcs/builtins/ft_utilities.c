@@ -62,7 +62,6 @@ int	is_valid_identifier(char *str)
 
 t_env	*ft_setenv(char *key, char *value, t_env **envp)
 {
-	int		i;
 	t_env	*new_env;
 	int		nb_env;
 
@@ -73,15 +72,14 @@ t_env	*ft_setenv(char *key, char *value, t_env **envp)
 		ft_fprintf(2, "minishell: export: %s\n", strerror(errno));
 		return (NULL);
 	}
-	i = 0;
 	fill_new_env(nb_env, &new_env, envp);
-	new_env[i].key = ft_strdup(key);
+	new_env[nb_env].key = ft_strdup(key);
 	if (value)
-		new_env[i].value = ft_strdup(value);
+		new_env[nb_env].value = ft_strdup(value);
 	else
-		new_env[i].value = NULL;
-	new_env[i + 1].key = NULL;
-	new_env[i + 1].value = NULL;
+		new_env[nb_env].value = NULL;
+	new_env[nb_env + 1].key = NULL;
+	new_env[nb_env + 1].value = NULL;
 	free_old_env(envp);
 	return (new_env);
 }
