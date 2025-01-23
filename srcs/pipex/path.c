@@ -18,7 +18,7 @@ char	*get_commpath(char **paths, const char *command, int *err)
 	char	*commpath;
 
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		commpath = ft_strjoin3(paths[i++], "/", command);
 		if (!commpath)
@@ -87,11 +87,6 @@ static char	*build_commpath(t_command *cmd, char *envp[], int *err)
 		return (ft_strdup(command[0]));
 	}
 	paths = get_paths(envp);
-	if (!paths)
-	{
-		*err = rperror("malloc");
-		return (NULL);
-	}
 	commpath = get_commpath(paths, command[0], err);
 	free_char_array(paths, 1);
 	return (commpath);

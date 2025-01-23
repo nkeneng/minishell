@@ -34,6 +34,9 @@ char	**env_to_array(t_env *envp)
 
 int	exec_builtin(int builtin, t_command *command, t_env **envp, t_shell *shell)
 {
+	char	**envp_array;
+	int		ret;
+
 	(void)shell;
 	if (builtin == CD_BUILTIN)
 		return (ft_cd(command->cmd, envp));
@@ -46,7 +49,12 @@ int	exec_builtin(int builtin, t_command *command, t_env **envp, t_shell *shell)
 	else if (builtin == UNSET_BUILTIN)
 		return (ft_unset(command->cmd, envp));
 	else if (builtin == ENV_BUILTIN)
-		return (ft_env(env_to_array(*envp)));
+	{
+		envp_array = env_to_array(*envp);
+		ret = ft_env(envp_array);
+		free_char_array(envp_array, 0);
+		return (ret);
+	}
 	else if (builtin == EXIT_BUILTIN)
 		return (ft_exit(command->cmd, shell));
 	return (0);
