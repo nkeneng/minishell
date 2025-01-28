@@ -7,6 +7,7 @@ NAME = minishell
 CC := cc
 #-fPIE: Used during compilation to generate position-independent code
 CFLAGS :=  -Wall -Wextra -Wextra -g -fPIE
+SANITIZE_FLAGS := -fsanitize=address,undefined
 LIBS := -lreadline
 LIBFT_DIR := libft
 LIBFT_A := $(LIBFT_DIR)/libft.a
@@ -20,11 +21,9 @@ HEADER_DIR		= includes/
 
 DIRS = $(addprefix $(OBJS_DIR), . builtins dummy_helpers pipex lst reading parser word_list signals)
 
-# MAIN = $(SRCS_DIR)tests/simple_main.c
 MAIN = $(SRCS_DIR)main.c
 MAIN_OBJ := $(MAIN:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
-#		$(addprefix dummy_helpers/, fake_commands.c)
 SRCS = $(addprefix $(SRCS_DIR), \
 		$(addprefix pipex/, pipex.c path.c command.c utils.c file_redirection.c checkdir.c builtins_helpers.c pipex_core.c pipex_exec.c) \
 		$(addprefix lst/, ft_lstcreate_addback.c ft_free_command.c ft_printf_list.c \
@@ -55,7 +54,7 @@ all: submodules $(LIBFT_A) $(NAME)
 
 build: $(OBJS) $(LIBFT_A)
 	@echo "Compiling $(MAIN)..."
-	@$(CC) $(CFLAGS) -I$(HEADERS) -c $(MAIN) -o $(OBJS_DIR)$(notdir $(MAIN:.c=.o))
+	@$(CC) $(CFLAGS) $(SANITIZE_FLAGS) -I$(HEADERS) -c $(MAIN) -o $(OBJS_DIR)$(notdir $(MAIN:.c=.o))
 	@echo "Linking executable $(NAME)..."
 	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(OBJS_DIR)$(notdir $(MAIN:.c=.o)) $(INCLUDES) $(LIBFT) $(LIBS) -o $(NAME)
 	@echo "done"
@@ -73,7 +72,7 @@ $(TEST_OBJS_DIR):
 #-pie is used to generate position-independent code, new security feature
 $(NAME): $(OBJS) $(LIBFT_A) $(MAIN_OBJ)
 	@echo "Linking executable $(NAME)..."
-	$(CC) $(CFLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@ -pie
+	$(CC) $(CFLAGS) $(SANITIZE_FLAGS) -I$(HEADERS) $(OBJS) $(MAIN_OBJ) $(INCLUDES) $(LIBFT) $(LIBS) -o $@ -pie
 	@echo "done"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) | $(DIRS)
