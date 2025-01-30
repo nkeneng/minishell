@@ -1,3 +1,103 @@
+
+{
+	<ls.c-leak-suppression>
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	fun:tzalloc
+	...
+	fun:main
+}
+{
+	<ls.c-leak-suppression>
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	fun:UnknownInlinedFun
+	...
+	fun:main
+}
+{
+	<ls.c-leak-suppression>
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:realloc
+	fun:UnknownInlinedFun
+	...
+	fun:main
+}
+{
+
+   <grep>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:reallocarray
+   fun:UnknownInlinedFun
+   ...
+   fun:GEAcompile
+   fun:main
+}
+{
+
+   <grep>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:UnknownInlinedFun
+   ...
+   fun:GEAcompile
+   fun:main
+}
+{
+   <grep-malloc>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:UnknownInlinedFun
+   ...
+   fun:xstrdup
+   fun:main
+}
+{
+   <grep-malloc>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   fun:GEAcompile
+   fun:main
+}
+{
+   <prep-unknown-inline>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:UnknownInlinedFun
+   ...
+   fun:UnknownInlinedFun
+   fun:main
+}
+{
+   <grep>
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:realloc
+   fun:UnknownInlinedFun
+   ...
+   fun:GEAcompile
+   fun:main
+}
+{
+   <grep-realloc>
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:realloc
+   fun:UnknownInlinedFun
+   ...
+   fun:update_patterns
+   fun:main
+}
+
 {
    <Readline>
    Memcheck:Leak
