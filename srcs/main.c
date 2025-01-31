@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/23 09:17:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:46:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ int	main(int argc, char **argv, char **envp)
 		process_line(line, &shell);
 	}
 	if (shell.envp)
-		ft_free_envp(shell.envp, shell.nb_env);
+		ft_free_envp(shell.envp);
 	return (shell.exit_status);
 }
