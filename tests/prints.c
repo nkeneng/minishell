@@ -6,11 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:24:41 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/28 17:00:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:46:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
 void	print_flag_name(int flag)
 {
