@@ -84,11 +84,17 @@ void	loop(char **args, int *status, t_env **envp)
 int	ft_export(char **args, t_env **envp)
 {
 	int		status;
+	char	**env;
 
 	if (!args)
 		return (EXIT_FAILURE);
 	if (count_char_array(args) == 1)
-		return (ft_env(env_to_array(*envp)));
+	{
+		env = env_to_array(*envp);
+		status = ft_env(env);
+		free_char_array(env, 1);
+		return (status);
+	}
 	status = EXIT_SUCCESS;
 	loop(args, &status, envp);
 	return (status);
