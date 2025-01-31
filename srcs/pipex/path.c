@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:56:59 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/14 18:56:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:30:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,10 @@ int	make_exec(t_command *cmd, char *envp[])
 		return (err);
 	execve(commpath, command, envp);
 	err = errno;
-	ft_fprintf(2, "%s: %s\n", command[0], strerror(err));
+	if (err == 8)
+		err = 0;
+	else
+		ft_fprintf(2, "%s: %s\n", command[0], strerror(err));
 	free(commpath);
 	return (err);
 }
