@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:09:57 by admin             #+#    #+#             */
-/*   Updated: 2025/01/14 16:06:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:45:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_shell							*init_shell(char **env);
 
 // ft_free_shell.c
 void							ft_free_shell(t_shell **shell);
-void							ft_free_envp(t_env *envp, int nb_env);
+void							ft_free_envp(t_env *envp);
 
 // SIGNALS
 // signal.c
