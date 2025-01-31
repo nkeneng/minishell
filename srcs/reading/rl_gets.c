@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:47:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/14 16:06:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:36:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*rl_gets(char *prompt, t_shell *shell)
 
 	line = readline(prompt);
 	if (!line)
-		clean_exit (0, shell);
+		clean_exit (shell->exit_status, shell);
 	if (*line)
 		add_history(line);
 	return (line);
