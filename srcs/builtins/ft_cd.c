@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:56:30 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/07 15:00:49 by admin            ###   ########.fr       */
+/*   Updated: 2025/01/31 18:47:13 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	change_to_home(void)
 	}
 	if (chdir(home) == -1)
 	{
-		perror("chdir");
+		perror("minishell: cd");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -57,7 +57,7 @@ static int	change_to_previous(t_env **envp)
 	}
 	if (chdir(oldpwd) == -1)
 	{
-		perror("chdir");
+		perror("minishell: cd");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -80,13 +80,13 @@ static int	handle_tilde_path(const char *path, char *home)
 		free(full_path);
 		if (ret == -1)
 		{
-			perror("chdir");
+			perror("minishell: cd");
 			return (EXIT_FAILURE);
 		}
 	}
 	else if (chdir(home) == -1)
 	{
-		perror("chdir");
+		perror("minishell: cd");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -109,7 +109,7 @@ int	ft_cd(char **cmd, t_env **envp)
 		ret = handle_tilde_path(cmd[1], getenv("HOME"));
 	else if (chdir(cmd[1]) == -1)
 	{
-		perror("chdir");
+		perror("minishell: cd");
 		ret = EXIT_FAILURE;
 	}
 	else
