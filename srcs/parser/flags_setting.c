@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:13:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/31 18:15:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/01 09:02:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	assign_flag(t_word_list *list)
 	while (curr)
 	{
 		flag = sign_to_flag(curr->word->word);
-		if (flag & WM_OPERATOR_MASK && curr->word->flags != W_DQUOTED && curr->word->flags != W_SQUOTED)
+		if (flag & WM_OPERATOR_MASK && \
+			curr->word->flags != W_DQUOTED && curr->word->flags != W_SQUOTED)
 		{
 			list = curr->next;
 			pipenumber++;
