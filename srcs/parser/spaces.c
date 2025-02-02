@@ -29,10 +29,7 @@ int	wd_remove_whitespace(t_word_desc *item)
 	if (item->flags & W_SQUOTED || item->flags & W_DQUOTED)
 		return (0);
 	if (ft_remove_spaces(item->word))
-	{
-		ft_printf("wd_remove_whitespace: removed spaces\n");
 		item->flags |= W_SPLITSPACE;
-	}
 	return (ft_remove_spaces(item->word));
 }
 

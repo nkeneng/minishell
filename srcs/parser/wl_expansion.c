@@ -20,9 +20,9 @@ t_word_list	*expand_and_split(t_word_list **wl, t_word_list *curr, t_shell *sh)
 		free_word_list(wl);
 		return (NULL);
 	}
-	if (!curr->word->word)
-		curr = wl_delone(wl, curr);
-	else if (curr->word->flags & W_EXPANDED)
+	if (!curr->word->word || curr->word->word[0] == '\0')
+		return (curr);
+	if (curr->word->flags & W_EXPANDED)
 		curr = split_element_at_wh(wl, curr);
 	if (!curr)
 		return (NULL);
@@ -36,16 +36,16 @@ t_word_list	*expand_and_split(t_word_list **wl, t_word_list *curr, t_shell *sh)
 int	wl_expand_list(t_word_list **word_list, t_shell *shell)
 {
 	t_word_list	*curr;
+	t_word_list	*next;
 
 	curr = *word_list;
 	while (curr)
 	{
-		while (contains_more_vars(curr->word))
+		next = curr->next;
+		while (curr->word && contains_more_vars(curr->word))
 		{
 			if (!(curr->word->flags & W_EXPANDED))
 				curr = expand_and_split(word_list, curr, shell);
-			if (!curr)
-				return (2);
 			curr = wl_remove_whitespace_element(word_list, curr);
 			if (!curr)
 			{
@@ -53,7 +53,7 @@ int	wl_expand_list(t_word_list **word_list, t_shell *shell)
 				return (1);
 			}
 		}
-		curr = curr->next;
+		curr = next;
 	}
 	return (0);
 }

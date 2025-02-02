@@ -48,7 +48,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_strlcpy(joined_str, s1, len1 + 1);
 	ft_strlcpy(joined_str + len1, s2, len2 + 1);
-	joined_str[len1 + len2 + 1] = '\0';
+	joined_str[len1 + len2] = '\0';
 	return (joined_str);
 }
 

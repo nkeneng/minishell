@@ -15,10 +15,20 @@
 void	*free_on_syn_err(t_word_list **list, const char *desc, t_list **redir)
 {
 	syntax_error(list, desc);
+	ft_lstclear(redir, ft_free_redirect);
 	free_word_list(list);
 	list = NULL;
 	ft_lstclear(redir, free);
 	return (NULL);
+}
+
+static void	free_word_a_redirect(t_word_list **list, t_list **redir)
+{
+	ft_lstclear(redir, ft_free_redirect);
+	free_word_list(list);
+	list = NULL;
+	ft_lstclear(redir, free);
+	return ;
 }
 
 // takes list of words and makes a list of redirects
@@ -39,8 +49,10 @@ t_list	*make_redirect_list(t_word_list **list)
 		if (curr->next == NULL)
 			return (free_on_syn_err(list, "newline", &redir_head));
 		curr->next->word->flags |= curr->word->flags;
+		if (curr->next->next && !(curr->next->next->word->flags & WM_OPERATOR_MASK) && !(curr->next->word->flags & W_SPLITSPACE))
+			if (fuse_words(list, curr->next->next))
+				free_word_a_redirect(list, &redir_head);
 		redir_item = wl_to_redirect(list, curr->next);
-		wd_remove_whitespace(redir_item->filename);
 		ft_lstadd_back(&redir_head, ft_lstnew(redir_item));
 		next = curr->next;
 		wl_delone(list, curr);

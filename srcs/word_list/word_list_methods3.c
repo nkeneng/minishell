@@ -33,8 +33,12 @@ t_word_list	*wl_remove_whitespace_element(t_word_list **head, t_word_list *curr)
 {
 	int			i;
 
+	if (!curr || !curr->word)
+		return (NULL);
+	else if (!curr->word->word)
+		return (wl_delone(head, curr));
 	i = ft_skip_whitespace(curr->word->word);
-	if (i && curr->word->word[i] == '\0' && \
+	if (curr->word->word[i] == '\0' && \
 		!(curr->word->flags & WM_SPLIT_AT_SPACES))
 	{
 		if (curr->prev)
