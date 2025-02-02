@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 13:31:07 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/20 15:22:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:53:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	wl_identify_words(t_word_list **word_list)
 	curr = *word_list;
 	if (identify_word_type(curr->word) == W_PIPE)
 		return (syntax_error(word_list, curr->word->word));
+	remove_quotes(curr->word);
 	if (curr->next)
 		curr = curr->next;
 	while (curr->next)
