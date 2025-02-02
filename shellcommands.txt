@@ -230,3 +230,18 @@ echo "cat lol.c | cat >lol.c " jfkd"   "fjd" "
 
 check permissions:
 echo hello | ""
+
+   
+			
+echo "     "           "hello"        "   "
+echo """"$USER""""
+echo """""$USER"""""
+echo is this $hi"a true hi""should expand $hi"
+echo is this $hi'a true hi'"should expand $hi"
+echo is this $hi "should expand $USER" 'should not expand $USER'
+echo $hi $hi $hi
+echo $hi + $hi
+e"cho" this is working
+echo nospace:"1""2""3"
+""echo
+e"cho"
