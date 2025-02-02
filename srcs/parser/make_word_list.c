@@ -35,6 +35,10 @@ t_word_list	*make_word_list(char *line, t_shell *shell)
 	return (word_list);
 }
 
+// fuses curr with curr->prev and deletes the previous word and the current 
+// word, which gets replaced by a newly allocated word, consiting of the fused
+// words and the fused flags between the words
+// returns 0 if successful, 1 if an error occurs
 int	fuse_words(t_word_list **word_list, t_word_list *curr)
 {
 	t_word_desc	*new_word;
@@ -67,10 +71,6 @@ int	wl_split_on_whitesp(t_word_list **word_list)
 			free_word_list(word_list);
 			return (1);
 		}
-		if (curr->prev && !(curr->prev->word->flags & WM_OP_RE) && \
-!(curr->prev->word->flags & W_SPLITSPACE || curr->word->flags & WM_OP_RE))
-			if (fuse_words(word_list, curr))
-				return (1);
 		if (!curr->word)
 		{
 			free_word_list(word_list);

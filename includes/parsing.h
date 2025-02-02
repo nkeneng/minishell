@@ -95,6 +95,7 @@ int			missing_close_bracket(char *line);
 
 // make_word_list.c
 t_word_list	*make_word_list(char *line, t_shell *shell);
+int			fuse_words(t_word_list **word_list, t_word_list *curr);
 int			wl_identify_words(t_word_list **word_list);
 int			wl_split_on_whitesp(t_word_list **word_list);
 t_word_list	*wl_from_line(t_word_list *h, char *line, int size, int flag);
