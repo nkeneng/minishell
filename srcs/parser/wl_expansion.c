@@ -46,12 +46,14 @@ int	wl_expand_list(t_word_list **word_list, t_shell *shell)
 		{
 			if (!(curr->word->flags & W_EXPANDED))
 				curr = expand_and_split(word_list, curr, shell);
-			curr = wl_remove_whitespace_element(word_list, curr);
 			if (!curr)
-			{
-				free_word_list(word_list);
 				return (1);
 			}
+		curr = wl_remove_whitespace_element(word_list, curr);
+		if (!curr && next)
+		{
+			free_word_list(word_list);
+			return (1);
 		}
 		curr = next;
 	}
