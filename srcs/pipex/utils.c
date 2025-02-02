@@ -16,11 +16,11 @@ int	free_char_array(char **array, int ret)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!array)
 		return (ret);
-	while (array[i])
-		free(array[i++]);
+	while (array[++i])
+		free(array[i]);
 	free(array);
 	return (ret);
 }
