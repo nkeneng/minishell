@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 12:17:17 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/17 20:06:57 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 13:40:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ t_word_desc	*exchange_tile(t_word_desc **item, t_shell *shell)
 		value = envp_keytovalue("HOME", shell->envp, 4);
 		len = 1;
 	}
-	new_string = ft_exchange_within((*item)->word, 0, len, value);
+	if (value)
+	{
+		new_string = ft_exchange_within((*item)->word, 0, len, value);
+		free((*item)->word);
+		(*item)->word = new_string;
+	}
 	(*item)->flags |= W_EXPANDED;
-	free((*item)->word);
-	(*item)->word = new_string;
 	return (*item);
 }
 

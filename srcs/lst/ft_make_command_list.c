@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 12:27:50 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/02/03 10:53:47 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:56:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,13 @@ t_command	*fill_command(int wdcnt_to_pipe, t_command *cmd, t_word_list **wlst)
 {
 	t_word_list	*tmp;
 	int			i;
-	char		*old;
 
 	i = 0;
 	tmp = *wlst;
 	while (i < wdcnt_to_pipe)
 	{
 		if (cmd->cmd[i])
-			ft_freejoin(cmd->cmd[i], tmp->word->word);
+			cmd->cmd[i] = ft_freejoin(cmd->cmd[i], tmp->word->word);
 		else
 			cmd->cmd[i] = ft_strdup(tmp->word->word);
 		if (tmp->word->flags & W_SPLITSPACE || !tmp->next
