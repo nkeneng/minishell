@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 15:14:14 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/12/11 11:42:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:05:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ int	contains_more_vars(t_word_desc *item)
 
 	if (item->flags & (W_SQUOTED))
 		return (0);
-	if (ft_strchr(item->word, '~'))
-	{
-		item->flags &= ~W_EXPANDED;
-		return (1);
-	}
 	var_start = ft_strchr(item->word, '$');
 	while (var_start && *var_start && *(var_start + 1))
 	{
