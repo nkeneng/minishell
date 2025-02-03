@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:00:49 by admin             #+#    #+#             */
-/*   Updated: 2025/01/14 16:47:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:41:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	child_exec_to_stdout(t_shell *shell, t_command *cmd, int builtin_nb,
 			clean_exit(EXIT_FAILURE, shell);
 		errno = make_exec(cmd, envp_array);
 		free_char_array(envp_array, 0);
+		ft_free_command_list(shell->cmds);
 		clean_exit(errno, NULL);
 	}
 }
@@ -107,6 +108,7 @@ void	handle_child_exec(t_shell *shell, t_command *cmd, t_env **envp)
 		if (!envp_array)
 			clean_exit(EXIT_FAILURE, shell);
 		make_exec(cmd, envp_array);
+		ft_free_command_list(shell->cmds);
 		free_char_array(envp_array, 0);
 	}
 }
