@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:00:49 by admin             #+#    #+#             */
-/*   Updated: 2025/02/03 18:41:04 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:40:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int chld_pids, int prev_fd)
 	builtin_nb = is_builtin(cmd->cmd[0]);
 	if (chld_pids == 1 && builtin_nb)
 		return (handle_builtin_stdout(shell, cmd, builtin_nb));
+	while (chld_pids--)
+		waitpid(0, NULL, 0);
 	if (handle_redirects(shell, cmd, C_HERE_DOC | C_OPEN_INFILE))
 		return (EXIT_FAILURE);
 	cpid = fork();
@@ -67,8 +69,6 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int chld_pids, int prev_fd)
 	if (prev_fd != -1)
 		close(prev_fd);
 	waitpid(cpid, &status, 0);
-	while (chld_pids--)
-		waitpid(0, NULL, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
