@@ -231,6 +231,9 @@ echo "cat lol.c | cat >lol.c " jfkd"   "fjd" "
 check permissions:
 echo hello | ""
 
+valgrind stuff
+echo "jf"kdkd"$hi"'fjf''$hi' | dfjkd "fdkj"fj"$hi" | fjkfd<444
+
    
 			
 echo "     "           "hello"        "   "
