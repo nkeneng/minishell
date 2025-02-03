@@ -38,11 +38,12 @@ void	child_exec_to_stdout(t_shell *shell, t_command *cmd, int builtin_nb,
 		clean_exit(exec_builtin(builtin_nb, cmd, &(shell->envp), shell), shell);
 	{
 		envp_array = env_to_array(shell->envp);
+		ft_free_shell(&shell);
 		if (!envp_array)
 			clean_exit(EXIT_FAILURE, shell);
 		errno = make_exec(cmd, envp_array);
 		free_char_array(envp_array, 0);
-		clean_exit(errno, shell);
+		clean_exit(errno, NULL);
 	}
 }
 
@@ -102,6 +103,7 @@ void	handle_child_exec(t_shell *shell, t_command *cmd, t_env **envp)
 	else
 	{
 		envp_array = env_to_array(*envp);
+		ft_free_shell(&shell);
 		if (!envp_array)
 			clean_exit(EXIT_FAILURE, shell);
 		make_exec(cmd, envp_array);

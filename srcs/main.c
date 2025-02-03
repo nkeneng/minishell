@@ -61,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signals();
 		handle_signals(&shell);
+		ft_free_command_list(shell.cmds);
 		line = rl_gets(PROMPT, &shell);
 		if (!line)
 			continue ;
