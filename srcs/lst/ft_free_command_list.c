@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 14:28:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2024/11/18 10:25:14 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:49:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_free_command_list(t_list **lst)
 	tmp = *lst;
 	while (*lst)
 	{
-		ft_lstclear(&((t_command *)tmp->content)->redirects, ft_free_word_desc);
 		ft_free_command(tmp->content);
 		tmp = (*lst)->next;
 		free(*lst);
