@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:09:57 by admin             #+#    #+#             */
-/*   Updated: 2025/01/31 10:45:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:52:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int								open_doc(t_shell *shell, char *file,
 									int filekind);
 
 // utils.c
+char							*ft_freejoin(char *s1, char *s2);
 int								free_char_array(char **array, int ret);
 int								rperror(char *str);
 int								count_char_array(char **charray);
