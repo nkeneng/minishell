@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wl_utils.c                                         :+:      :+:    :+:   */
+/*   word_list_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:59:44 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/02/03 12:05:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:10:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 static void	free_word_a_redirect(t_word_list **list, t_list **redir)
 {
