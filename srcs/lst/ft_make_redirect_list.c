@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:25:08 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/02/02 19:46:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:27:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_list	*make_redirect_list(t_word_list **list)
 		if (curr->next->word->flags & WM_OP_RE)
 			return (free_on_syn_err(list, curr->next->word->word, &redir_head));
 		curr->next->word->flags |= curr->word->flags;
-		while (curr->next->next && !(curr->next->next->word->flags & WM_OPERATOR_MASK) && !(curr->next->word->flags & W_SPLITSPACE))
+		while (curr->next->next && !(curr->next->next->word->flags & \
+			WM_OPERATOR_MASK) && !(curr->next->word->flags & W_SPLITSPACE))
 			if (fuse_words(list, curr->next->next))
 				free_word_a_redirect(list, &redir_head);
 		redir_item = wl_to_redirect(list, curr->next);
