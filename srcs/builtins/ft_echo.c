@@ -27,6 +27,8 @@ static int	handle_n_flag(char **args, int *to_print)
 		if (args[i][0] == '-')
 		{
 			j = 1;
+			if (args[i][j] == '\0')
+				return (i);
 			while (args[i][j] == 'n')
 				j++;
 			if (args[i][j] == '\0')

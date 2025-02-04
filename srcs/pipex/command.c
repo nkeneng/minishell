@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:42:30 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/01/10 16:11:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:09:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ static int	handle_pipe_segment(t_shell *shell, t_command *cmd, int *pipefd,
 	return (0);
 }
 
+static int	execlast_wait(t_shell *sh, t_list **cmd_lst, int chld_pid, int p_fd)
+{
+	int	ret;
+
+	ret = exec_to_stdout(sh, ft_lstlast(*cmd_lst)->content, chld_pid, p_fd);
+	if (p_fd != -1)
+		close(p_fd);
+	while (chld_pid--)
+		waitpid(0, NULL, 0);
+	return (ret);
+}
+
 int	pipex(t_shell *shell, t_list **cmd_list)
 {
 	int		ret;
@@ -58,6 +70,5 @@ int	pipex(t_shell *shell, t_list **cmd_list)
 			return (EXIT_FAILURE);
 		tmp_list = tmp_list->next;
 	}
-	return (exec_to_stdout(shell, ft_lstlast(*cmd_list)->content, p_nb,
-			prev_fd));
+	return (execlast_wait(shell, cmd_list, p_nb, prev_fd));
 }

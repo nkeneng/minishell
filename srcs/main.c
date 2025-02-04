@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:13:25 by stevennke         #+#    #+#             */
-/*   Updated: 2025/01/31 10:46:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:31:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static void	handle_signals(t_shell *shell)
 	if (g_signal)
 	{
 		shell->exit_status = (128 + g_signal);
-		if (g_signal == SIGQUIT)
-			ft_free_shell(&shell);
 		g_signal = 0;
 	}
 }
@@ -61,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signals();
 		handle_signals(&shell);
+		ft_free_command_list(shell.cmds);
 		line = rl_gets(PROMPT, &shell);
 		if (!line)
 			continue ;

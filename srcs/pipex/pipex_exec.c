@@ -6,7 +6,7 @@
 /*   By: admin <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 05:00:49 by admin             #+#    #+#             */
-/*   Updated: 2025/01/14 16:47:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:18:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ void	child_exec_to_stdout(t_shell *shell, t_command *cmd, int builtin_nb,
 		clean_exit(exec_builtin(builtin_nb, cmd, &(shell->envp), shell), shell);
 	{
 		envp_array = env_to_array(shell->envp);
+		ft_free_shell(&shell);
 		if (!envp_array)
 			clean_exit(EXIT_FAILURE, shell);
 		errno = make_exec(cmd, envp_array);
 		free_char_array(envp_array, 0);
-		clean_exit(errno, shell);
+		ft_free_command_list(shell->cmds);
+		clean_exit(errno, NULL);
 	}
 }
 
@@ -62,11 +64,7 @@ int	exec_to_stdout(t_shell *shell, t_command *cmd, int chld_pids, int prev_fd)
 		return (rperror("fork"));
 	else if (cpid == 0)
 		child_exec_to_stdout(shell, cmd, builtin_nb, prev_fd);
-	if (prev_fd != -1)
-		close(prev_fd);
 	waitpid(cpid, &status, 0);
-	while (chld_pids--)
-		waitpid(0, NULL, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
@@ -102,9 +100,11 @@ void	handle_child_exec(t_shell *shell, t_command *cmd, t_env **envp)
 	else
 	{
 		envp_array = env_to_array(*envp);
+		ft_free_shell(&shell);
 		if (!envp_array)
 			clean_exit(EXIT_FAILURE, shell);
 		make_exec(cmd, envp_array);
+		ft_free_command_list(shell->cmds);
 		free_char_array(envp_array, 0);
 	}
 }

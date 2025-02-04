@@ -49,7 +49,7 @@ TEST_SRCS = $(filter-out $(SRCS_DIR)main.c $(SRCS_DIR)shellprompt.c, $(SRCS))
 TESTS_FILES = $(shell find ./tests -name "*_tests.c")
 TEST_OBJS = $(TEST_SRCS:$(SRCS_DIR)%.c=$(TEST_OBJS_DIR)%.o) $(TESTS_FILES:./tests/%.c=$(TEST_OBJS_DIR)%.o)
 
-.PHONY: all clean fclean re submodules libft test parse
+.PHONY: all clean fclean re submodules libft test parse build run debug
 
 all: submodules $(LIBFT_A) $(NAME)
 
