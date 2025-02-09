@@ -1,29 +1,83 @@
-## command.h
+# Minishell
 
-This header file defines constants and structures used for handling commands in the minishell project.
+## Description
+Minishell is a simple, lightweight shell implementation written in C. It aims to provide a minimalistic and efficient command-line interface for Unix-like operating systems.
+This project challenges us to create a bash-like application that runs in the terminal 
 
-### Constants
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact Information](#contact-information)
 
-- `C_EXECUTE`: Flag indicating the command needs to read from a pipe.
-- `C_COMMAND_BUILTIN`: Flag indicating the command is a built-in shell command.
-- `C_PIPE`: Flag indicating the command needs to read from a pipe.
-- `C_HERE_DOC`: Flag indicating the command needs to read from a here document.
-- `C_OPEN_INFILE`: Flag indicating the command should open a file as input.
-- `C_OPEN_OUT_TRUNC`: Flag indicating the command should open an output file in truncated mode.
-- `C_OPEN_OUT_APP`: Flag indicating the command should open an output file in append mode.
-- `C_VAR`: Flag indicating the command involves a variable assignment.
-- `C_LAST_PIPE`: Flag indicating the command's output should be directed to stdout.
+## Features
 
-### Structure
+Minishell provides a variety of functionalities that simulate a basic shell environment:
 
-#### `t_command`
+- **Command Execution**:
+  - Execute programs using their absolute paths (e.g., `/bin/ls`).
+  - Execute programs using their relative paths.
 
-This structure represents a command and contains the following fields:
+- **File Redirections**:
+  - Redirect input using `<`.
+  - Redirect output using `>`.
+  - Append output using `>>`.
 
-- `char *cmd`: A zero-terminated string representing the command.
-- `t_redirect *redirects`: A pointer to the redirections associated with this command.
-- `int flags`: Flags associated with this command, which can be a combination of the constants defined above.
+- **Heredoc Support**:
+  - Use a heredoc (`<<`) to take input from a file until a specified delimiter is reached.
 
-### Macros
+- **Piping Commands**:
+  - Pipe the output of one command to the input of another using `|`.
 
-- `PIPE_OR_REDIR_MASK`: A mask combining `C_PIPE`, `C_HERE_DOC`, `C_OPEN_INFILE`, `C_OPEN_OUT_TRUNC`, and `C_OPEN_OUT_APP` flags.
+- **Environment Variables**:
+  - Use environment variables in commands.
+  - Set environment variables.
+  - Unset environment variables.
+
+- **Signal Handling**:
+  - Handle standard signals such as `SIGINT` (Ctrl+C) and `SIGQUIT` (Ctrl+\).
+
+- **Built-in Shell Functions**:
+  - **`echo`**: Display a line of text.
+  - **`cd`**: Change the current directory.
+  - **`pwd`**: Print the current working directory.
+  - **`export`**: Set environment variables.
+  - **`unset`**: Unset environment variables.
+  - **`env`**: Display the environment variables.
+  - **`exit`**: Exit the shell.
+
+These features provide a basic yet functional shell experience, allowing for a variety of tasks directly from the command line.
+### building a mini-bash
+
+This project challenges us to create a bash-like application that runs in the terminal and enables the user to use the prompt to
+- execute programs with absolute path (e.g /bin/ls)
+- execute programs with relative path
+- use file redirections < > and >>
+- use a heredoc as an input (>>)
+- pipe commands
+- use, set and unset environment variables
+- use standard signals
+- use builtin shell-function 
+  - echo
+  - cd
+  - pwd
+  - export
+  - unset
+  - env
+  - exit
+
+#### shell functions
+
+The linux shell is very expansive and has many functions, of which this implementation just does a small part. 
+We discovered a lot of shell functions and behaviour in the progress of this project, but decided against implementing certain shell features such as full support for shellscripts.
+
+## Installation
+To install Minishell, follow these steps:
+
+1. Clone the repository:
+	```sh
+   git clone https://github.com/nkeneng/minishell.git
+```
